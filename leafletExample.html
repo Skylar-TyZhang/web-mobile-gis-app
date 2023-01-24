@@ -21,19 +21,28 @@
             My UCL name is: ucestz7
             My GitHub name is: Schatty6
         </div>
-
+    
         <!--the mapid div will hold the map -->
         <div id="mapid" style="width:600px; height:400px"></div>
-
+            
+            
         <!-- the following script will load the map and set the default view and zoom, as well as loading the basemap tiles-->
         <script>
+            
             'user strict';
             let mymap;
+            // global vairalbe to store the map
+            function loadLeafletMap(){
             mymap=L.map('mapid').setView([51.505,-0.09],13);
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom:19,
                 attribution:'&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(mymap);
+            // now call the code to add the markers
+            addBasicMarkers();
+            }// end code to add the leaflet map
+
+            function addBasicMarkers(){
             // add circle 
             L.circle([51.508, -0.11], 5000,{
                 color:'green',
@@ -53,7 +62,7 @@
             color:'orange',
             fillColor:'#f03',
             fillOpacity:0.5
-        }).addTo(mymap).bindPopup('This is a polygon in 2023.');
+        }).addTo(mymap).bindPopup('This is a polygon in 2023.');}// end code to add the basic markers
         </script>
     </body>
     </html>
