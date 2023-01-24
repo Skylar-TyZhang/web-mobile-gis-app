@@ -180,7 +180,12 @@
             // getEarthquakeData();
         }
     function removeEarthquakeData(){
-        alert('remove the earthquake data here');
+        try{
+        alert('the earthquake data will be removed');
+        mymap.removeLayer(earthquakeLayer);
+        }catch(err){
+            alert('Layer does not exist:'+err);
+        }
     }
 
     </script>
