@@ -67,7 +67,23 @@
             fillColor:'#f03',
             fillOpacity:0.5
         }).addTo(mymap).bindPopup('This is a polygon in 2023.');
-        console.log('data item created')}// end code to add the basic markers
+        console.log('data item created');
+        // create a geoJSON feature -
+        let geojsonFeature = {
+            "type": "Feature",
+            "properties": {
+             "name": "London",
+             "popupContent": "This is where UCL is based. We have on campus and off campus activity."
+             },
+            "geometry": {
+             "type": "Point",
+             "coordinates": [-0.118092, 51.509865]}
+            };
+            // add it to the map
+            L.geoJSON(geojsonFeature).addTo(mymap).bindPopup('<b>'+geojsonFeature.properties.name+''+geojsonFeature.properties.popupContent+'<b>');
+    
+    
+    }// end code to add the basic markers
         window.onload = loadLeafletMap;
 
         </script>
