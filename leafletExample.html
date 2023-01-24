@@ -32,18 +32,22 @@
             'user strict';
             let mymap;
             // global vairalbe to store the map
+            
             function loadLeafletMap(){
+                console.log('This is at the start of the first function')
             mymap=L.map('mapid').setView([51.505,-0.09],13);
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom:19,
                 attribution:'&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(mymap);
+            console.log('Map created')
             // now call the code to add the markers
             addBasicMarkers();
             }// end code to add the leaflet map
 
             function addBasicMarkers(){
             // add circle 
+            console.log('addBasicMarker function')
             L.circle([51.508, -0.11], 5000,{
                 color:'green',
                 fillColor:'#f03',
@@ -62,7 +66,10 @@
             color:'orange',
             fillColor:'#f03',
             fillOpacity:0.5
-        }).addTo(mymap).bindPopup('This is a polygon in 2023.');}// end code to add the basic markers
+        }).addTo(mymap).bindPopup('This is a polygon in 2023.');
+        console.log('data item created')}// end code to add the basic markers
+        window.onload = loadLeafletMap;
+
         </script>
     </body>
     </html>
