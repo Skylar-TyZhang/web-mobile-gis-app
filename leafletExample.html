@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="css/ionicons.min.css">
     <link rel="stylesheet" href="css/leaflet.awesome-markers.css">
     <script src="js/leaflet.awesome-markers.js"></script>
+    <script src="js/basicMap.js"></script>
+    <script src="js/earthquakes.js"></script>
+    <script src="js/busstops.js"></script>
     <style type="text/css">
         #mapid {
             height: 180px;
@@ -18,6 +21,7 @@
     <!-- add link for jquery-->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -38,6 +42,12 @@
 
     <button id="removeEarthquakeData" name="removeEarthquakeData" 
     onclick="removeEarthquakeData()">Click here to remove the Earthquake data </button>
+    
+    <button id="loadBusStopsData" name="loadBusStopsData" onclick="getBusStopsData 
+()">Click here to load the BusStops data </button>
+
+    <button id="removeBusStopsData" name="removeBusStopsData" 
+    onclick="removeBusStopsData()">Click here to remove the BusStops data </button>
 
     
 
@@ -46,128 +56,7 @@
     <script>
 
         'user strict';
-        let mymap;
-        // global vairalbe to store the map
-        // create a custom popup as a global variable
-        let popup = L.popup();
-        // create an event detector to wait for the user's click event and then use the popup to show them where they clicked
-        function onMapClick(e) {
-            popup
-                .setLatLng(e.latlng)
-                .setContent('You click the map at' + e.latlng.toString())
-                .openOn(mymap);
-        }
-        function loadLeafletMap() {
-            console.log('This is at the start of the first function')
-            mymap = L.map('mapid').setView([51.505, -0.09], 13);
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(mymap);
-            console.log('Map created')
-            // now call the code to add the markers
-            addBasicMarkers();
-            // add the click event detector to the map
-            mymap.on('click', onMapClick);
-        }// end code to add the leaflet map
-
-        function addBasicMarkers() {
-            // add circle 
-            console.log('addBasicMarker function')
-            let testMarkerPink = L.AwesomeMarkers.icon({
-                icon: 'play',
-                markerColor: 'pink'
-            });
-            L.circle([51.508, -0.11], 5000, {
-                color: 'green',
-                fillColor: '#f03',
-                fillOpacity: 0.8
-            }).addTo(mymap).bindPopup('This is a circle.');
-
-            console.log('added a circle');
-
-            // add a polygon
-            let myPolygon = L.polygon([
-                [51.709, -0.10],
-                [51.703, 0.07],
-                [51.22, 0.07],
-                [51.22, -0.057]
-            ], {
-                color: 'orange',
-                fillColor: '#f03',
-                fillOpacity: 0.5
-            }).addTo(mymap).bindPopup('This is a polygon in 2023.');
-            console.log('data item created');
-            // create a geoJSON feature -
-            let geojsonFeature = {
-                "type": "Feature",
-                "properties": {
-                    "name": "London",
-                    "popupContent": "This is where UCL is based. We have on campus and off campus activity."
-                },
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [-0.133583, 51.524776]
-                }
-            };
-            // add it to the map
-            L.geoJSON(geojsonFeature, {
-                pointToLayer: function (feature, latlng) {
-                    return L.marker(latlng, { icon: testMarkerPink });
-                }
-            }).addTo(mymap).bindPopup('<b>' + geojsonFeature.properties.name + '' + geojsonFeature.properties.popupContent + '<b>');
-
-
-        }// end code to add the basic markers
-        let earthquakeLayer;
-        function getEarthquakeData() {
-            let layerURL =
-                "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
-            $.ajax({
-                url: layerURL, crossDomain: true, success: function (result) {
-                    console.log(result); // check that the data is correct
-
-                    // add the JSON layer onto the map - it will appear using the default icons
-
-                    //earthquakelayer = L.geoJson(result).addTo(mymap);
-                    // custom the function to use custom icons
-                    // load the geoJSON layer
-                    earthquakelayer = L.geoJson(result,
-                        {
-                            // use point to layer to create the points
-                            pointToLayer: function (feature, latlng) {
-                                // look at the GeoJSON file - specifically at the properties - to see the 
-                                //earthquake magnitude and use a different marker depending on this value
-                                // also include a pop-up that shows the place value of the earthquakes
-                                if (feature.properties.mag > 1.75) {
-                                    return L.marker(latlng,
-                                        { icon: testMarkerGreen }).bindPopup("<b>" + feature.properties.place + "</b>");
-                                }
-                                else {
-                                    // magnitude is 1.75 or less
-                                    return L.marker(latlng,
-                                        { icon: testMarkerPink }).bindPopup("<b>" + feature.properties.place + "</b>");;
-                                }
-                            }, // end of point to layer
-                        }).addTo(mymap);
-
-
-
-
-                    // change the map zoom so that all the data is shown
-                    mymap.fitBounds(earthquakelayer.getBounds());
-                    let testMarkerGreen = L.AwesomeMarkers.icon({
-                        icon: 'play',
-                        markerColor: 'green'
-                    });
-                    let testMarkerPink = L.AwesomeMarkers.icon({
-                        icon: 'play',
-                        markerColor: 'pink'
-                    });
-                } // end of the inner function
-            }); // end of the ajax request
-        } // end of the getEarthquakeData function
-
+        
 
         //    window.onload = loadLeafletMap;
         // load the leaflet map and then add the earthquakes after the page has loaded
@@ -183,6 +72,14 @@
         try{
         alert('the earthquake data will be removed');
         mymap.removeLayer(earthquakeLayer);
+        }catch(err){
+            alert('Layer does not exist:'+err);
+        }
+    }
+    function removeBusStopsData(){
+        try{
+        alert('the BusStops data will be removed');
+        mymap.removeLayer(BusStopsLayer);
         }catch(err){
             alert('Layer does not exist:'+err);
         }
