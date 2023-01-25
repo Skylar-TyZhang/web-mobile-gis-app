@@ -1,35 +1,31 @@
 // contain the code to add and remove the earthquakes data
 // enforce the use of variable names
 "use strict";
-let busstopsLayer;
+let BusStopsLayer;
 function getBusStopsData() {
     let layerURL =
         document.location.origin+"/app/data/busstops.geojson";
     $.ajax({
-        url: layerURL, crossDomain: true, success: function (result) {
-            console.log(result); // check that the data is correct
+        url: layerURL, dataType: 'json', success: function (result) {
+            console.log(result); 
 
-            // add the JSON layer onto the map - it will appear using the default icons
+            // add the JSON layer onto the map
 
-            busstopsLayer = L.geoJson(result).addTo(mymap);
-            // custom the function to use custom icons
-            // load the geoJSON layer
+            BusStopsLayer = L.geoJson(result).addTo(mymap);
+                 
             
-
-
-
-
             // change the map zoom so that all the data is shown
-            mymap.fitBounds(earthquakelayer.getBounds());
-            let testMarkerGreen = L.AwesomeMarkers.icon({
-                icon: 'play',
-                markerColor: 'green'
-            });
-            let testMarkerPink = L.AwesomeMarkers.icon({
-                icon: 'play',
-                markerColor: 'pink'
-            });
+            mymap.fitBounds(BusStopsLayer.getBounds());
+           
         } // end of the inner function
     }); // end of the ajax request
 } // end of the getEarthquakeData function
 
+function removeBusStopsData() {
+    try {
+        alert('the BusStops data will be removed');
+        mymap.removeLayer(BusStopsLayer);
+    } catch (err) {
+        alert('Layer does not exist:' + err);
+    }
+}
