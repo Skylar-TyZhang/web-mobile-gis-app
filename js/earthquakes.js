@@ -2,6 +2,7 @@
 // enforce the use of variable names
 "use strict";
 let earthquakeLayer;
+
 function getEarthquakeData() {
     let layerURL =
         "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
@@ -12,9 +13,10 @@ function getEarthquakeData() {
             // add the JSON layer onto the map - it will appear using the default icons
 
             //earthquakelayer = L.geoJson(result).addTo(mymap);
+
             // custom the function to use custom icons
             // load the geoJSON layer
-            earthquakelayer = L.geoJson(result,
+            earthquakeLayer = L.geoJson(result,
                 {
                     // use point to layer to create the points
                     pointToLayer: function (feature, latlng) {
@@ -33,20 +35,19 @@ function getEarthquakeData() {
                     }, // end of point to layer
                 }).addTo(mymap);
 
-
-
-
             // change the map zoom so that all the data is shown
-            mymap.fitBounds(earthquakelayer.getBounds());
-            let testMarkerGreen = L.AwesomeMarkers.icon({
-                icon: 'play',
-                markerColor: 'green'
-            });
-            let testMarkerPink = L.AwesomeMarkers.icon({
-                icon: 'play',
-                markerColor: 'pink'
-            });
+            mymap.fitBounds(earthquakeLayer.getBounds());
+
         } // end of the inner function
     }); // end of the ajax request
 } // end of the getEarthquakeData function
+
+function removeEarthquakeData() {
+    try {
+        alert('the earthquake data will be removed');
+        mymap.removeLayer(earthquakeLayer);
+    } catch (err) {
+        alert('Layer does not exist:' + err);
+    }
+}
 

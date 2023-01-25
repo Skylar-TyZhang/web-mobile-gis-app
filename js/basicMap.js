@@ -26,14 +26,19 @@ function loadLeafletMap() {
     // add the click event detector to the map
     mymap.on('click', onMapClick);
 }// end code to add the leaflet map
-
+let testMarkerPink = L.AwesomeMarkers.icon({
+    icon: 'play',
+    markerColor: 'pink'
+});
+let testMarkerGreen = L.AwesomeMarkers.icon({
+    icon: 'play',
+    markerColor: 'green'
+});
 function addBasicMarkers() {
     // add circle 
     console.log('addBasicMarker function')
-    let testMarkerPink = L.AwesomeMarkers.icon({
-        icon: 'play',
-        markerColor: 'pink'
-    });
+    
+    
     L.circle([51.508, -0.11], 5000, {
         color: 'green',
         fillColor: '#f03',
