@@ -1,0 +1,9 @@
+body{ 
+    font-family: 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
+    border: 0px;
+    margin:0px;
+}
+p{
+    color:cadetblue;
+    text-align: center;
+}
