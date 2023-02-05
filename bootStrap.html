@@ -29,6 +29,11 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <!--code for Leaflet-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 
 </head>
 
@@ -68,7 +73,7 @@
                 <div class="navbar-nav w-100">
                     <!-- Nav Item - Pages Collapse Menu -->
 
-                    
+
                     <div class="nav-item dropdown d-none d-lg-block">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                                 class="fa fa-laptop me-2"></i>Menu 11</a>
@@ -194,6 +199,16 @@
     <script src="js/bootstrapTemplate.js"></script>
     <!--menu functionality-->
     <script src="js/menu.js"></script>
+    <!-- track location -->
+
+    <script src="js/basicMap.js"></script>
+    <script src="js/getLocation.js"></script>
+    <!--show map-->
+    <script>
+        function loadMap() {
+            loadLeafletMap();   // get map
+        }
+    </script>
 </body>
 
 </html>
