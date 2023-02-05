@@ -30,11 +30,6 @@
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
-    <!-- code for Leaflet -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 </head>
 
 <body onload="loadMap()">
@@ -67,28 +62,35 @@
                     </div>
                     <div class="ms-3">
                         <h6 class="mb-0">CEGE0043 App</h6>
-                        <span>Your GitHub Username</span>
+                        <span>Schatty6</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
                     <!-- Nav Item - Pages Collapse Menu -->
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="" onclick="menu1()"
-                        aria-expanded="true" aria-controls="collapseOne">
-                        <!-- the next line is the cog image -->
-                        <i class="fas fa-fw fa-cog"></i>
-                        <span>Menu 1 always visible</span>
-                    </a>
+
+                    
+                    <div class="nav-item dropdown d-none d-lg-block">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                                class="fa fa-laptop me-2"></i>Menu 11</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="popAlert_12()" ;>Menu
+                                12</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="popAlert_13()" ;>Menu
+                                13</a>
+                        </div>
+                    </div>
 
                     <!-- Divider -->
                     <hr class="sidebar-divider">
+
                     <!-- Nav Item - Pages Collapse Menu -->
-                    <div class="nav-item dropdown d-lg-none">
+                    <div class="nav-item dropdown d-sm-block d-md-none">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-                                class="fa fa-laptop me-2"></i>Menu 2</a>
+                                class="fa fa-laptop me-2"></i>Menu 14</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="alert('menu3')" ;>Menu
-                                3</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="alert('menu4');">Menu 4</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="popAlert_15()" ;>Menu
+                                15</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="popAlert_16()">Menu 16</a>
                         </div>
                     </div>
 
@@ -113,57 +115,8 @@
                                 10</a>
                         </div>
                     </div>
-
-
-                    <!-- Divider -->
-                    <hr class="sidebar-divider">
-                    <div id="screenwidth">screen width</div>
-
-
-                    <div class="nav-item d-md-block">
-                        <a href="#" onclick="alert('d-md-block')"><i class="fa fa-laptop me-2"></i>d-md-block</a>
-                    </div>
-
-                    <div class="nav-item d-md-none">
-                        <a href="#" onclick="alert('d-md-none')"><i class="fa fa-laptop me-2"></i>d-md-none</a>
-                    </div>
-
-
-
-                    <!-- only display when screen width is medium -->
-                    <!-- default with block is that everything above is also visible so need to use lg-none to stop that -->
-                    <div class="nav-item d-none d-md-block d-lg-none">
-                        <a href="#" onclick="alert('d-none d-md-block d-lg-none')"><i class="fa fa-laptop me-2"></i>Only
-                            medium</a>
-                    </div>
-
-                    <!-- only display when screen width is medium or below -->
-                    <!-- when you use none, everything below is VISIBLE, everything above is not -->
-                    <div class="nav-item d-lg-none">
-                        <a href="#" onclick="alert('d-lg-none')"><i class="fa fa-laptop me-2"></i>Medium or below</a>
-                    </div>
-
-                    <!-- only display when screen width is medium or above -->
-                    <!-- d-xs-none does not exist, use d-none -->
-                    <div class="nav-item d-sm-none d-none d-md-block">
-                        <a href="#" onclick="alert('d-sm-none d-none d-md-block')"><i
-                                class="fa fa-laptop me-2"></i>Medium or above</a>
-                    </div>
-
-
-                    <!-- only display when screen width is NOT medium -->
-                    <!-- default when using none is that everything below is visible, everything above is not
-        so in this case you also need to say specifically that everything above is visible using d-lg-block -->
-                    <div class="nav-item d-md-none d-lg-block">
-                        <a href="#" onclick="alert('d-md-none d-lg-block')"><i class="fa fa-laptop me-2"></i>Not
-                            medium</a>
-                    </div>
-
-
-
-
-            </nav> <!-- end of the sidebar nav -->
-        </div> <!-- end of the sidebar div -->
+            </nav>
+        </div>
         <!-- Sidebar End -->
 
 
@@ -204,7 +157,7 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="img/icon.jpg" alt=""
                                 style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">Your UCL Username</span>
+                            <span class="d-none d-lg-inline-flex">ucestz7</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
@@ -236,112 +189,11 @@
     <script src="lib/tempusdominus/js/moment.min.js"></script>
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-    <!--code for Leaflet-->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
     <!-- Template Javascript -->
     <script src="js/bootstrapTemplate.js"></script>
-    <!-- menu functionality-->
+    <!--menu functionality-->
     <script src="js/menu.js"></script>
-    <script>
-        "use strict";
-        function loadMap() {
-            let mymap;
-            mymap = L.map('mapid').setView([51.505, -0.09], 13);
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(mymap);
-
-            // create a custom popup    
-            let popup = L.popup();
-
-            // create an event detector to wait for the user's click event and then use the popup to show them where they clicked
-            // note that you don't need to do any complicated maths to convert screen coordinates to real world coordiantes - the Leaflet API does this for you
-            function onMapClick(e) {
-                popup
-                    .setLatLng(e.latlng)
-                    .setContent("You clicked the map at " + e.latlng.toString())
-                    .openOn(mymap);
-            }
-
-            // now add the click event detector to the map
-            mymap.on('click', onMapClick);
-
-            // create a geoJSON feature -
-            let geojsonFeature = {
-                "type": "Feature",
-                "properties": {
-                    "name": "London",
-                    "popupContent": "This is where UCL is based"
-                },
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [-0.118092, 51.509865]
-                }
-            };
-
-            // and add it to the map
-            L.geoJSON(geojsonFeature).addTo(mymap).bindPopup("<b>" + geojsonFeature.properties.name + " " + geojsonFeature.properties.popupContent + "<b>");
-
-
-
-
-            // create a polygon
-            let geojsonFeature2 = {
-                "type": "Feature",
-                "properties": {
-                    "name": "South west",
-                    "popupContent": "This is not where UCL is based"
-                },
-                "geometry": {
-                    "type": "Polygon",
-                    "coordinates": [[
-                        [-3.445594640344274, 52.62721228966887],
-                        [-3.442640887519025, 52.62724830544241],
-                        [-3.44272958475667, 52.6299443686539],
-                        [-3.445683518998908, 52.62990834938883],
-                        [-3.445594640344274, 52.62721228966887]
-
-                    ]]
-                }
-            }
-
-
-
-
-
-
-            // give it some colour
-            function polystyle(geojsonFeature2) {
-                return {
-                    fillColor: 'blue',
-                    weight: 2,
-                    opacity: 1,
-                    color: 'white',  //Outline color
-                    fillOpacity: 0.7
-                };
-            }
-
-            // add this feature to the map
-            // and add it to the map
-            let busStation = L.geoJSON(geojsonFeature2, { style: polystyle }).addTo(mymap).bindPopup("<b>" + geojsonFeature.properties.name + " " + geojsonFeature.properties.popupContent + "<b>");
-            mymap.fitBounds(busStation.getBounds());
-
-
-        }
-    </script>
-    <script>
-        // decect screen width and show on div
-        window.addEventListener("resize", detectWidth);
-        window.addEventListener("load", detectWidth);
-        function detectWidth() {
-            var w = screen.availWidth;
-            document.getElementById("screenwidth").innerHTML = "screen width: " + w + "px";
-        }
-    </script>
 </body>
 
 </html>
