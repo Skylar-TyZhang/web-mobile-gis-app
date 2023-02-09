@@ -1,18 +1,10 @@
-// this will contain the code to load the empty leaflet Map
-
 // enforce the use of variable names
 "use strict";
-let mymap;
+
 // global vairalbe to store the map
-// create a custom popup as a global variable
-let popup = L.popup();
 // create an event detector to wait for the user's click event and then use the popup to show them where they clicked
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent('You click the map at' + e.latlng.toString())
-        .openOn(mymap);
-}
+let mymap;
+
 function loadLeafletMap() {
     console.log('This is at the start of the first function')
     mymap = L.map('mapid').setView([51.505, -0.09], 13);
@@ -22,11 +14,22 @@ function loadLeafletMap() {
     }).addTo(mymap);
     console.log('Map created')
     // now call the code to add the markers
-    addBasicMarkers();
+    //addBasicMarkers();
     // add the click event detector to the map
     mymap.on('click', onMapClick);
 }// end code to add the leaflet map
-let testMarkerPink = L.AwesomeMarkers.icon({
+
+
+// create a custom popup as a global variable
+let popup = L.popup();
+function onMapClick(e) {
+    popup
+        .setLatLng(e.latlng)
+        .setContent('You click the map at' + e.latlng.toString())
+        .openOn(mymap);
+}
+
+/*let testMarkerPink = L.AwesomeMarkers.icon({
     icon: 'play',
     markerColor: 'pink'
 });
@@ -37,8 +40,6 @@ let testMarkerGreen = L.AwesomeMarkers.icon({
 function addBasicMarkers() {
     // add circle 
     console.log('addBasicMarker function')
-    
-    
     L.circle([51.508, -0.11], 5000, {
         color: 'green',
         fillColor: '#f03',
@@ -80,3 +81,4 @@ function addBasicMarkers() {
 
 
 }// end code to add the basic markers
+*/
