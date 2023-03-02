@@ -112,8 +112,10 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                                 class="fa fa-laptop me-2"></i>Tracking</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="trackLocation()";>Switch tracking on</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removePositionPoints()";>Switch tracking off</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="trackLocation()" ;>Switch
+                                tracking on</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removePositionPoints()"
+                                ;>Switch tracking off</a>
                         </div>
                     </div>
                     <!-- Nav Item - Pages Collapse Menu -->
@@ -121,14 +123,22 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                                 class="fa fa-laptop me-2"></i>Centennial</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadBuildings()";>Load Buildings</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeBuildings()";>Remove Buildings</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadEthernetCables()";>Load ethernet cables</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeEthernetCables()";>Remove ethernet cables</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadRooms()";>Load rooms</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeRooms()";>Remove rooms</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadSensors()";>Load sensors</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeSensors()";>Remove sensors</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadBuildings()" ;>Load
+                                Buildings</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeBuildings()" ;>Remove
+                                Buildings</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadEthernetCables()"
+                                ;>Load ethernet cables</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeEthernetCables()"
+                                ;>Remove ethernet cables</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadRooms()" ;>Load
+                                rooms</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeRooms()" ;>Remove
+                                rooms</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadSensors()" ;>Load
+                                sensors</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeSensors()" ;>Remove
+                                sensors</a>
 
                         </div>
                     </div>
@@ -137,11 +147,13 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                                 class="fa fa-laptop me-2"></i>Graphs</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="showGraph()";>Show Graph</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeGraph()";>Remove Graph</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="showGraph()" ;>Show
+                                Graph</a>
+                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeGraph()" ;>Remove
+                                Graph</a>
                         </div>
                     </div>
-                   
+
             </nav>
         </div>
         <!-- Sidebar End -->
@@ -195,14 +207,19 @@
 
                 </div>
             </nav><!-- Navbar End -->
-            
+
             <!--div id="mapid" class="vh-100 vw-100" style="z-index: 0;"--><!--/div>
             <!--mapWrapper-->
-            <div id="mapWrapper" class="col vh-100 collapse show" aria-expanded="true" 
-            style="margin-top:65px; z-order:0">
-             <div id="mapid" style="height:calc(100% - 65px);">
-             </div> <!-- map id -->
-             </div> <!-- map wrapper -->
+            <div id="mapWrapper" class="col vh-100 collapse show" aria-expanded="true"
+                style="margin-top:65px; z-order:0">
+                <div id="mapid" style="height:calc(100% - 65px);">
+                </div> <!-- map id -->
+            </div> <!-- map wrapper -->
+            <div id="assetDataWrapperWrapper" class="col vh-100 collapse hide"
+                style="background-color:lightgray; margin-top:65px;z-order:0">
+                <div id="assetDataWrapper" style="height:calc(100% - 65px);">
+                </div> <!-- asset data wrapper -->
+            </div> <!-- asset data wrapper wrapper wrapper -->
             <!-- z-index = 0 is required to ensure that the menu items from the template
                 appear on top of the map -->
             <!--    <div class="col-md-6 col-sm-12 map-container rounded flex-fill" id="mapid"></div>  -->
@@ -228,11 +245,11 @@
 
     <!-- Template Javascript -->
     <script src="js/bootstrapTemplate.js"></script>
-    
+
     <!--show map-->
     <script>
         function loadMap() {
-            loadLeafletMap(); 
+            loadLeafletMap();
             showPosition();  // get map
         }
     </script>
