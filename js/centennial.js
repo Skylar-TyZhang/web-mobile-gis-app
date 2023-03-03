@@ -73,7 +73,7 @@ function loadEthernetCables() {
         }
     }
 
-    let dataAddress = "/api/geojson/ucfscde/buildings/building_id/location";
+    let dataAddress = "/api/geojson/ucfscde/ethernet_cables/ethernet_id/location";
     let layerURL = baseComputerAddress + dataAddress;;// construct url as basecomputer address +data address
     $.ajax({
         url: layerURL,
@@ -108,35 +108,35 @@ function removeEthernetCables() {
 }
 
 
-function loadBuildings() {
+function loadRooms(){
     // first check if the thing is loaded already
 
     for (i = 0; i < centennialAssets.length; i++) {
-        if (centennialAssets[i] == 'building') {
+        if (centennialAssets[i] == 'rooms') {
             console.log("equal");
-            alert("Buildings are already loaded");
+            alert("rooms are already loaded");
             return;
         }
     }
 
-    let dataAddress = "/api/geojson/ucfscde/buildings/building_id/location";
+    let dataAddress = "/api/geojson/ucfscde/rooms/room_id/location";
     let layerURL = baseComputerAddress + dataAddress;;// construct url as basecomputer address +data address
     $.ajax({
         url: layerURL,
         crossDomain: true,
         success: function (result) {
             console.log(result); // check that the data is correct
-            buildingsLayer = L.geoJson(result).addTo(mymap)
-            mymap.fitBounds(buildingsLayer.getBounds())
+            roomsLayer = L.geoJson(result).addTo(mymap)
+            mymap.fitBounds(roomsLayer.getBounds())
             // now add the thing into the array so that we can reference it later on
             // push adds an item to the top of the array
-            centennialAssets.push('building');
+            centennialAssets.push('rooms');
         } // end of the inner function
     }); // end of the ajax request
 }
-function removeBuildings() {
+function removeRooms() {
     for (i = 0; i < centennialAssets.length; i++) {
-        if (centennialAssets[i] == 'building') {
+        if (centennialAssets[i] == 'rooms') {
             console.log("equal asset type");
             centennialAssets.splice(i, 1);
 
@@ -146,42 +146,42 @@ function removeBuildings() {
         }
     }
     try {
-        alert('the building data will be removed');
-        mymap.removeLayer(buildingsLayer);
+        alert('the room data will be removed');
+        mymap.removeLayer(roomsLayer);
     } catch (err) {
         alert('Layer does not exist:' + err);
     }
 }
 //sensors
-function loadBuildings() {
+function loadSensors() {
     // first check if the thing is loaded already
 
     for (i = 0; i < centennialAssets.length; i++) {
-        if (centennialAssets[i] == 'building') {
+        if (centennialAssets[i] == 'sensors') {
             console.log("equal");
-            alert("Buildings are already loaded");
+            alert("Sensors are already loaded");
             return;
         }
     }
 
-    let dataAddress = "/api/geojson/ucfscde/buildings/building_id/location";
+    let dataAddress = "/api/geojson/ucfscde/temperature_sensors/sensor_id/location";
     let layerURL = baseComputerAddress + dataAddress;;// construct url as basecomputer address +data address
     $.ajax({
         url: layerURL,
         crossDomain: true,
         success: function (result) {
             console.log(result); // check that the data is correct
-            buildingsLayer = L.geoJson(result).addTo(mymap)
-            mymap.fitBounds(buildingsLayer.getBounds())
+            sensorsLayer = L.geoJson(result).addTo(mymap)
+            mymap.fitBounds(sensorsLayer.getBounds())
             // now add the thing into the array so that we can reference it later on
             // push adds an item to the top of the array
-            centennialAssets.push('building');
+            centennialAssets.push('sensors');
         } // end of the inner function
     }); // end of the ajax request
 }
-function removeBuildings() {
+function removeSensors() {
     for (i = 0; i < centennialAssets.length; i++) {
-        if (centennialAssets[i] == 'building') {
+        if (centennialAssets[i] == 'sensors') {
             console.log("equal asset type");
             centennialAssets.splice(i, 1);
 
@@ -191,8 +191,8 @@ function removeBuildings() {
         }
     }
     try {
-        alert('the building data will be removed');
-        mymap.removeLayer(buildingsLayer);
+        alert('the sensor data will be removed');
+        mymap.removeLayer(sensorsLayer);
     } catch (err) {
         alert('Layer does not exist:' + err);
     }
