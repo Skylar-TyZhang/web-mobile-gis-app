@@ -45,9 +45,11 @@
     <script src="js/trackLocation.js"></script>
     <script src="js/centennial.js"></script>
     <script src="js/graph.js"></script>
+    <script src="js/utilities.js"></script>
+    
 </head>
 
-<body onload="loadMap()">
+<body onload="loadMap()" onresize="processWindowResize()">
     <div class="container-xxl position-relative bg-white p-0">
         <!-- Spinner Start -->
         <div id="spinner"
