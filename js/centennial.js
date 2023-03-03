@@ -8,6 +8,7 @@ let buildingsLayer = [];
 let ethernetcablesLayer = [];
 let roomsLayer = [];
 let sensorsLayer = [];
+let universityLayer = [];
 
 function loadBuildings() {
     // first check if the thing is loaded already
@@ -193,6 +194,51 @@ function removeSensors() {
     try {
         alert('the sensor data will be removed');
         mymap.removeLayer(sensorsLayer);
+    } catch (err) {
+        alert('Layer does not exist:' + err);
+    }
+}
+// universities
+function loadUniversities() {
+    // first check if the thing is loaded already
+
+    for (i = 0; i < centennialAssets.length; i++) {
+        if (centennialAssets[i] == 'Universities') {
+            console.log("equal");
+            alert("Universities are already loaded");
+            return;
+        }
+    }
+
+    let dataAddress = "/api/geojson/ucfscde/university/university_id/location";
+    let layerURL = baseComputerAddress + dataAddress;;// construct url as basecomputer address +data address
+    $.ajax({
+        url: layerURL,
+        crossDomain: true,
+        success: function (result) {
+            console.log(result); // check that the data is correct
+            universityLayer = L.geoJson(result).addTo(mymap)
+            mymap.fitBounds(universityLayer.getBounds())
+            // now add the thing into the array so that we can reference it later on
+            // push adds an item to the top of the array
+            centennialAssets.push('Universities');
+        } // end of the inner function
+    }); // end of the ajax request
+}
+function removeUniversities() {
+    for (i = 0; i < centennialAssets.length; i++) {
+        if (centennialAssets[i] == 'Universities') {
+            console.log("equal asset type");
+            centennialAssets.splice(i, 1);
+
+            // don't continue the loop as we now have 1 less element in the array which means 
+            // that when we try to get the last element it won't be there any more
+            break;
+        }
+    }
+    try {
+        alert('the Universities data will be removed');
+        mymap.removeLayer(universityLayer);
     } catch (err) {
         alert('Layer does not exist:' + err);
     }
