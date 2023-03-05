@@ -39,9 +39,8 @@ function loadGraph() {
  </div>`
     // code to create the graph goes here – see below
 
-}
-// create the graph
-function createGraph() {
+
+
     // create an SVG container for the graph
     // g is a grouping element
     let marginTop = 30;
