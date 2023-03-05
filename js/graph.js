@@ -27,7 +27,7 @@ function loadGraph() {
     // show graph
     // the following code is added to dynamically size the graph DIV
     //create the SVG component to actually store the graph
-    let widtha = document.getElementById("assetDataWrapper").clientWidth * 2;
+    let widtha = document.getElementById("assetDataWrapper").clientWidth ;
     let heighta = document.getElementById("assetDataWrapper").offsetHeight;
     console.log(widtha + " " + heighta);
     // Add the close button and an SVG element for the graph
