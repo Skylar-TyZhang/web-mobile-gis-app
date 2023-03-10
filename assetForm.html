@@ -29,7 +29,18 @@
     <button id="saveAsset" onclick="saveNewAsset()">Save asset</button>
     <br />
     <br />
-    
+    <!-- this div is used to hold the response from AJAX request-->
+    <div id="dataUploadResult">responseDIV</div>
+    <br />
+    <br />
+
+    <hr>
+    <hr>
+
+    <label for="deleteID">Delete ID</label><input type="text" size="25" id="deleteID" /><br />
+    <button id="startDelete" onclick="deleteRecord()">Delete Record</button>
+    <div id="dataDeleteResult">The result of the upload goes here</div>
+
     
 
 
@@ -40,4 +51,5 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script src="js/uploadData.js"> </script>
+<!--script src="js/uploadData.js"> </script-->
+<script src="js/assetCreation.js"> </script>
