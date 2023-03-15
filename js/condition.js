@@ -8,7 +8,7 @@ function saveConditionInformation() {
       The previous condition (from the hidden field)
       */
     let assetID = document.getElementById('assetID').value;
-
+    let postString = 'assetID='+assetID;
     // get information from a radio
     if (document.getElementById("condition1").checked) {
         postString = postString + "&condition=As new or in good serviceable condition";
