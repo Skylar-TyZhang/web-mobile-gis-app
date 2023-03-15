@@ -51,3 +51,9 @@ function processCondition(postString) {
 
     });
 }
+
+function conditionUpload(data) {
+    // change the DIV to show the response
+    console.log('data:'+JSON.stringify(data))
+    document.getElementById("conditionResult").innerHTML = JSON.stringify(data);
+}
