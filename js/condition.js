@@ -38,3 +38,16 @@ function saveConditionInformation() {
     processCondition(postString);
 
 }
+function processCondition(postString) {
+    //alert(postString);
+
+    let serviceUrl = document.location.origin + "/api/testCRUD";
+    $.ajax({
+        url: serviceUrl,
+        crossDomain: true,
+        type: "POST",
+        data: postString,
+        success: function (data) { console.log(data); conditionUpload(data); }
+
+    });
+}
