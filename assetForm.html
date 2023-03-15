@@ -10,12 +10,9 @@
 
 <div>
 
-    <!-- no text input boxes for the following 3 elements-->
-    <label for="id">id</label><!--input type="text" size="25" id="id" --><br />
-    <label for="user_id">user_id</label><!--input type="text" size="25" id="user_id" /--><br />
-    <label for="timestamp">timestamp</label><!--input type="text" size="25" id="timestamp" /--><br />
+    
     <label for="asset_name"> asset_name </label><input type="text" size="25" id="asset_name" /><br />
-    <label for="installation_date">installation_date </label><input type="date" size="25" id="installation_date" /><br />
+    <label for="installation_date">installation_date </label><input type="text" size="25" id="installation_date" /><br />
     <!-- text input box for latitude-->
     <label for="latitude">Latitude </label><input type="text" size="25" id="latitude" /><br />
     <!-- text input box for longitude-->
@@ -24,13 +21,13 @@
     
     <br />
     <br />
-
+<!-- add a button with id of saveAsset and calls a funciton saveNewAsset when clicked-->
     <p>Click here to save the data</p>
     <button id="saveAsset" onclick="saveNewAsset()">Save asset</button>
     <br />
     <br />
-    <!-- this div is used to hold the response from AJAX request-->
-    <div id="dataUploadResult">responseDIV</div>
+    <!-- this div is used to hold the response from AJAX request when data is submitted to /testCRUD-->
+    <div id="dataUploadResult">This is the responseDIV to show the response from AJAX reqest</div>
     <br />
     <br />
 
@@ -39,7 +36,7 @@
 
     <label for="deleteID">Delete ID</label><input type="text" size="25" id="deleteID" /><br />
     <button id="startDelete" onclick="deleteRecord()">Delete Record</button>
-    <div id="dataDeleteResult">The result of the upload goes here</div>
+    <div id="dataDeleteResult">The result of the delete operation goes here</div>
 
     
 
