@@ -1,0 +1,42 @@
+<!-- add required elements with id-->
+<!DOCTYPE html>
+
+<head>
+    <title>This is a simple form creation example
+
+    </title>
+</head>
+<h1>This is a simple form</h1>
+<!-- element for condition survey-->
+<label for="asset_name"> asset_name </label><input type="text" size="25" id="asset_name" /><br />
+<label for="installation_date">installation_date </label><input type="text" size="25" id="installation_date" /><br />
+
+<!--radio button with 5 hard-coded conditions-->
+<p>Condition values</p>
+As new or in good serviceable condition <input type="radio" name="amorpm" id="condition1" /><br />
+Deteriorating, evidence of high usage, age, additional maintenance costs and inefficiency <input type="radio"
+    name="amorpm" id="condition2" /><br />
+Requires replacement within 5 years <input type="radio" name="amorpm" id="condition3" /><br />
+In poor condition, overdue for replacement <input type="radio" name="amorpm" id="condition4" /><br />
+Unable to determine condition (e.g. as item is hidden) <input type="radio" name="amorpm" id="condition5" /><br />
+Item does not exist <input type="radio" name="amorpm" id="condition6" /><br />
+
+
+<!--a hidden field to hold the ID of the asset-->
+<!--1 and 2 will be replaced by the values from database-->
+<div id=" previousConditionValue" style="display: none;">1</div>
+<div id="assetID" style="display: none;">2</div>
+
+<!-- button for user to submit answer-->
+<p>Click here to submit your answer</p>
+<button id="saveCondition" onclick="saveConditionInformation()">Save condition information</button>
+<br />
+<br />
+<div id="conditionResult">The result of condition goes here</div>
+
+</body>
+<script
+ src="https://code.jquery.com/jquery-3.4.1.min.js"
+ integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+ crossorigin="anonymous"></script> 
+<script src="js/condition.js"> </script>
