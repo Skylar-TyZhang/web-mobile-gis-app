@@ -28,6 +28,7 @@ function onMapClick(e) {
         .setContent('You click the map at' + e.latlng.toString())
         .openOn(mymap);
 }
+// The following code is for the assignment4 part4
 //Modify the leaflet map behaviours
 let width; // NB – keep this as a global variable
 //let popup; // keep this as a global variable
@@ -85,6 +86,32 @@ function setUpPointClick() {
     //the user can select the condition they require
     let popUpHTML = getPopupHTML;
     console.log(popUpHTML);
+}
+function getPopupHTML(){
+// (in the final assignment, all the required values for the asset pop-up will be 
+//derived from feature.properties.xxx – see the Earthquakes code for how this is done)
+let id = "1272"; // this will be the asset ID
+let surname = "Ellul";
+let name = "Claire";
+let module="CEGE0043";
+let language = "English";
+let lecturetime = "6am";
+let previousCondition = 3;
+ let htmlString = "<DIV id='popup'"+ id+ "><h2>" + name + "</h2><br>";
+ htmlString = htmlString + "<h3>"+surname + "</h3><br>";
+ htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_1'/>"+ 
+module+"<br>";
+ htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_2'/>"+language 
++"<br>";
+ htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_3'/>"+ 
+lecturetime+"<br>";
+ htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false;'>Submit Condition</button>";
+ // now include a hidden element with the previous condition value
+ htmlString = htmlString + "<div id=previousCondition_" + id + "hidden>"+previousCondition+"</div>";
+// and a hidden element with the ID of the asset so that we can insert the condition with the correct asset later
+ htmlString = htmlString + "<div id=asset_ " + id + " hidden>"+id+"</div>";
+ htmlString = htmlString + "</div>";
+return htmlString;
 }
 
 
