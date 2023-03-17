@@ -127,6 +127,19 @@ function getPopupHTML() {
 // Requirement:
 // 1- ckeck if the condition is the same as the previous one
 // create a poststring to send to /testCRUD and return a response to the user
+function checkCondition() {
+    alert(htmlString);
+
+    let serviceUrl = document.location.origin + "/api/testCRUD";
+    $.ajax({
+        url: serviceUrl,
+        crossDomain: true,
+        type: "POST",
+        data: htmlString,
+        success: function (data) { console.log(data); }
+
+    });
+}
 //--------------------------------------------
 function onMapClick(e) {
     let formHTML = basicFormHtml();
@@ -139,53 +152,19 @@ function onMapClick(e) {
 // add basicForm
 function basicFormHtml() {
 
-    let myvar = '<label for="name">Name</label><input type="text" size="25" id="name"/><br />' +
-        '<label for="surname">Surname</label><input type="text" size="25" id="surname"/><br />' +
-        '<label for="module">Module</label><input type="text" size="25" id="module"/><br />' +
-        '' +
-        '' +
-        '<p>Would you like lectures in the morning or afternoon?</p>' +
-        ' Morning: <input type="radio" name="amorpm" id="morning" /><br />' +
-        ' Afternoon: <input type="radio" name="amorpm" id ="afternoon"/><br />' +
-        '' +
-        '' +
-        '' +
-        '<p>Which modules are you taking?</p>' +
-        ' CEGEG077: <input type="checkbox" name="modules" id = check1 value="CEGEG077" checked = "yes" /> <br />'+
-    ' CEGEG129: <input type="checkbox" name="modules" id = check2 value="CEGEG129" /><br />' +
-        ' CEGEG082: <input type="checkbox" name="modules" id = check3 value="CEGEG082" /><br />' +
-        ' CEGEG034: <input type="checkbox" name="modules" id = check4 value="CEGEG034" /><br />' +
-        '' +
-        '<p>What is your first language?</p>' +
-        '<select name="languageselectbox" id="languageselectbox">' +
-        ' <option >English </option>' +
-        ' <option>Mandarin</option>' +
-        ' <option>Greek</option>' +
-        ' <option>Italian</option>' +
-        ' <option>Spanish</option>' +
-        ' <option>Other</option>' +
-        '' +
-        '</select>' +
-        '<br />' +
-        '<br />' +
-        '<label for="latitude">Latitude</label><input type="text" size="25" id="latitude"/><br />' +
-        '<label for="longitude">Longitude</label><input type="text" size="25" id="longitude"/><br />' +
-        '' +
-        '' +
-        '<p>Click here to upload the data</p>' +
-        '<button id="startUpload" onclick="startDataUpload()">Start Data Upload</button>' +
-        '<br />' +
-        '<br />' +
-        '<div id="dataUploadResult">The result of the upload goes here</div>' +
-        '<br />' +
-        '<br />' +
-        '' +
-        '<hr>' +
-        '<hr>' +
-        '' +
-        '<label for="deleteID">Delete ID</label><input type="text" size="25" id="deleteID"/><br />' +
-        '<button id="startDelete" onclick="deleteRecord()">Delete Record</button>' +
-        '<div id="dataDeleteResult">The result of the upload goes here</div>';
+    let myvar = "<label for='asset_name'> asset_name </label><input type='text' size='25' id='asset_name' /><br />" +
+
+        "<label for='installation_date'>installation_date </label><input type='text' size='25' id='installation_date' /><br />" +
+
+        //<!-- text input box for latitude-->
+        "<label for='latitude'>Latitude </label><input type='text' size='25' id='latitude' /><br />" +
+        //<!-- text input box for longitude-->
+        "<label for='longitude'>Longitude </label><input type='text' size='25' id='longitude' /><br />" +
+
+
+        //<!-- add a button with id of saveAsset and calls a funciton saveNewAsset when clicked-->
+        "<p>Click here to save the data</p>" +
+        "<button id='saveAsset' onclick='saveNewAsset()'>Save asset</button>"
 
     return myvar;
 }
