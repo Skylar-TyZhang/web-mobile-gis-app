@@ -91,20 +91,28 @@ function getPopupHTML(){
 // (in the final assignment, all the required values for the asset pop-up will be 
 //derived from feature.properties.xxx – see the Earthquakes code for how this is done)
 let id = "1272"; // this will be the asset ID
-let surname = "Ellul";
-let name = "Claire";
 let module="CEGE0043";
 let language = "English";
 let lecturetime = "6am";
 let previousCondition = 3;
- let htmlString = "<DIV id='popup'"+ id+ "><h2>" + name + "</h2><br>";
- htmlString = htmlString + "<h3>"+surname + "</h3><br>";
- htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_1'/>"+ 
-module+"<br>";
- htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_2'/>"+language 
-+"<br>";
- htmlString = htmlString + "<input type='radio' name='answer' id ='"+id+"_3'/>"+ 
-lecturetime+"<br>";
+
+let assetname = "asset";
+let assetInstallationDate='2001-01-01';
+ let htmlString = "<DIV id='popup'"+ id+ "><h2>" + assetname + "</h2><br>";
+ htmlString = htmlString + "<h3>"+assetInstallationDate + "</h3><br>";
+ htmlString = htmlString + "<p>Condition values</p> As new or in good serviceable condition"
+ htmlString = htmlString +"<input type='radio' name='amorpm' id='"+id+"_1' /><br/>"
+ htmlString = htmlString +"Deteriorating, evidence of high usage, age, additional maintenance costs and inefficiency"
+ htmlString = htmlString +" <input type='radio' name='amorpm' id='"+id+"_2' /><br/>"
+ htmlString = htmlString +"Requires replacement within 5 years"
+ htmlString = htmlString +"<input type='radio' name='amorpm' id='"+id+"_3' /><br/>"
+ htmlString = htmlString +"In poor condition, overdue for replacement"
+ htmlString = htmlString +" <input type='radio' name='amorpm' id='"+id+"_4' /><br/>"
+ htmlString = htmlString +"Unable to determine condition (e.g. as item is hidden)"
+ htmlString = htmlString +"<input type='radio' name='amorpm' id='"+id+"_5' /><br />"
+ htmlString = htmlString +"Item does not exist <input type='radio' name='amorpm' id='"+id+"_6' /><br />";
+
+// add a button to process the data
  htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false;'>Submit Condition</button>";
  // now include a hidden element with the previous condition value
  htmlString = htmlString + "<div id=previousCondition_" + id + "hidden>"+previousCondition+"</div>";
@@ -112,6 +120,38 @@ lecturetime+"<br>";
  htmlString = htmlString + "<div id=asset_ " + id + " hidden>"+id+"</div>";
  htmlString = htmlString + "</div>";
 return htmlString;
+/*let htmlString =
+"<DIV id='popup'" + id + '><h4 id="asset_name">' + assetName + '</h4><br>';
+htmlString =
+htmlString +
+'<div id="installation_date">' +
+assetInstallationDate +
+'</div><br>';
+
+htmlString =
+htmlString +
+'<p>Choose the condition value :</p>' +
+'As new or in good serviceable condition<input type="radio" name="condition" id="condition_1" /><br />' +
+'Deteriorating, evidence of high usage, age, additional maintenance costs and inefficiency<input type="radio" name="condition" id="condition_2" /><br />' +
+'Requires replacement within 5 years<input type="radio" name="condition" id="condition3" /><br />' +
+'In poor condition, overdue for replacement<input type="radio" name="condition" id="condition_4" /><br />' +
+'Unable to determine condition (e.g. as item is hidden)<input type="radio" name="condition" id="condition_5" /><br />';
+
+htmlString =
+htmlString +
+"<button onclick='checkCondition(" +
+id +
+");return false;'>SubmitCondition</button>";
+
+
+
+*/
 }
 
+// the following funciton is used for process the data
+// Requirement:
+// 1- ckeck if the condition is the same as the previous one
+// create a poststring to send to /testCRUD and return a response to the user
+function checkCondition(){
 
+} 
