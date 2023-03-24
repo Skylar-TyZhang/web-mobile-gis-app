@@ -28,6 +28,8 @@ function onMapClick(e) {
         .setContent('You click the map at' + e.latlng.toString())
         .openOn(mymap);
 }
+
+
 // The following code is for the assignment4 part4
 //Modify the leaflet map behaviours
 let width; // NB – keep this as a global variable
@@ -36,9 +38,11 @@ let mapPoint; // store the geoJSON feature so that we can remove it if the scree
 function setMapClickEvent() {
     // get the window width
     width = $(window).width();
+
     // we use the bootstrap Medium and Large options for the asset location capture
     // and the small and XS options for the condition option
     // see here: https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
+
     if (width < 992) {
         //the condition capture –
         //anything smaller than 992px is defined as 'medium' by bootstrap
@@ -65,6 +69,7 @@ function setMapClickEvent() {
 
 //Create a point and set up the onlick behaviour for the point
 function setUpPointClick() {
+
     // create a geoJSON feature (in your assignment code this will be replaced
     // by an AJAX call to load the asset points on the map
     let geojsonFeature = {
@@ -91,9 +96,7 @@ function getPopupHTML() {
     // (in the final assignment, all the required values for the asset pop-up will be 
     //derived from feature.properties.xxx – see the Earthquakes code for how this is done)
     let id = "1272"; // this will be the asset ID
-    let module = "CEGE0043";
-    let language = "English";
-    let lecturetime = "6am";
+    
     let previousCondition = 3;
 
     let assetname = "asset";
