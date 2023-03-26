@@ -113,14 +113,14 @@ function getPopupHTML() {
     "<p>Condition values:</p>"+
     "As new or in good serviceable condition <input type='radio' name='condition' id='condition_1' /><br/>"
     htmlString = htmlString + "Deteriorating, evidence of high usage, age, additional maintenance costs and inefficiency"
-    htmlString = htmlString + " <input type='radio' name='amorpm' id='" + id + "_2' /><br/>"
+    htmlString = htmlString + " <input type='radio' name='condition' id='condition_2' /><br/>"
     htmlString = htmlString + "Requires replacement within 5 years"
-    htmlString = htmlString + "<input type='radio' name='amorpm' id='" + id + "_3' /><br/>"
+    htmlString = htmlString + "<input type='radio' name='condition' id='condition_3' /><br/>"
     htmlString = htmlString + "In poor condition, overdue for replacement"
-    htmlString = htmlString + " <input type='radio' name='amorpm' id='" + id + "_4' /><br/>"
+    htmlString = htmlString + " <input type='radio' name='condition' id='condition_4' /><br/>"
     htmlString = htmlString + "Unable to determine condition (e.g. as item is hidden)"
-    htmlString = htmlString + "<input type='radio' name='amorpm' id='" + id + "_5' /><br />"
-    htmlString = htmlString + "Item does not exist <input type='radio' name='amorpm' id='" + id + "_6' /><br />";
+    htmlString = htmlString + "<input type='radio' name='condition' id='condition_5' /><br />"
+    htmlString = htmlString + "Item does not exist <input type='radio' name='condition' id='condition_6' /><br />";
 
     // add a button to process the data
     htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false;'>Submit Condition</button>";
