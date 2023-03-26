@@ -51,12 +51,13 @@ function setMapClickEvent() {
             mymap.removeLayer(mapPoint);
         }
         // cancel the map onclick event using off ..
-        mymap.off('click', onMapClick)
+        mymap.off('click', onMapClick);
         // set up a point with click functionality
         // so that anyone clicking will add asset condition information
         setUpPointClick();
     }
-    else { // the asset creation page
+    else { 
+        // the asset creation page
         // remove the map point if it exists
         if (mapPoint) {
             mymap.removeLayer(mapPoint);
@@ -75,8 +76,8 @@ function setUpPointClick() {
     let geojsonFeature = {
         "type": "Feature",
         "properties": {
-            "name": "London",
-            "popupContent": "This is where UCL is based"
+            "name": "Hard coded GeoJSON",
+            "popupContent": "This is fake data for now."
         },
         "geometry": {
             "type": "Point",
