@@ -56,7 +56,7 @@ function setMapClickEvent() {
         // so that anyone clicking will add asset condition information
         setUpPointClick();
     }
-    else { 
+    else {
         // the asset creation page
         // remove the map point if it exists
         if (mapPoint) {
@@ -93,19 +93,25 @@ function setUpPointClick() {
     let popUpHTML = getPopupHTML;
     console.log(popUpHTML);
 }
+// The following function is created so that a condition form will popup on the point
+// on the narrow screen 
 function getPopupHTML() {
     // (in the final assignment, all the required values for the asset pop-up will be 
     //derived from feature.properties.xxx – see the Earthquakes code for how this is done)
-    let id = "1272"; // this will be the asset ID
-    
+    let id = "1272"; // this will be the asset ID    
     let previousCondition = 3;
-
     let assetname = "asset";
+    let userID = 3;
     let assetInstallationDate = '2001-01-01';
-    let htmlString = "<DIV id='popup'" + id + "><h2>" + assetname + "</h2><br>";
-    htmlString = htmlString + "<h3>" + assetInstallationDate + "</h3><br>";
-    htmlString = htmlString + "<p>Condition values</p> As new or in good serviceable condition"
-    htmlString = htmlString + "<input type='radio' name='amorpm' id='" + id + "_1' /><br/>"
+
+    let htmlString = "<DIV id='popup'" + id + "><h2 id=asset_name>" + assetname + "</h2><br>";
+    htmlString = htmlString +
+     "<div id='installation_date'>" + assetInstallationDate + 
+     "</div><br>";
+
+    htmlString = htmlString + 
+    "<p>Condition values:</p>"+
+    "As new or in good serviceable condition <input type='radio' name='condition' id='condition_1' /><br/>"
     htmlString = htmlString + "Deteriorating, evidence of high usage, age, additional maintenance costs and inefficiency"
     htmlString = htmlString + " <input type='radio' name='amorpm' id='" + id + "_2' /><br/>"
     htmlString = htmlString + "Requires replacement within 5 years"
@@ -156,7 +162,8 @@ function onMapClick(e) {
 // add basicForm
 function basicFormHtml() {
 
-    let myvar = "<label for='asset_name'> asset_name </label><input type='text' size='25' id='asset_name' /><br />" +
+    let myvar =
+        "<label for='asset_name'> asset_name </label><input type='text' size='25' id='asset_name' /><br />" +
 
         "<label for='installation_date'>installation_date </label><input type='text' size='25' id='installation_date' /><br />" +
 
@@ -167,7 +174,8 @@ function basicFormHtml() {
 
 
         //<!-- add a button with id of saveAsset and calls a funciton saveNewAsset when clicked-->
-        "<p>Click here to save the data</p>" +
+        //"<p>Click here to save the data</p>" +
+        +
         "<button id='saveAsset' onclick='saveNewAsset()'>Save asset</button>"
 
     return myvar;
