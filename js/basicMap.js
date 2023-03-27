@@ -1,35 +1,25 @@
 // enforce the use of variable names
 "use strict";
 
-// global vairalbe to store the map
-// create an event detector to wait for the user's click event and then use the popup to show them where they clicked
-let mymap;
-
-function loadLeafletMap() {   
-    mymap = L.map('mapid').setView([51.505, -0.09], 13);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(mymap);
-    console.log('Map created')
-    // add the click event detector to the map
-    mymap.on('click', onMapClick);
-   
-}// end code to add the leaflet map
-
-
 // create a custom popup as a global variable
 let popup = L.popup();
+//set up on map click option
 function onMapClick(e) {
+    // get the asset form 
+    let formHTML = basicFormHtml();
     popup
         .setLatLng(e.latlng)
-        .setContent('You click the map at' + e.latlng.toString())
+        .setContent("You clicked the map at (" +
+            '<span id="lat">' + e.latlng.lat + "</span>" +
+            ',' +
+            '<span id="lon">' + e.latlng.lng + "</span>)" +
+            '<br>' +
+            formHTML)
         .openOn(mymap);
 }
 
-
 // The following code is for the assignment4 part4
-//Modify the leaflet map behaviours
+// modify the leaflet map behaviours
 let width; // NB – keep this as a global variable
 //let popup; // keep this as a global variable
 let mapPoint; // store the geoJSON feature so that we can remove it if the screen is resized
@@ -56,7 +46,6 @@ function setMapClickEvent() {
         setUpPointClick();
     }
     else {
-        
         console.log('Wide screen mode')
         // the asset creation page
         // remove the map point if it exists
@@ -107,12 +96,12 @@ function getPopupHTML() {
 
     let htmlString = "<DIV id='popup'" + id + "><h2 id=asset_name>" + assetname + "</h2><br>";
     htmlString = htmlString +
-     "<div id='installation_date'>" + assetInstallationDate + 
-     "</div><br>";
+        "<div id='installation_date'>" + assetInstallationDate +
+        "</div><br>";
 
-    htmlString = htmlString + 
-    "<p>Condition values:</p>"+
-    "As new or in good serviceable condition <input type='radio' name='condition' id='condition_1' /><br/>"
+    htmlString = htmlString +
+        "<p>Condition values:</p>" +
+        "As new or in good serviceable condition <input type='radio' name='condition' id='condition_1' /><br/>"
     htmlString = htmlString + "Deteriorating, evidence of high usage, age, additional maintenance costs and inefficiency"
     htmlString = htmlString + " <input type='radio' name='condition' id='condition_2' /><br/>"
     htmlString = htmlString + "Requires replacement within 5 years"
@@ -150,16 +139,6 @@ function checkCondition() {
         success: function (data) { console.log(data); }
 
     });
-}
-//--------------------------------------------
-function onMapClick(e) {
-    // get the asset form 
-    let formHTML = basicFormHtml();
-    //
-    popup
-        .setLatLng(e.latlng)
-        .setContent("You clicked the map at " + e.latlng.toString() + "<br>" + formHTML)
-        .openOn(mymap);
 }
 
 // add basicForm

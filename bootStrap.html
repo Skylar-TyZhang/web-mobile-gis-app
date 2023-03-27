@@ -97,45 +97,55 @@
                         </div>
                     </div>
                     -->
-                    
+
                     <!-- parallel menu-->
                     <!--Menu items for Asset Location-->
                     <!--medium, large and extra large-->
 
-                    <li class="nav-item active d-none d-md-block" >
-                        <a class="nav-link" href="#" onclick="popCaller()" >List of Assets in Best Condition <span class="sr-only">(current)</span></a>
+                    <li class="nav-item active d-none d-md-block">
+                        <a class="nav-link" href="#" onclick="popCaller()">List of Assets in Best Condition <span
+                                class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active d-none d-md-block">
-                        <a class="nav-link" href="#" onclick="popCaller()">Daily Reporting Rates Graph- All Users <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#" onclick="popCaller()">Daily Reporting Rates Graph- All Users <span
+                                class="sr-only">(current)</span></a>
                     </li>
-                   
+
                     <!--Menu for condition Assessment-->
                     <!-- small and extra small-->
                     <li class="nav-item active d-sm-block d-md-none">
-                        <a class="nav-link" href="#" onclick="popCaller()">Help <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#" onclick="popCaller()">Help <span
+                                class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active d-sm-block d-md-none">
-                        <a class="nav-link" href="#" onclick="popCaller()">User Ranking <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#" onclick="popCaller()">User Ranking <span
+                                class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active d-sm-block d-md-none">
-                        <a class="nav-link" href="#" onclick="popCaller()">Add Layer -5 closest assets <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#" onclick="popCaller()">Add Layer -5 closest assets <span
+                                class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active d-sm-block d-md-none">
-                        <a class="nav-link" href="#" onclick="popCaller()">Remove Layer -5 closest assets <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#" onclick="popCaller()">Remove Layer -5 closest assets <span
+                                class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active d-sm-block d-md-none">
-                        <a class="nav-link" href="#" onclick="popCaller()">Add Layer -last 5 reports,color coded <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#" onclick="popCaller()">Add Layer -last 5 reports,color coded <span
+                                class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active d-sm-block d-md-none">
-                        <a class="nav-link" href="#" onclick="popCaller()">Remove layer -last 5 reports <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#" onclick="popCaller()">Remove layer -last 5 reports <span
+                                class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active d-sm-block d-md-none">
-                        <a class="nav-link" href="#" onclick="popCaller()">Add Layer - not rated in the last 3 days <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#" onclick="popCaller()">Add Layer - not rated in the last 3 days
+                            <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active d-sm-block d-md-none">
-                        <a class="nav-link" href="#" onclick="popCaller()">Remove Layer - not rated in the last 3 days <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#" onclick="popCaller()">Remove Layer - not rated in the last 3 days
+                            <span class="sr-only">(current)</span></a>
                     </li>
-                    
+
 
                     <!-- Nav Item - Pages Collapse Menu -->
                     <!--
@@ -165,7 +175,7 @@
                         </div>
                     </div>
                 -->
-                
+
                     <!-- Nav Item - Pages Collapse Menu -->
                     <!--
                     <div class="nav-item dropdown d-block">
@@ -210,7 +220,7 @@
                         </div>
                     </div>
                 -->
-                   
+
 
             </nav>
         </div>
@@ -313,10 +323,17 @@
 
     <!--show map-->
     <script>
+        'use strict';
+        let mymap
         function loadMap() {
-            loadLeafletMap();
-            
-
+            mymap = L.map('mapid').setView([51.505, -0.09], 13);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(mymap);
+            console.log('Map created')
+            // add the click event detector to the map
+            mymap.on('click', onMapClick);
         }
     </script>
 </body>
