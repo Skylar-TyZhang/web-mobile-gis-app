@@ -61,3 +61,13 @@ function remove5ClosestAssets(){
 }
     console.log(sCallerName)
 };
+// Add Layer -last 5 reports,color coded 
+function addLast5Reports(){
+    {
+        let re = /([^(]+)@|at ([^(]+) \(/g;
+    let aRegexResult = re.exec(new Error().stack);
+    let sCallerName = aRegexResult[1] || aRegexResult[2];
+    alert("This menu is called by: "+ sCallerName);
+}
+    console.log(sCallerName)
+};
