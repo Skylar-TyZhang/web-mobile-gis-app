@@ -144,21 +144,22 @@ function checkCondition() {
 // add basicForm
 function basicFormHtml() {
 
-    let myvar =
-        "<label for='asset_name'> asset_name </label><input type='text' size='25' id='asset_name' /><br />" +
+    let formContent =
+        "<label for='asset_name'> Asset Name </label>"+
+        "<input type='text' size='25' id='asset_name' /><br />" +
 
-        "<label for='installation_date'>installation_date </label><input type='text' size='25' id='installation_date' /><br />" +
+        "<label for='installation_date'> Installation Date </label>"+
+        "<input type='text' size='25' id='installation_date' /><br />" +
 
         //<!-- text input box for latitude-->
-        "<label for='latitude'>Latitude </label><input type='text' size='25' id='latitude' /><br />" +
+        "<label for='latitude'>Latitude </label>"+
+        "<input type='text' size='25' id='latitude' /><br />" +
         //<!-- text input box for longitude-->
-        "<label for='longitude'>Longitude </label><input type='text' size='25' id='longitude' /><br />" +
-
-
+        "<label for='longitude'>Longitude </label>"+
+        "<input type='text' size='25' id='longitude' /><br />" 
         //<!-- add a button with id of saveAsset and calls a funciton saveNewAsset when clicked-->
-        //"<p>Click here to save the data</p>" +
         +
-        "<button id='saveAsset' onclick='saveNewAsset()'>Save asset</button>"
+        '<button id="saveAsset" onclick="saveNewAsset()">Save asset</button>';
 
-    return myvar;
+    return formContent;
 }
