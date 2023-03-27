@@ -71,3 +71,13 @@ function addLast5Reports(){
 }
     console.log(sCallerName)
 };
+// Remove Layer -last 5 reports,color coded 
+function removeLast5Reports(){
+    {
+        let re = /([^(]+)@|at ([^(]+) \(/g;
+    let aRegexResult = re.exec(new Error().stack);
+    let sCallerName = aRegexResult[1] || aRegexResult[2];
+    alert("This menu is called by: "+ sCallerName);
+}
+    console.log(sCallerName)
+};
