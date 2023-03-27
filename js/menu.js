@@ -81,3 +81,13 @@ function removeLast5Reports(){
 }
     console.log(sCallerName)
 };
+// Add Layer - not rated in the last 3 days
+function addNotRated(){
+    {
+        let re = /([^(]+)@|at ([^(]+) \(/g;
+    let aRegexResult = re.exec(new Error().stack);
+    let sCallerName = aRegexResult[1] || aRegexResult[2];
+    alert("This menu is called by: "+ sCallerName);
+}
+    console.log(sCallerName)
+};
