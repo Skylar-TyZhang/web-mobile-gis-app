@@ -1,5 +1,5 @@
 function processWindowResize() {
     console.log("resize");
-    setMapClickEvent();
+    //setMapClickEvent();
     closeAssetData();
 }

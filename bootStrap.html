@@ -334,6 +334,8 @@
             console.log('Map created')
             // add the click event detector to the map
             mymap.on('click', onMapClick);
+            window.addEventListener('resize', setMapClickEvent);
+            setMapClickEvent();
         }
     </script>
 </body>
