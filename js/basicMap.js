@@ -80,88 +80,80 @@ function setUpPointClick() {
     };
     // and add it to the map and zoom to that location
     // use the mapPoint variable so that we can remove this point layer on
-    let popUpHTML = getPopupHTML;
+    let popUpHTML = getPopupConHTML;
     mapPoint = L.geoJSON(geojsonFeature).addTo(mymap).bindPopup(popUpHTML);
     mymap.setView([51.522449, -0.13263], 12)
     // the on click functionality of the POINT should pop up partially populated condition form so that 
     //the user can select the condition they require
-    
+
     console.log(popUpHTML);
 }
 // The following function is created so that a condition form will popup on the point
 // on the narrow screen 
-function getPopupHTML() {
+function getPopupConHTML() {
     // (in the final assignment, all the required values for the asset pop-up will be 
     //derived from feature.properties.xxx – see the Earthquakes code for how this is done)
-    let id = "1272"; // this will be the asset ID    
+    let asset_id = "1"; // this will be the asset ID    
     let previousCondition = 3;
-    let assetname = "asset";
-    let userID = 3;
-    let assetInstallationDate = '2001-01-01';
-
-    let htmlString = "<DIV id='popup'" + id + "><h2 id=asset_name>" + assetname + "</h2><br>";
-    htmlString = htmlString +
+    let assetname = "Asset Name for assignment4";
+    let assetInstallationDate = 'Installation date for assignment4';
+    let user_id = 'user id for assignment 4'
+    // use asset id to name the div
+    let htmlString = "<div id=conditionForm_" + asset_id + ">" +
+        "<h1 id=asset_name>" + assetname +
+        "</h1><br>" +
+        "<div id='user_id'>" + user_id + "</div><br>" +
         "<div id='installation_date'>" + assetInstallationDate +
-        "</div><br>";
-
-    htmlString = htmlString +
-        "<p>Condition values:</p>" +
-        "As new or in good serviceable condition <input type='radio' name='condition' id='condition_1' /><br/>"
-    htmlString = htmlString + "Deteriorating, evidence of high usage, age, additional maintenance costs and inefficiency"
-    htmlString = htmlString + " <input type='radio' name='condition' id='condition_2' /><br/>"
-    htmlString = htmlString + "Requires replacement within 5 years"
-    htmlString = htmlString + "<input type='radio' name='condition' id='condition_3' /><br/>"
-    htmlString = htmlString + "In poor condition, overdue for replacement"
-    htmlString = htmlString + " <input type='radio' name='condition' id='condition_4' /><br/>"
-    htmlString = htmlString + "Unable to determine condition (e.g. as item is hidden)"
-    htmlString = htmlString + "<input type='radio' name='condition' id='condition_5' /><br />"
-    htmlString = htmlString + "Item does not exist <input type='radio' name='condition' id='condition_6' /><br />";
+        "</div><br>" +
+        "<h2>Condition values</h2>" +
+        'As new or in good serviceable condition' +
+        '<input type="radio" name="condition" id="condition1" /><br />' +
+        'Deteriorating, evidence of high usage, age, additional maintenance costs and inefficiency' +
+        '<input type="radio" name="condition" id="condition2" /><br />' +
+        'Requires replacement within 5 years' +
+        '<input type="radio" name="condition" id="condition3" /><br />' +
+        'In poor condition, overdue for replacement' +
+        ' <input type="radio" name="condition" id="condition4" /><br />' +
+        'Unable to determine condition (e.g. as item is hidden)' +
+        ' <input type="radio" name="condition" id="condition5" /><br />' +
+        'Item does not exist' +
+        ' <input type="radio" name="condition" id="condition6" /><br />'
 
     // add a button to process the data
-    htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false;'>Submit Condition</button>";
+    htmlString = htmlString + "<button onclick='checkCondition(" + asset_id + ");return false;'>Submit Condition</button>";
 
     // now include a hidden element with the previous condition value
-    htmlString = htmlString + "<div id=previousCondition_" + id + "hidden>" + previousCondition + "</div>";
+    htmlString +
+      '<div id=previousCondition_' +
+      asset_id +
+      ' hidden>' +
+      previousCondition +
+      '</div>';
     // and a hidden element with the ID of the asset so that we can insert the condition with the correct asset later
-    htmlString = htmlString + "<div id=asset_ " + id + " hidden>" + id + "</div>";
-    htmlString = htmlString + "</div>";
+    htmlString = htmlString + "<div id=asset_" + asset_id + " hidden>" + asset_id + "</div>";
+    htmlString = htmlString + "<div id=user_id hidden>" + user_id + "</div>";
+    htmlString = htmlString + "</div>"; // end of the condition form div
+    console.log(htmlString);
     return htmlString;
 }
 
-// the following funciton is used for process the data
-// Requirement:
-// 1- ckeck if the condition is the same as the previous one
-// create a poststring to send to /testCRUD and return a response to the user
-function checkCondition() {
-    alert(htmlString);
-
-    let serviceUrl = document.location.origin + "/api/testCRUD";
-    $.ajax({
-        url: serviceUrl,
-        crossDomain: true,
-        type: "POST",
-        data: htmlString,
-        success: function (data) { console.log(data); }
-
-    });
-}
 
 // add basicForm
 function basicFormHtml() {
 
     let formContent =
-        "<label for='asset_name'> Asset Name </label>"+
+        "<label for='asset_name'> Asset Name </label>" +
         "<input type='text' size='25' id='asset_name' /><br />" +
 
-        "<label for='installation_date'> Installation Date </label>"+
+        "<label for='installation_date'> Installation Date </label>" +
         "<input type='text' size='25' id='installation_date' /><br />" +
 
         //<!-- text input box for latitude-->
-        "<label for='latitude'>Latitude </label>"+
+        "<label for='latitude'>Latitude </label>" +
         "<input type='text' size='25' id='latitude' /><br />" +
         //<!-- text input box for longitude-->
-        "<label for='longitude'>Longitude </label>"+
-        "<input type='text' size='25' id='longitude' /><br />" 
+        "<label for='longitude'>Longitude </label>" +
+        "<input type='text' size='25' id='longitude' /><br />"
         //<!-- add a button with id of saveAsset and calls a funciton saveNewAsset when clicked-->
         +
         '<button id="saveAsset" onclick="saveNewAsset()">Save asset</button>';
