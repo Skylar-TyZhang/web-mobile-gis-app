@@ -5,18 +5,16 @@
 // create an event detector to wait for the user's click event and then use the popup to show them where they clicked
 let mymap;
 
-function loadLeafletMap() {
-    console.log('This is at the start of the first function')
+function loadLeafletMap() {   
     mymap = L.map('mapid').setView([51.505, -0.09], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(mymap);
     console.log('Map created')
-    // now call the code to add the markers
-    //addBasicMarkers();
     // add the click event detector to the map
     mymap.on('click', onMapClick);
+   
 }// end code to add the leaflet map
 
 
@@ -44,6 +42,7 @@ function setMapClickEvent() {
     // see here: https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
 
     if (width < 992) {
+        console.log('Narrow screen mode')
         //the condition capture –
         //anything smaller than 992px is defined as 'medium' by bootstrap
         // remove the map point if it exists
@@ -57,6 +56,7 @@ function setMapClickEvent() {
         setUpPointClick();
     }
     else {
+        console.log('Wide screen mode')
         // the asset creation page
         // remove the map point if it exists
         if (mapPoint) {
