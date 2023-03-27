@@ -37,7 +37,9 @@ function setMapClickEvent() {
         //anything smaller than 992px is defined as 'medium' by bootstrap
         // remove the map point if it exists
         if (mapPoint) {
+            console.log('There is a map point');
             mymap.removeLayer(mapPoint);
+            console.log('The map point is removed');
         }
         // cancel the map onclick event using off ..
         mymap.off('click', onMapClick);
@@ -50,7 +52,9 @@ function setMapClickEvent() {
         // the asset creation page
         // remove the map point if it exists
         if (mapPoint) {
+            console.log('There is a map point');
             mymap.removeLayer(mapPoint);
+            console.log('The map point is removed');
         }
         // the onclik functionality of MAP pops up a blank asset creation form
         mymap.on('click', onMapClick);
@@ -76,11 +80,12 @@ function setUpPointClick() {
     };
     // and add it to the map and zoom to that location
     // use the mapPoint variable so that we can remove this point layer on
+    let popUpHTML = getPopupHTML;
     mapPoint = L.geoJSON(geojsonFeature).addTo(mymap).bindPopup(popUpHTML);
     mymap.setView([51.522449, -0.13263], 12)
     // the on click functionality of the POINT should pop up partially populated condition form so that 
     //the user can select the condition they require
-    let popUpHTML = getPopupHTML;
+    
     console.log(popUpHTML);
 }
 // The following function is created so that a condition form will popup on the point
