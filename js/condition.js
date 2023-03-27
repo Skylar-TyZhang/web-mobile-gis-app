@@ -1,7 +1,7 @@
 'user strict'
 // use AJAX to construct url
 let baseComputerAddress = document.location.origin;
-function saveConditionInformation() {
+function saveConditionInformation(id) {
     // get information from the form
     /*The ID of the asset (from the hidden field)
       The condition that the user selected (from the radio button)
