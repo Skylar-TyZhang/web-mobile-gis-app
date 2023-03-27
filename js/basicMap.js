@@ -56,6 +56,7 @@ function setMapClickEvent() {
         setUpPointClick();
     }
     else {
+        
         console.log('Wide screen mode')
         // the asset creation page
         // remove the map point if it exists
@@ -152,7 +153,9 @@ function checkCondition() {
 }
 //--------------------------------------------
 function onMapClick(e) {
+    // get the asset form 
     let formHTML = basicFormHtml();
+    //
     popup
         .setLatLng(e.latlng)
         .setContent("You clicked the map at " + e.latlng.toString() + "<br>" + formHTML)
