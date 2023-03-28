@@ -125,7 +125,7 @@ function getPopupConHTML() {
     htmlString = htmlString + "<button onclick='checkCondition("+id+");return false'>Submit Condition</button>";
 
     // now include a hidden element with the previous condition value
-    htmlString +
+    htmlString =htmlString+
       '<div id=previousCondition_' +
       id +
       ' hidden>' +
