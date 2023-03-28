@@ -107,18 +107,19 @@ function getPopupConHTML() {
         "<div id='installation_date'>" + assetInstallationDate +
         "</div><br>" +
         "<h2>Condition values</h2>" +
+
         'As new or in good serviceable condition' +
-        '<input type="radio" name="condition" id="condition1_"'+id+' /><br />' +
+        '<input type="radio" name="condition" id=condition1_'+id+' /><br />' +
         'Deteriorating, evidence of high usage, age, additional maintenance costs and inefficiency' +
-        '<input type="radio" name="condition" id="condition2_"'+id+' /><br />' +
+        '<input type="radio" name="condition" id=condition2_'+id+' /><br />' +
         'Requires replacement within 5 years' +
-        '<input type="radio" name="condition" id="condition3_"'+id+' /><br />' +
+        '<input type="radio" name="condition" id=condition3_'+id+' /><br />' +
         'In poor condition, overdue for replacement' +
-        ' <input type="radio" name="condition" id="condition4_"'+id+' /><br />' +
+        ' <input type="radio" name="condition" id=condition4_'+id+' /><br />' +
         'Unable to determine condition (e.g. as item is hidden)' +
-        ' <input type="radio" name="condition" id="condition5_"'+id+' /><br />' +
+        ' <input type="radio" name="condition" id=condition5_'+id+' /><br />' +
         'Item does not exist' +
-        ' <input type="radio" name="condition" id="condition6_"'+id+' /><br />'
+        ' <input type="radio" name="condition" id=condition6_'+id+' /><br />'
 
     // add a button to process the data
     htmlString = htmlString + "<button onclick='checkCondition("+id+");return false'>Submit Condition</button>";
@@ -134,7 +135,7 @@ function getPopupConHTML() {
     htmlString = htmlString + "<div id=asset_" + id + " hidden>" + id + "</div>";
     htmlString = htmlString + "<div id=user_id hidden>" + user_id + "</div>";
     htmlString = htmlString + "</div>"; // end of the condition form div
-    console.log('html string for condition form:'+ htmlString);
+    console.log('html string for condition form:</br'>+htmlString);
     return htmlString;
 }
 
