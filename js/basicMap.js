@@ -120,7 +120,7 @@ function getPopupConHTML() {
         ' <input type="radio" name="condition" id="condition6" /><br />'
 
     // add a button to process the data
-    htmlString = htmlString + "<button onclick='checkCondition(" + asset_id + ");return false;'>Submit Condition</button>";
+    htmlString = htmlString + "<button onclick='submitCondition(); '>Submit Condition</button>";
 
     // now include a hidden element with the previous condition value
     htmlString +
@@ -133,7 +133,7 @@ function getPopupConHTML() {
     htmlString = htmlString + "<div id=asset_" + asset_id + " hidden>" + asset_id + "</div>";
     htmlString = htmlString + "<div id=user_id hidden>" + user_id + "</div>";
     htmlString = htmlString + "</div>"; // end of the condition form div
-    console.log(htmlString);
+    //console.log(htmlString);
     return htmlString;
 }
 
