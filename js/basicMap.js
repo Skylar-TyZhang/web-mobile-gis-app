@@ -93,13 +93,14 @@ function setUpPointClick() {
 function getPopupConHTML() {
     // (in the final assignment, all the required values for the asset pop-up will be 
     //derived from feature.properties.xxx – see the Earthquakes code for how this is done)
-    let asset_id = "1"; // this will be the asset ID    
+    let id = "1"; // this will be the asset ID    
     let previousCondition = 3;
     let assetname = "Asset Name for assignment4";
     let assetInstallationDate = 'Installation date for assignment4';
     let user_id = 'user id for assignment 4'
+    console.log('pop up html content got;')
     // use asset id to name the div
-    let htmlString = "<div id=conditionForm_" + asset_id + ">" +
+    let htmlString = "<div id=conditionForm_" + id + ">" +
         "<h1 id=asset_name>" + assetname +
         "</h1><br>" +
         "<div id='user_id'>" + user_id + "</div><br>" +
@@ -107,33 +108,33 @@ function getPopupConHTML() {
         "</div><br>" +
         "<h2>Condition values</h2>" +
         'As new or in good serviceable condition' +
-        '<input type="radio" name="condition" id="condition1" /><br />' +
+        '<input type="radio" name="condition" id="condition1_"'+id+' /><br />' +
         'Deteriorating, evidence of high usage, age, additional maintenance costs and inefficiency' +
-        '<input type="radio" name="condition" id="condition2" /><br />' +
+        '<input type="radio" name="condition" id="condition2_"'+id+' /><br />' +
         'Requires replacement within 5 years' +
-        '<input type="radio" name="condition" id="condition3" /><br />' +
+        '<input type="radio" name="condition" id="condition3_"'+id+' /><br />' +
         'In poor condition, overdue for replacement' +
-        ' <input type="radio" name="condition" id="condition4" /><br />' +
+        ' <input type="radio" name="condition" id="condition4_"'+id+' /><br />' +
         'Unable to determine condition (e.g. as item is hidden)' +
-        ' <input type="radio" name="condition" id="condition5" /><br />' +
+        ' <input type="radio" name="condition" id="condition5_"'+id+' /><br />' +
         'Item does not exist' +
-        ' <input type="radio" name="condition" id="condition6" /><br />'
+        ' <input type="radio" name="condition" id="condition6_"'+id+' /><br />'
 
     // add a button to process the data
-    htmlString = htmlString + "<button onclick='submitCondition(); '>Submit Condition</button>";
+    htmlString = htmlString + "<button onclick='checkCondition("+id+");return false'>Submit Condition</button>";
 
     // now include a hidden element with the previous condition value
     htmlString +
       '<div id=previousCondition_' +
-      asset_id +
+      id +
       ' hidden>' +
       previousCondition +
       '</div>';
     // and a hidden element with the ID of the asset so that we can insert the condition with the correct asset later
-    htmlString = htmlString + "<div id=asset_" + asset_id + " hidden>" + asset_id + "</div>";
+    htmlString = htmlString + "<div id=asset_" + id + " hidden>" + id + "</div>";
     htmlString = htmlString + "<div id=user_id hidden>" + user_id + "</div>";
     htmlString = htmlString + "</div>"; // end of the condition form div
-    //console.log(htmlString);
+    console.log('html string for condition form:'+ htmlString);
     return htmlString;
 }
 
