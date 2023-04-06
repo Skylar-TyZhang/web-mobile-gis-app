@@ -16,6 +16,19 @@ function getUserId(){
     })
 }
 
+function getconditionDetails(){
+    let dataAddress='/api/geojson/conditionDetails';
+    let layerURL=baseComputerAddress+dataAddress;
+    $.ajax({
+        url: layerURL,
+        crossDomain: true,
+        success: function (result){
+            return result
+            console.log(result);
+        }
+    })
+}
+
 function assetInBestCondition(){
     {
         let re = /([^(]+)@|at ([^(]+) \(/g;
