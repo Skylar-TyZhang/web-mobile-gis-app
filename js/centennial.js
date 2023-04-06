@@ -22,7 +22,7 @@ function loadBuildings() {
     }
 
     let dataAddress = "/api/geojson/ucfscde/buildings/building_id/location";
-    let layerURL = baseComputerAddress + dataAddress;;// construct url as basecomputer address +data address
+    let layerURL = baseComputerAddress + dataAddress;// construct url as basecomputer address +data address
     $.ajax({
         url: layerURL,
         crossDomain: true,
