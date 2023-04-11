@@ -1,6 +1,38 @@
 "use strict";
 // use AJAX to construct url
 let baseComputerAddress = document.location.origin;
+// add promise object
+// the following code is adapted from:https://www.w3schools.com/Js/js_promise.asp
+function getData(dataAddress){
+    return new Promise(function(resolve,reject){
+    $.ajax({
+        url:baseComputerAddress+dataAddress,
+        crossDomain: true,
+        type: 'GET',
+        success: function(result){
+            resolve(result);
+        },
+        error: function(err){
+            reject(err);
+        }
+    })
+})
+}
+function postData(dataAddress){
+    return new Promise(function(resolve,reject){
+    $.ajax({
+        url:baseComputerAddress+dataAddress,
+        crossDomain: true,
+        type: 'POST',
+        success: function(result){
+            resolve(result);
+        },
+        error: function(err){
+            reject(err);
+        }
+    })
+})
+}
 // get userId
 let user_id
 function getUserId() {
