@@ -38,22 +38,15 @@ async function getUserId() {
     let dataAddress = '/api/userId';
     let result = await getData(dataAddress);
     const user_id = result[0].user_id // userid will be a const thus the value will not be reassigned
-    console.log('Got user_id')
-
+    //console.log('Got user_id')
+    return user_id
 }
+
 // get conditionDetails
 async function getconditionDetails() {
     let dataAddress = '/api/geojson/conditionDetails';
-    let result = await getData(dataAddress);
-    let str = '';
-    for (let i = 0; i < result.length; i++) {
-        str += `${result[i]['condition_description']}` +
-            '<input type="radio" name="condition"' +
-            ` id="condition_${result[i]['id']}` +
-            '/><br />'
-    }
-    console.log('condition details got'+ str)
-    return str
+    let result = await getData(dataAddress);    
+    return result
 }
 
 
@@ -87,8 +80,7 @@ function setMapClickEvent() {
 
     if (width < 992) {
         console.log('Narrow screen mode')
-        //the condition capture –
-        //anything smaller than 992px is defined as 'medium' by bootstrap
+        //the condition capture anything smaller than 992px is defined as 'medium' by bootstrap
         // remove the map point if it exists
         if (mapPoint) {
             console.log('There is a map point');
@@ -117,7 +109,11 @@ function setMapClickEvent() {
 
 
 //Create a point and set up the onlick behaviour for the point
-function setUpPointClick() {
+async function setUpPointClick() {
+    let user_id=await getUserId();
+    // Load condition status got from the database
+    let conditions = await getconditionDetails();
+    
     // create a geoJSON feature (in your assignment code this will be replaced
     // by an AJAX call to load the asset points on the map
     let geojsonFeature = {
@@ -133,7 +129,7 @@ function setUpPointClick() {
     };
     // and add it to the map and zoom to that location
     // use the mapPoint variable so that we can remove this point layer on
-    let popUpHTML = getPopupConHTML();
+    let popUpHTML = getPopupConditionHTML(user_id,conditions);console.log('get popup condition form')
     mapPoint = L.geoJSON(geojsonFeature).addTo(mymap).bindPopup(popUpHTML);
     mymap.setView([51.522449, -0.13263], 12)
     // the on click functionality of the POINT should pop up partially populated condition form so that 
@@ -142,29 +138,29 @@ function setUpPointClick() {
 }
 // The following function is created so that a condition form will popup on the point
 // on the narrow screen 
-function getPopupConHTML() {
+function getPopupConditionHTML(user_id, conditions) {
     // (in the final assignment, all the required values for the asset pop-up will be 
     //derived from feature.properties.xxx – see the Earthquakes code for how this is done)
     let id = "1"; // this will be the asset ID    
     let previousCondition = 3;
     let assetname = "Asset Name for assignment4";
     let assetInstallationDate = 'Installation date for assignment4';
-    let user_id = 'user id for assignment 4'
-    // Load condition status got from the database
-    let conditionStr = getconditionDetails();
-    console.log(conditionStr)
+    
     // use asset id to name the div
     let htmlString = "<div id=conditionForm_" + id + ">" +
         "<h1 id=asset_name>" + assetname +
         "</h1><br>" +
-        "<div id='user_id'>" + user_id + "</div><br>" +
+        //"<div id='user_id'>" + user_id + "</div><br>" +
         "<div id='installation_date'>" + assetInstallationDate +
-        "</div><br>" +
-        "<h2>Condition values: </h2>" + '<div id="conditionDetails"></div>'
-
-
-
-
+        "</div><br>" 
+    htmlString+="<h3>Condition values: </h3>";
+    
+    // get condition details in form 
+    for (let i = 0; i < conditions.length; i++) {
+        htmlString += `${conditions[i]['condition_description']
+        }<input type="radio" name="condition" id="condition_${conditions[i]['id']}"/><br/>`;
+        
+    }
     // add a button to process the data
     htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false'>Submit Condition</button>";
 
@@ -179,7 +175,7 @@ function getPopupConHTML() {
     htmlString = htmlString + "<div id=asset_" + id + " hidden>" + id + "</div>";
     htmlString = htmlString + "<div id=user_id hidden>" + user_id + "</div>";
     htmlString = htmlString + "</div>"; // end of the condition form div
-    console.log('html string for condition form:</br' > +htmlString);
+    console.log('html string for condition form:'  +htmlString);
     return htmlString;
 }
 
