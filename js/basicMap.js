@@ -45,7 +45,7 @@ async function getUserId() {
 // get conditionDetails
 async function getconditionDetails() {
     let dataAddress = '/api/geojson/conditionDetails';
-    let result = await getData(dataAddress);    
+    let result = await getData(dataAddress);
     return result
 }
 
@@ -53,9 +53,9 @@ async function getconditionDetails() {
 // create a custom popup as a global variable
 let popup = L.popup();
 //set up on map click option
-function onMapClick(e) {
+async function onMapClick(e) {
     // get the asset form 
-    let formHTML = basicFormHtml();
+    let formHTML =await basicFormHtml(e.latlng);
     popup
         .setLatLng(e.latlng)
         .setContent("You clicked the map at (" +
@@ -110,10 +110,10 @@ function setMapClickEvent() {
 
 //Create a point and set up the onlick behaviour for the point
 async function setUpPointClick() {
-    let user_id=await getUserId();
+    let user_id = await getUserId();
     // Load condition status got from the database
     let conditions = await getconditionDetails();
-    
+
     // create a geoJSON feature (in your assignment code this will be replaced
     // by an AJAX call to load the asset points on the map
     let geojsonFeature = {
@@ -129,7 +129,7 @@ async function setUpPointClick() {
     };
     // and add it to the map and zoom to that location
     // use the mapPoint variable so that we can remove this point layer on
-    let popUpHTML = getPopupConditionHTML(user_id,conditions);console.log('get popup condition form')
+    let popUpHTML = getPopupConditionHTML(user_id, conditions); console.log('get popup condition form')
     mapPoint = L.geoJSON(geojsonFeature).addTo(mymap).bindPopup(popUpHTML);
     mymap.setView([51.522449, -0.13263], 12)
     // the on click functionality of the POINT should pop up partially populated condition form so that 
@@ -145,21 +145,21 @@ function getPopupConditionHTML(user_id, conditions) {
     let previousCondition = 3;
     let assetname = "Asset Name for assignment4";
     let assetInstallationDate = 'Installation date for assignment4';
-    
+
     // use asset id to name the div
     let htmlString = "<div id=conditionForm_" + id + ">" +
         "<h1 id=asset_name>" + assetname +
         "</h1><br>" +
         //"<div id='user_id'>" + user_id + "</div><br>" +
         "<div id='installation_date'>" + assetInstallationDate +
-        "</div><br>" 
-    htmlString+="<h3>Condition values: </h3>";
-    
+        "</div><br>"
+    htmlString += "<h3>Condition values: </h3>";
+
     // get condition details in form 
     for (let i = 0; i < conditions.length; i++) {
         htmlString += `${conditions[i]['condition_description']
-        }<input type="radio" name="condition" id="condition_${conditions[i]['id']}"/><br/>`;
-        
+            }<input type="radio" name="condition" id="condition_${conditions[i]['id']}"/><br/>`;
+
     }
     // add a button to process the data
     htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false'>Submit Condition</button>";
@@ -175,27 +175,25 @@ function getPopupConditionHTML(user_id, conditions) {
     htmlString = htmlString + "<div id=asset_" + id + " hidden>" + id + "</div>";
     htmlString = htmlString + "<div id=user_id hidden>" + user_id + "</div>";
     htmlString = htmlString + "</div>"; // end of the condition form div
-    console.log('html string for condition form:'  +htmlString);
+    console.log('html string for condition form:' + htmlString);
     return htmlString;
 }
 
 
 // add basicForm
-function basicFormHtml() {
+async function basicFormHtml() {
+    const user_id = await getUserId();
 
     let formContent =
+        '<div id="userId" style="display: none">' +
+        user_id +
+        '</div>'+
         "<label for='asset_name'> Asset Name </label>" +
         "<input type='text' size='25' id='asset_name' /><br />" +
 
         "<label for='installation_date'> Installation Date </label>" +
-        "<input type='text' size='25' id='installation_date' /><br />" +
+        "<input type='date' size='25' id='installation_date' /><br />" 
 
-        //<!-- text input box for latitude-->
-        "<label for='latitude'>Latitude </label>" +
-        "<input type='text' size='25' id='latitude' /><br />" +
-        //<!-- text input box for longitude-->
-        "<label for='longitude'>Longitude </label>" +
-        "<input type='text' size='25' id='longitude' /><br />"
         //<!-- add a button with id of saveAsset and calls a funciton saveNewAsset when clicked-->
         +
         '<button id="saveAsset" onclick="saveNewAsset()">Save asset</button>';
