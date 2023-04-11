@@ -1,20 +1,5 @@
 // This is to process the menu functionality
 "use strict";
-// use AJAX to construct url
-let baseComputerAddress = document.location.origin;
-// get userId
-function getUserId(){
-    let dataAddress='/api/userId';
-    let layerURL=baseComputerAddress+dataAddress;
-    $.ajax({
-        url: layerURL,
-        crossDomain: true,
-        success: function (result){
-            const user_id=result[0].user_id
-            console.log(user_id);
-        }
-    })
-}
 
 function assetInBestCondition(){
     {

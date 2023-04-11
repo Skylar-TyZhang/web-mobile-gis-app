@@ -1,5 +1,54 @@
-// enforce the use of variable names
 "use strict";
+// use AJAX to construct url
+let baseComputerAddress = document.location.origin;
+// add promise object
+// the following code is adapted from:https://www.w3schools.com/Js/js_promise.asp
+function getData(dataAPI) {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: baseComputerAddress + dataAPI,
+            crossDomain: true,
+            type: 'GET',
+            success: function (result) {
+                resolve(result);
+            },
+            error: function (err) {
+                reject(err);
+            }
+        })
+    })
+}
+function postData(dataAPI) {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: baseComputerAddress + dataAPI,
+            crossDomain: true,
+            type: 'POST',
+            success: function (result) {
+                resolve(result);
+            },
+            error: function (err) {
+                reject(err);
+            }
+        })
+    })
+}
+// get userId
+async function getUserId() {
+    let dataAddress = '/api/userId';
+    let result = await getData(dataAddress);
+    const user_id = result[0].user_id // userid will be a const thus the value will not be reassigned
+    //console.log('Got user_id')
+    return user_id
+}
+
+// get conditionDetails
+async function getconditionDetails() {
+    let dataAddress = '/api/geojson/conditionDetails';
+    let result = await getData(dataAddress);    
+    return result
+}
+
 
 // create a custom popup as a global variable
 let popup = L.popup();
@@ -18,10 +67,8 @@ function onMapClick(e) {
         .openOn(mymap);
 }
 
-// The following code is for the assignment4 part4
 // modify the leaflet map behaviours
 let width; // NB – keep this as a global variable
-//let popup; // keep this as a global variable
 let mapPoint; // store the geoJSON feature so that we can remove it if the screen is resized
 function setMapClickEvent() {
     // get the window width
@@ -33,8 +80,7 @@ function setMapClickEvent() {
 
     if (width < 992) {
         console.log('Narrow screen mode')
-        //the condition capture –
-        //anything smaller than 992px is defined as 'medium' by bootstrap
+        //the condition capture anything smaller than 992px is defined as 'medium' by bootstrap
         // remove the map point if it exists
         if (mapPoint) {
             console.log('There is a map point');
@@ -63,8 +109,11 @@ function setMapClickEvent() {
 
 
 //Create a point and set up the onlick behaviour for the point
-function setUpPointClick() {
-
+async function setUpPointClick() {
+    let user_id=await getUserId();
+    // Load condition status got from the database
+    let conditions = await getconditionDetails();
+    
     // create a geoJSON feature (in your assignment code this will be replaced
     // by an AJAX call to load the asset points on the map
     let geojsonFeature = {
@@ -80,62 +129,53 @@ function setUpPointClick() {
     };
     // and add it to the map and zoom to that location
     // use the mapPoint variable so that we can remove this point layer on
-    let popUpHTML = getPopupConHTML;
+    let popUpHTML = getPopupConditionHTML(user_id,conditions);console.log('get popup condition form')
     mapPoint = L.geoJSON(geojsonFeature).addTo(mymap).bindPopup(popUpHTML);
     mymap.setView([51.522449, -0.13263], 12)
     // the on click functionality of the POINT should pop up partially populated condition form so that 
     //the user can select the condition they require
 
-    console.log(popUpHTML);
 }
 // The following function is created so that a condition form will popup on the point
 // on the narrow screen 
-function getPopupConHTML() {
+function getPopupConditionHTML(user_id, conditions) {
     // (in the final assignment, all the required values for the asset pop-up will be 
     //derived from feature.properties.xxx – see the Earthquakes code for how this is done)
     let id = "1"; // this will be the asset ID    
     let previousCondition = 3;
     let assetname = "Asset Name for assignment4";
     let assetInstallationDate = 'Installation date for assignment4';
-    let user_id = 'user id for assignment 4'
-    console.log('pop up html content got;')
+    
     // use asset id to name the div
     let htmlString = "<div id=conditionForm_" + id + ">" +
         "<h1 id=asset_name>" + assetname +
         "</h1><br>" +
-        "<div id='user_id'>" + user_id + "</div><br>" +
+        //"<div id='user_id'>" + user_id + "</div><br>" +
         "<div id='installation_date'>" + assetInstallationDate +
-        "</div><br>" +
-        "<h2>Condition values</h2>" +
-
-        'As new or in good serviceable condition' +
-        '<input type="radio" name="condition" id=condition1_'+id+' /><br />' +
-        'Deteriorating, evidence of high usage, age, additional maintenance costs and inefficiency' +
-        '<input type="radio" name="condition" id=condition2_'+id+' /><br />' +
-        'Requires replacement within 5 years' +
-        '<input type="radio" name="condition" id=condition3_'+id+' /><br />' +
-        'In poor condition, overdue for replacement' +
-        ' <input type="radio" name="condition" id=condition4_'+id+' /><br />' +
-        'Unable to determine condition (e.g. as item is hidden)' +
-        ' <input type="radio" name="condition" id=condition5_'+id+' /><br />' +
-        'Item does not exist' +
-        ' <input type="radio" name="condition" id=condition6_'+id+' /><br />'
-
+        "</div><br>" 
+    htmlString+="<h3>Condition values: </h3>";
+    
+    // get condition details in form 
+    for (let i = 0; i < conditions.length; i++) {
+        htmlString += `${conditions[i]['condition_description']
+        }<input type="radio" name="condition" id="condition_${conditions[i]['id']}"/><br/>`;
+        
+    }
     // add a button to process the data
-    htmlString = htmlString + "<button onclick='checkCondition("+id+");return false'>Submit Condition</button>";
+    htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false'>Submit Condition</button>";
 
     // now include a hidden element with the previous condition value
-    htmlString =htmlString+
-      '<div id=previousCondition_' +
-      id +
-      ' hidden>' +
-      previousCondition +
-      '</div>';
+    htmlString = htmlString +
+        '<div id=previousCondition_' +
+        id +
+        ' hidden>' +
+        previousCondition +
+        '</div>';
     // and a hidden element with the ID of the asset so that we can insert the condition with the correct asset later
     htmlString = htmlString + "<div id=asset_" + id + " hidden>" + id + "</div>";
     htmlString = htmlString + "<div id=user_id hidden>" + user_id + "</div>";
     htmlString = htmlString + "</div>"; // end of the condition form div
-    console.log('html string for condition form:</br'>+htmlString);
+    console.log('html string for condition form:'  +htmlString);
     return htmlString;
 }
 
