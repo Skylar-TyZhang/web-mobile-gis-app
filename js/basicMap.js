@@ -25,7 +25,7 @@ function postData(dataAPI) {
             crossDomain: true,
             type: 'POST',
             success: function (result) {
-                resolve(result);
+                resolve(result);console.log(result)
             },
             error: function (err) {
                 reject(err);
@@ -55,7 +55,7 @@ let popup = L.popup();
 //set up on map click option
 async function onMapClick(e) {
     // get the asset form 
-    let formHTML =await basicFormHtml(e.latlng);
+    let formHTML = await basicFormHtml(e.latlng);
     popup
         .setLatLng(e.latlng)
         .setContent("You clicked the map at (" +
@@ -181,18 +181,20 @@ function getPopupConditionHTML(user_id, conditions) {
 
 
 // add basicForm
-async function basicFormHtml() {
+async function basicFormHtml(latlng) {
     const user_id = await getUserId();
 
     let formContent =
-        '<div id="userId" style="display: none">' +
+        '<div id="user_id" style="display: none">' +
         user_id +
-        '</div>'+
+        '</div>' +
+        '<div id=latitude style="display: none">' + latlng.lat + '</div>' +
+        '<div id=longitude style="display: none">' + latlng.lng + '</div>' +
         "<label for='asset_name'> Asset Name </label>" +
         "<input type='text' size='25' id='asset_name' /><br />" +
 
         "<label for='installation_date'> Installation Date </label>" +
-        "<input type='date' size='25' id='installation_date' /><br />" 
+        "<input type='date' size='25' id='installation_date' /><br />"
 
         //<!-- add a button with id of saveAsset and calls a funciton saveNewAsset when clicked-->
         +
