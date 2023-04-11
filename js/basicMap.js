@@ -3,74 +3,59 @@
 let baseComputerAddress = document.location.origin;
 // add promise object
 // the following code is adapted from:https://www.w3schools.com/Js/js_promise.asp
-function getData(dataAddress){
-    return new Promise(function(resolve,reject){
-    $.ajax({
-        url:baseComputerAddress+dataAddress,
-        crossDomain: true,
-        type: 'GET',
-        success: function(result){
-            resolve(result);
-        },
-        error: function(err){
-            reject(err);
-        }
+function getData(dataAPI) {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: baseComputerAddress + dataAPI,
+            crossDomain: true,
+            type: 'GET',
+            success: function (result) {
+                resolve(result);
+            },
+            error: function (err) {
+                reject(err);
+            }
+        })
     })
-})
 }
-function postData(dataAddress){
-    return new Promise(function(resolve,reject){
-    $.ajax({
-        url:baseComputerAddress+dataAddress,
-        crossDomain: true,
-        type: 'POST',
-        success: function(result){
-            resolve(result);
-        },
-        error: function(err){
-            reject(err);
-        }
+function postData(dataAPI) {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: baseComputerAddress + dataAPI,
+            crossDomain: true,
+            type: 'POST',
+            success: function (result) {
+                resolve(result);
+            },
+            error: function (err) {
+                reject(err);
+            }
+        })
     })
-})
 }
 // get userId
-let user_id
-function getUserId() {
+async function getUserId() {
     let dataAddress = '/api/userId';
-    let layerURL = baseComputerAddress + dataAddress;
-    $.ajax({
-        url: layerURL,
-        crossDomain: true,
-        type: 'GET',
-        success: function (result) {
-            const user_id = result[0].user_id
-            console.log('Got user_id');
-            return user_id
-        }
-    })
+    let result = await getData(dataAddress);
+    const user_id = result[0].user_id // userid will be a const thus the value will not be reassigned
+    console.log('Got user_id')
+
+}
+// get conditionDetails
+async function getconditionDetails() {
+    let dataAddress = '/api/geojson/conditionDetails';
+    let result = await getData(dataAddress);
+    let str = '';
+    for (let i = 0; i < result.length; i++) {
+        str += `${result[i]['condition_description']}` +
+            '<input type="radio" name="condition"' +
+            ` id="condition_${result[i]['id']}` +
+            '/><br />'
+    }
+    console.log('condition details got'+ str)
+    return str
 }
 
-function getconditionDetails() {
-    let dataAddress = '/api/geojson/conditionDetails';
-    let layerURL = baseComputerAddress + dataAddress;
-    $.ajax({
-        url: layerURL,
-        crossDomain: true,
-        type: 'GET',
-        success: function (result) {
-            let str = '';
-            for (let i = 0; i < result.length; i++) {
-                str += `${result[i]['condition_description']}` +
-                    '<input type="radio" name="condition"' +
-                    ` id="condition_${result[i]['id']}` +
-                    '/><br />'
-            }
-            console.log('condition details got')
-            return str
-        }
-    })
-    
-}
 
 // create a custom popup as a global variable
 let popup = L.popup();
@@ -175,10 +160,10 @@ function getPopupConHTML() {
         "<div id='user_id'>" + user_id + "</div><br>" +
         "<div id='installation_date'>" + assetInstallationDate +
         "</div><br>" +
-        "<h2>Condition values: </h2>" +'<div id="conditionDetails"></div>'
-        
-        
-    
+        "<h2>Condition values: </h2>" + '<div id="conditionDetails"></div>'
+
+
+
 
     // add a button to process the data
     htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false'>Submit Condition</button>";
