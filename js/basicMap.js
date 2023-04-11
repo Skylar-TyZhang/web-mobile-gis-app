@@ -1,5 +1,44 @@
-// enforce the use of variable names
 "use strict";
+// use AJAX to construct url
+let baseComputerAddress = document.location.origin;
+// get userId
+let user_id
+function getUserId() {
+    let dataAddress = '/api/userId';
+    let layerURL = baseComputerAddress + dataAddress;
+    $.ajax({
+        url: layerURL,
+        crossDomain: true,
+        type: 'GET',
+        success: function (result) {
+            const user_id = result[0].user_id
+            console.log('Got user_id');
+            return user_id
+        }
+    })
+}
+
+function getconditionDetails() {
+    let dataAddress = '/api/geojson/conditionDetails';
+    let layerURL = baseComputerAddress + dataAddress;
+    $.ajax({
+        url: layerURL,
+        crossDomain: true,
+        type: 'GET',
+        success: function (result) {
+            let str = '';
+            for (let i = 0; i < result.length; i++) {
+                str += `${result[i]['condition_description']}` +
+                    '<input type="radio" name="condition"' +
+                    ` id="condition_${result[i]['id']}` +
+                    '/><br />'
+            }
+            console.log('condition details got')
+            return str
+        }
+    })
+    
+}
 
 // create a custom popup as a global variable
 let popup = L.popup();
@@ -18,10 +57,8 @@ function onMapClick(e) {
         .openOn(mymap);
 }
 
-// The following code is for the assignment4 part4
 // modify the leaflet map behaviours
 let width; // NB – keep this as a global variable
-//let popup; // keep this as a global variable
 let mapPoint; // store the geoJSON feature so that we can remove it if the screen is resized
 function setMapClickEvent() {
     // get the window width
@@ -64,7 +101,6 @@ function setMapClickEvent() {
 
 //Create a point and set up the onlick behaviour for the point
 function setUpPointClick() {
-
     // create a geoJSON feature (in your assignment code this will be replaced
     // by an AJAX call to load the asset points on the map
     let geojsonFeature = {
@@ -80,13 +116,12 @@ function setUpPointClick() {
     };
     // and add it to the map and zoom to that location
     // use the mapPoint variable so that we can remove this point layer on
-    let popUpHTML = getPopupConHTML;
+    let popUpHTML = getPopupConHTML();
     mapPoint = L.geoJSON(geojsonFeature).addTo(mymap).bindPopup(popUpHTML);
     mymap.setView([51.522449, -0.13263], 12)
     // the on click functionality of the POINT should pop up partially populated condition form so that 
     //the user can select the condition they require
 
-    console.log(popUpHTML);
 }
 // The following function is created so that a condition form will popup on the point
 // on the narrow screen 
@@ -98,7 +133,9 @@ function getPopupConHTML() {
     let assetname = "Asset Name for assignment4";
     let assetInstallationDate = 'Installation date for assignment4';
     let user_id = 'user id for assignment 4'
-    console.log('pop up html content got;')
+    // Load condition status got from the database
+    let conditionStr = getconditionDetails();
+    console.log(conditionStr)
     // use asset id to name the div
     let htmlString = "<div id=conditionForm_" + id + ">" +
         "<h1 id=asset_name>" + assetname +
@@ -106,36 +143,26 @@ function getPopupConHTML() {
         "<div id='user_id'>" + user_id + "</div><br>" +
         "<div id='installation_date'>" + assetInstallationDate +
         "</div><br>" +
-        "<h2>Condition values</h2>" +
-
-        'As new or in good serviceable condition' +
-        '<input type="radio" name="condition" id=condition1_'+id+' /><br />' +
-        'Deteriorating, evidence of high usage, age, additional maintenance costs and inefficiency' +
-        '<input type="radio" name="condition" id=condition2_'+id+' /><br />' +
-        'Requires replacement within 5 years' +
-        '<input type="radio" name="condition" id=condition3_'+id+' /><br />' +
-        'In poor condition, overdue for replacement' +
-        ' <input type="radio" name="condition" id=condition4_'+id+' /><br />' +
-        'Unable to determine condition (e.g. as item is hidden)' +
-        ' <input type="radio" name="condition" id=condition5_'+id+' /><br />' +
-        'Item does not exist' +
-        ' <input type="radio" name="condition" id=condition6_'+id+' /><br />'
+        "<h2>Condition values: </h2>" +'<div id="conditionDetails"></div>'
+        
+        
+    
 
     // add a button to process the data
-    htmlString = htmlString + "<button onclick='checkCondition("+id+");return false'>Submit Condition</button>";
+    htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false'>Submit Condition</button>";
 
     // now include a hidden element with the previous condition value
-    htmlString =htmlString+
-      '<div id=previousCondition_' +
-      id +
-      ' hidden>' +
-      previousCondition +
-      '</div>';
+    htmlString = htmlString +
+        '<div id=previousCondition_' +
+        id +
+        ' hidden>' +
+        previousCondition +
+        '</div>';
     // and a hidden element with the ID of the asset so that we can insert the condition with the correct asset later
     htmlString = htmlString + "<div id=asset_" + id + " hidden>" + id + "</div>";
     htmlString = htmlString + "<div id=user_id hidden>" + user_id + "</div>";
     htmlString = htmlString + "</div>"; // end of the condition form div
-    console.log('html string for condition form:</br'>+htmlString);
+    console.log('html string for condition form:</br' > +htmlString);
     return htmlString;
 }
 

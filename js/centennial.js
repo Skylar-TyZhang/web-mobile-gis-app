@@ -1,6 +1,6 @@
 'user strict'
 // use AJAX to construct url
-let baseComputerAddress = document.location.origin;
+// let baseComputerAddress = document.location.origin;
 // use array to track things
 // create an empty array to store asset layers
 let centennialAssets = [];
