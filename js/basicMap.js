@@ -18,12 +18,13 @@ function getData(dataAPI) {
         })
     })
 }
-function postData(dataAPI) {
+function postData(dataAPI,data) {
     return new Promise(function (resolve, reject) {
         $.ajax({
             url: baseComputerAddress + dataAPI,
             crossDomain: true,
             type: 'POST',
+            data:data,
             success: function (result) {
                 resolve(result);console.log(result)
             },
