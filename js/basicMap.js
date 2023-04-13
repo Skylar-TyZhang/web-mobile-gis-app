@@ -115,56 +115,42 @@ function setMapClickEvent() {
 async function setUpPointClick() {
     let user_id = await getUserId();
     // Load condition status got from the database
-    let conditions = await getconditionDetails();
-    console.log(conditions)
+    let conditions = await getconditionDetails(); //console.log(conditions)
     // load asset information
     let asset=await getData(`/api/geojson/userAssets/${user_id}`);
-    let assetGeojsonFeatures=L.geoJSON(asset).addTo(mymap)
-    console.log(asset)
-    console.log(assetGeojsonFeatures)
-
-
-
-    // create a geoJSON feature (in your assignment code this will be replaced
-    // by an AJAX call to load the asset points on the map
-    let geojsonFeature = {
-        "type": "Feature",
-        "properties": {
-            "name": "Hard coded GeoJSON",
-            "popupContent": "This is fake data for now."
-        },
-        "geometry": {
-            "type": "Point",
-            "coordinates": [-0.13263, 51.522449]
-        }
-    };
-    // and add it to the map and zoom to that location
-    // use the mapPoint variable so that we can remove this point layer on
-    let popUpHTML = getPopupConditionHTML(user_id, conditions); 
-    mapPoint = L.geoJSON(geojsonFeature).addTo(mymap).bindPopup(popUpHTML);
+       
+    // check data: since the data will be used in a popup the function onEachFeature was used    
+    // https://leafletjs.com/examples/geojson/
+    mapPoint=L.geoJSON(asset,{onEachFeature(feature,layer){
+        let assetInfo=feature.properties;
+        let popUpHTML = getPopupConditionHTML(assetInfo,conditions); 
+        layer.bindPopup(popUpHTML);
+    }}).addTo(mymap)
+    mymap.fitBounds(mapPoint.getBounds());
     mymap.setView([51.522449, -0.13263], 12)
+    
     // the on click functionality of the POINT should pop up partially populated condition form so that 
     //the user can select the condition they require
 
 }
 // The following function is created so that a condition form will popup on the point
 // on the narrow screen 
-function getPopupConditionHTML(user_id, conditions) {
+async function getPopupConditionHTML(assetInfo,conditions) {
     // (in the final assignment, all the required values for the asset pop-up will be 
     //derived from feature.properties.xxx – see the Earthquakes code for how this is done)
-    let id = "1"; // this will be the asset ID    
-    let previousCondition = 3;
-    let assetname = "Asset Name for assignment4";
-    let assetInstallationDate = 'Installation date for assignment4';
-
+    let user_id = await getUserId();
+    let id = assetInfo.asset_id; // this will be the asset ID    
+    let previousCondition = assetInfo.condition_description;
+    let assetname =assetInfo.asset_name;
+    let assetInstallationDate = assetInfo.installation_date;
     // use asset id to name the div
     let htmlString = "<div id=conditionForm_" + id + ">" +
         "<h1 id=asset_name>" + assetname +
-        "</h1><br>" +
-        //"<div id='user_id'>" + user_id + "</div><br>" +
+        "</h1><br>" +        
         "<div id='installation_date'>" + assetInstallationDate +
         "</div><br>"
     htmlString += "<h3>Condition values: </h3>";
+    console.log(htmlString)
 
     // get condition details in form 
     for (let i = 0; i < conditions.length; i++) {
