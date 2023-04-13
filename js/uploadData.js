@@ -25,7 +25,6 @@ async function saveNewAsset() {
 }
 
 
-
 function checkCondition(id) {
     console.log('Get information in condition report')
 

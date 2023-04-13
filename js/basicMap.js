@@ -85,9 +85,9 @@ function setMapClickEvent() {
         //the condition capture anything smaller than 992px is defined as 'medium' by bootstrap
         // remove the map point if it exists
         if (mapPoint) {
-            console.log('There are map points existing');
+            //console.log('There are map points existing');
             mymap.removeLayer(mapPoint);
-            console.log('The map point is removed');
+            //console.log('The map point is removed');
         }
         // cancel the map onclick event using off ..
         mymap.off('click', onMapClick);
@@ -121,10 +121,12 @@ async function setUpPointClick() {
        
     // check data: since the data will be used in a popup the function onEachFeature was used    
     // https://leafletjs.com/examples/geojson/
-    mapPoint=L.geoJSON(asset,{onEachFeature(feature,layer){
+    mapPoint=L.geoJSON(asset,{async onEachFeature(feature,layer){
         let assetInfo=feature.properties;
-        let popUpHTML = getPopupConditionHTML(assetInfo,conditions); 
-        layer.bindPopup(popUpHTML);
+        let featureCondition=feature.properties['condition_description'];
+        let popUpHTML =await getPopupConditionHTML(assetInfo,conditions); 
+        console.log(popUpHTML)
+        layer.bindPopup(popUpHTML)
     }}).addTo(mymap)
     mymap.fitBounds(mapPoint.getBounds());
     mymap.setView([51.522449, -0.13263], 12)
@@ -138,7 +140,7 @@ async function setUpPointClick() {
 async function getPopupConditionHTML(assetInfo,conditions) {
     // (in the final assignment, all the required values for the asset pop-up will be 
     //derived from feature.properties.xxx – see the Earthquakes code for how this is done)
-    let user_id = await getUserId();
+    const user_id = await getUserId();
     let id = assetInfo.asset_id; // this will be the asset ID    
     let previousCondition = assetInfo.condition_description;
     let assetname =assetInfo.asset_name;
@@ -150,7 +152,7 @@ async function getPopupConditionHTML(assetInfo,conditions) {
         "<div id='installation_date'>" + assetInstallationDate +
         "</div><br>"
     htmlString += "<h3>Condition values: </h3>";
-    console.log(htmlString)
+    
 
     // get condition details in form 
     for (let i = 0; i < conditions.length; i++) {
@@ -158,9 +160,10 @@ async function getPopupConditionHTML(assetInfo,conditions) {
             }<input type="radio" name="condition" id="condition_${conditions[i]['id']}"/><br/>`;
 
     }
+    
     // add a button to process the data
     htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false'>Submit Condition</button>";
-
+    
     // now include a hidden element with the previous condition value
     htmlString = htmlString +
         '<div id=previousCondition_' +
@@ -168,11 +171,14 @@ async function getPopupConditionHTML(assetInfo,conditions) {
         ' hidden>' +
         previousCondition +
         '</div>';
+        
     // and a hidden element with the ID of the asset so that we can insert the condition with the correct asset later
     htmlString = htmlString + "<div id=asset_" + id + " hidden>" + id + "</div>";
+    
     htmlString = htmlString + "<div id=user_id hidden>" + user_id + "</div>";
+    
     htmlString = htmlString + "</div>"; // end of the condition form div
-    //console.log('html string for condition form:' + htmlString);
+    
     return htmlString;
 }
 
