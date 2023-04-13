@@ -74,17 +74,18 @@ let mapPoint; // store the geoJSON feature so that we can remove it if the scree
 function setMapClickEvent() {
     // get the window width
     width = $(window).width();
+    popup.remove();
 
     // we use the bootstrap Medium and Large options for the asset location capture
     // and the small and XS options for the condition option
     // see here: https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
 
     if (width < 992) {
-        console.log('Narrow screen mode')
+        console.log('Condition app mode')
         //the condition capture anything smaller than 992px is defined as 'medium' by bootstrap
         // remove the map point if it exists
         if (mapPoint) {
-            console.log('There is a map point');
+            console.log('There are map points existing');
             mymap.removeLayer(mapPoint);
             console.log('The map point is removed');
         }
@@ -93,9 +94,10 @@ function setMapClickEvent() {
         // set up a point with click functionality
         // so that anyone clicking will add asset condition information
         setUpPointClick();
+        
     }
     else {
-        console.log('Wide screen mode')
+        console.log('Asset creation mode')
         // the asset creation page
         // remove the map point if it exists
         if (mapPoint) {
@@ -114,6 +116,14 @@ async function setUpPointClick() {
     let user_id = await getUserId();
     // Load condition status got from the database
     let conditions = await getconditionDetails();
+    console.log(conditions)
+    // load asset information
+    let asset=await getData(`/api/geojson/userAssets/${user_id}`);
+    let assetGeojsonFeatures=L.geoJSON(asset).addTo(mymap)
+    console.log(asset)
+    console.log(assetGeojsonFeatures)
+
+
 
     // create a geoJSON feature (in your assignment code this will be replaced
     // by an AJAX call to load the asset points on the map
@@ -130,7 +140,7 @@ async function setUpPointClick() {
     };
     // and add it to the map and zoom to that location
     // use the mapPoint variable so that we can remove this point layer on
-    let popUpHTML = getPopupConditionHTML(user_id, conditions); console.log('get popup condition form')
+    let popUpHTML = getPopupConditionHTML(user_id, conditions); 
     mapPoint = L.geoJSON(geojsonFeature).addTo(mymap).bindPopup(popUpHTML);
     mymap.setView([51.522449, -0.13263], 12)
     // the on click functionality of the POINT should pop up partially populated condition form so that 
@@ -176,7 +186,7 @@ function getPopupConditionHTML(user_id, conditions) {
     htmlString = htmlString + "<div id=asset_" + id + " hidden>" + id + "</div>";
     htmlString = htmlString + "<div id=user_id hidden>" + user_id + "</div>";
     htmlString = htmlString + "</div>"; // end of the condition form div
-    console.log('html string for condition form:' + htmlString);
+    //console.log('html string for condition form:' + htmlString);
     return htmlString;
 }
 
