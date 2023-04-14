@@ -80,7 +80,7 @@ function setMapClickEvent() {
     // and the small and XS options for the condition option
     // see here: https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
 
-    if (width < 992) {
+    if (width < 768) {
         console.log('Condition app mode')
         //the condition capture anything smaller than 992px is defined as 'medium' by bootstrap
         // remove the map point if it exists
@@ -97,7 +97,7 @@ function setMapClickEvent() {
 
 
     }
-    else {
+    if (width>992) {
         console.log('Asset creation mode')
         // the asset creation page
         // remove the map point if it exists
