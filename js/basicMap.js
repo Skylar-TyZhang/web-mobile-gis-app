@@ -95,6 +95,7 @@ function setMapClickEvent() {
         // so that anyone clicking will add asset condition information
         setUpPointClick();
         
+        
     }
     else {
         console.log('Asset creation mode')
@@ -146,7 +147,7 @@ async function getPopupConditionHTML(assetInfo,conditions) {
     let assetname =assetInfo.asset_name;
     let assetInstallationDate = assetInfo.installation_date;
     // use asset id to name the div
-    let htmlString = "<div id=conditionForm_" + id + ">" +
+    let htmlString = "<div id='conditionForm'>" +
         "<h1 id=asset_name>" + assetname +
         "</h1><br>" +        
         "<div id='installation_date'>" + assetInstallationDate +
@@ -162,7 +163,7 @@ async function getPopupConditionHTML(assetInfo,conditions) {
     }
     
     // add a button to process the data
-    htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false'>Submit Condition</button>";
+    htmlString = htmlString + "<button type='submit' onclick='checkCondition(" + id + ");return false'>Submit Condition</button>";
     
     // now include a hidden element with the previous condition value
     htmlString = htmlString +
@@ -201,7 +202,9 @@ async function basicFormHtml(latlng) {
 
         //<!-- add a button with id of saveAsset and calls a funciton saveNewAsset when clicked-->
         +
-        '<button id="saveAsset" onclick="saveNewAsset()">Save asset</button>';
+        '<button type="submit" id="saveAsset" onclick="saveNewAsset()">Save asset</button>';
 
     return formContent;
 }
+
+

@@ -22,7 +22,12 @@ async function saveNewAsset() {
     postString = postString + "&latitude=" + latitude + "&longitude=" + longitude;
     // post action
     let res = await postData("/api/insertAssetPoint",postString);
-    alert(res.message);
+    console.log(res.message);
+    mymap.eachLayer((layer) => {
+      layer.closePopup();
+    });
+    
+    
     
 }
 
@@ -61,6 +66,10 @@ async function checkCondition(id) {
     }
     */
     //processData(postString);
+    
+    mymap.eachLayer((layer) => {
+      layer.closePopup();
+    });
 
 }
 function processData(postString) {
