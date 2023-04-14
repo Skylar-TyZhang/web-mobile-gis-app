@@ -34,11 +34,11 @@ async function saveNewAsset() {
 
 async function checkCondition(id) {
     let conditions = await getconditionDetails();
-    console.log('check condition')
     let asset_name = document.getElementById('asset_name').innerHTML;
     let assetInstallationDate = document.getElementById('installation_date').innerHTML;
     
     let user_id = document.getElementById('user_id').innerHTML;
+    let previousCondition = document.getElementById(`previousCondition_${id}`).innerHTML;
     
     let postString = //'assetID='+assetID+
         "&asset_name=" + asset_name +
@@ -52,21 +52,20 @@ async function checkCondition(id) {
             let condition_description=conditions[i]["condition_description"]
             
             postString+="&condition_description="+condition_description;
+
+            // tell user if their choice matches existing condition 
+            if (condition_description!=previousCondition){
+                alert('Thank you for letting us know that the condition has changed, your response will be saved.')
+            }
+
         }
     }
-    let previousCondition = document.getElementById(`previousCondition_${id}`).innerHTML;
+    
     postString = postString + '&previousCondition=' + previousCondition;
     //console.log(postString)
     // post action
     let res= await postData('/api/insertConditionInformation', postString)
-    // tell user if their choice matches existing condition 
-    /*
-    if (condition_description!=previousCondition){
-        alert('Thank you letting us know that the condition has changed, your response will be saved.')
-    }
-    */
-    //processData(postString);
-    
+            
     mymap.eachLayer((layer) => {
       layer.closePopup();
     });
