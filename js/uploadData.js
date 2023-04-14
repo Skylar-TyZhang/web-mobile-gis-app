@@ -20,8 +20,10 @@ async function saveNewAsset() {
     let longitude = document.getElementById('longitude').innerHTML;
     // poststring is the string that holds values/data to be sent to the server
     postString = postString + "&latitude=" + latitude + "&longitude=" + longitude;
-    console.log(postString);
-    processData(postString)
+    // post action
+    let res = await postData("/api/insertAssetPoint",postString);
+    alert(res.message);
+    
 }
 
 
@@ -49,7 +51,15 @@ async function checkCondition(id) {
     }
     let previousCondition = document.getElementById(`previousCondition_${id}`).innerHTML;
     postString = postString + '&previousCondition=' + previousCondition;
-    console.log(postString)
+    //console.log(postString)
+    // post action
+    let res= await postData('/api/insertConditionInformation', postString)
+    // tell user if their choice matches existing condition 
+    /*
+    if (condition_description!=previousCondition){
+        alert('Thank you letting us know that the condition has changed, your response will be saved.')
+    }
+    */
     //processData(postString);
 
 }
