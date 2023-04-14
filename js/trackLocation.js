@@ -4,9 +4,7 @@
 // create an array to store location track
 let trackLocationLayer = [];
 //store the ID of location tracker so that it can be used to switch the tracking off
-let geoLocationID
-
-
+let geoLocationID;
 
 function trackLocation() {
     if (navigator.geolocation) {
@@ -35,18 +33,15 @@ function trackLocation() {
     }
 }
 
-// store the ID of the location tracker so that it can be used to switch the location tracking off
-
-
-
 function errorPosition(error) {
     alert(error);
 }
-//let showPosition
+
 function showPosition(position) {
     // add the new point into the array
     // the 'push' command
     trackLocationLayer.push(L.marker([position.coords.latitude, position.coords.longitude]).addTo(mymap));
+    
 }
 
 
