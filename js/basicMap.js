@@ -82,8 +82,9 @@ function setMapClickEvent() {
 
     if (width < 768) {
         console.log('Condition app mode')
-        //the condition capture anything smaller than 992px is defined as 'medium' by bootstrap
-        // remove the map point if it exists
+        // track location
+        trackLocation();
+        // remove map points
         if (mapPoint) {
             //console.log('There are map points existing');
             mymap.removeLayer(mapPoint);
