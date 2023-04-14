@@ -106,6 +106,7 @@ function setMapClickEvent() {
             mymap.removeLayer(mapPoint);
             console.log('The map point is removed');
         }
+        setUpAssetClick();
         // the onclik functionality of MAP pops up a blank asset creation form
         mymap.on('click', onMapClick);
     }
@@ -126,7 +127,7 @@ async function setUpPointClick() {
         let assetInfo=feature.properties;
         let featureCondition=feature.properties['condition_description'];
         let popUpHTML =await getPopupConditionHTML(assetInfo,conditions); 
-        console.log(popUpHTML)
+        
         layer.bindPopup(popUpHTML)
     }}).addTo(mymap)
     mymap.fitBounds(mapPoint.getBounds());
@@ -208,3 +209,21 @@ async function basicFormHtml(latlng) {
 }
 
 
+// Core functionality2 
+// Asset point creation mode
+// Show the existing asset points that the user has created
+let assetPoint;
+async function setUpAssetClick(){
+    let user_id = await getUserId();
+    let asset=await getData(`/api/geojson/userAssets/${user_id}`);
+    assetPoint=L.geoJSON(asset,{async onEachFeature(feature,layer){
+        
+        let featureCondition=feature.properties['condition_description'];
+                
+        layer.bindPopup(featureCondition)
+    }}).addTo(mymap)
+
+}
+//read-only popup form show the latest condition information if available
+
+// if no available condition, 'No condition captured.'
