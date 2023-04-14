@@ -18,15 +18,15 @@ function getData(dataAPI) {
         })
     })
 }
-function postData(dataAPI,data) {
+function postData(dataAPI, data) {
     return new Promise(function (resolve, reject) {
         $.ajax({
             url: baseComputerAddress + dataAPI,
             crossDomain: true,
             type: 'POST',
-            data:data,
+            data: data,
             success: function (result) {
-                resolve(result);console.log(result)
+                resolve(result); console.log(result)
             },
             error: function (err) {
                 reject(err);
@@ -74,28 +74,31 @@ let mapPoint; // store the geoJSON feature so that we can remove it if the scree
 function setMapClickEvent() {
     // get the window width
     width = $(window).width();
+    popup.remove();
 
     // we use the bootstrap Medium and Large options for the asset location capture
     // and the small and XS options for the condition option
     // see here: https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
 
-    if (width < 992) {
-        console.log('Narrow screen mode')
+    if (width < 768) {
+        console.log('Condition app mode')
         //the condition capture anything smaller than 992px is defined as 'medium' by bootstrap
         // remove the map point if it exists
         if (mapPoint) {
-            console.log('There is a map point');
+            //console.log('There are map points existing');
             mymap.removeLayer(mapPoint);
-            console.log('The map point is removed');
+            //console.log('The map point is removed');
         }
         // cancel the map onclick event using off ..
         mymap.off('click', onMapClick);
         // set up a point with click functionality
         // so that anyone clicking will add asset condition information
         setUpPointClick();
+
+
     }
-    else {
-        console.log('Wide screen mode')
+    if (width>992) {
+        console.log('Asset creation mode')
         // the asset creation page
         // remove the map point if it exists
         if (mapPoint) {
@@ -103,6 +106,7 @@ function setMapClickEvent() {
             mymap.removeLayer(mapPoint);
             console.log('The map point is removed');
         }
+        setUpAssetClick();
         // the onclik functionality of MAP pops up a blank asset creation form
         mymap.on('click', onMapClick);
     }
@@ -113,48 +117,46 @@ function setMapClickEvent() {
 async function setUpPointClick() {
     let user_id = await getUserId();
     // Load condition status got from the database
-    let conditions = await getconditionDetails();
+    let conditions = await getconditionDetails(); //console.log(conditions)
+    // load asset information
+    let asset = await getData(`/api/geojson/userAssets/${user_id}`);
 
-    // create a geoJSON feature (in your assignment code this will be replaced
-    // by an AJAX call to load the asset points on the map
-    let geojsonFeature = {
-        "type": "Feature",
-        "properties": {
-            "name": "Hard coded GeoJSON",
-            "popupContent": "This is fake data for now."
-        },
-        "geometry": {
-            "type": "Point",
-            "coordinates": [-0.13263, 51.522449]
+    // check data: since the data will be used in a popup the function onEachFeature was used    
+    // https://leafletjs.com/examples/geojson/
+    mapPoint = L.geoJSON(asset, {
+        async onEachFeature(feature, layer) {
+            let assetInfo = feature.properties;
+            let featureCondition = feature.properties['condition_description'];
+            let popUpHTML = await getPopupConditionHTML(assetInfo, conditions);
+
+            layer.bindPopup(popUpHTML)
         }
-    };
-    // and add it to the map and zoom to that location
-    // use the mapPoint variable so that we can remove this point layer on
-    let popUpHTML = getPopupConditionHTML(user_id, conditions); console.log('get popup condition form')
-    mapPoint = L.geoJSON(geojsonFeature).addTo(mymap).bindPopup(popUpHTML);
+    }).addTo(mymap)
+    mymap.fitBounds(mapPoint.getBounds());
     mymap.setView([51.522449, -0.13263], 12)
+
     // the on click functionality of the POINT should pop up partially populated condition form so that 
     //the user can select the condition they require
 
 }
 // The following function is created so that a condition form will popup on the point
 // on the narrow screen 
-function getPopupConditionHTML(user_id, conditions) {
+async function getPopupConditionHTML(assetInfo, conditions) {
     // (in the final assignment, all the required values for the asset pop-up will be 
     //derived from feature.properties.xxx – see the Earthquakes code for how this is done)
-    let id = "1"; // this will be the asset ID    
-    let previousCondition = 3;
-    let assetname = "Asset Name for assignment4";
-    let assetInstallationDate = 'Installation date for assignment4';
-
+    const user_id = await getUserId();
+    let id = assetInfo.asset_id; // this will be the asset ID    
+    let previousCondition = assetInfo.condition_description;
+    let assetname = assetInfo.asset_name;
+    let assetInstallationDate = assetInfo.installation_date;
     // use asset id to name the div
-    let htmlString = "<div id=conditionForm_" + id + ">" +
+    let htmlString = "<div id='conditionForm'>" +
         "<h1 id=asset_name>" + assetname +
         "</h1><br>" +
-        //"<div id='user_id'>" + user_id + "</div><br>" +
         "<div id='installation_date'>" + assetInstallationDate +
         "</div><br>"
     htmlString += "<h3>Condition values: </h3>";
+
 
     // get condition details in form 
     for (let i = 0; i < conditions.length; i++) {
@@ -162,8 +164,9 @@ function getPopupConditionHTML(user_id, conditions) {
             }<input type="radio" name="condition" id="condition_${conditions[i]['id']}"/><br/>`;
 
     }
+
     // add a button to process the data
-    htmlString = htmlString + "<button onclick='checkCondition(" + id + ");return false'>Submit Condition</button>";
+    htmlString = htmlString + "<button type='submit' onclick='checkCondition(" + id + ");return false'>Submit Condition</button>";
 
     // now include a hidden element with the previous condition value
     htmlString = htmlString +
@@ -172,11 +175,14 @@ function getPopupConditionHTML(user_id, conditions) {
         ' hidden>' +
         previousCondition +
         '</div>';
+
     // and a hidden element with the ID of the asset so that we can insert the condition with the correct asset later
     htmlString = htmlString + "<div id=asset_" + id + " hidden>" + id + "</div>";
+
     htmlString = htmlString + "<div id=user_id hidden>" + user_id + "</div>";
+
     htmlString = htmlString + "</div>"; // end of the condition form div
-    console.log('html string for condition form:' + htmlString);
+
     return htmlString;
 }
 
@@ -199,7 +205,33 @@ async function basicFormHtml(latlng) {
 
         //<!-- add a button with id of saveAsset and calls a funciton saveNewAsset when clicked-->
         +
-        '<button id="saveAsset" onclick="saveNewAsset()">Save asset</button>';
+        '<button type="submit" id="saveAsset" onclick="saveNewAsset()">Save asset</button>';
 
     return formContent;
 }
+
+
+// Core functionality2 
+// Asset point creation mode
+// Show the existing asset points that the user has created
+let assetPoint;
+async function setUpAssetClick() {
+    let user_id = await getUserId();
+    let asset = await getData(`/api/geojson/userAssets/${user_id}`);
+    assetPoint = L.geoJSON(asset, {
+        async onEachFeature(feature, layer) {
+
+            let featureCondition = feature.properties['condition_description'];
+            layer.bindPopup(featureCondition)
+            if (featureCondition == 'Unknown') {
+                layer.bindPopup( 'No condition captured');
+            };           
+            
+        }
+    }).addTo(mymap)
+    mymap.setView([51.522449, -0.13263], 12)
+
+}
+//read-only popup form show the latest condition information if available
+
+// if no available condition, 'No condition captured.'
