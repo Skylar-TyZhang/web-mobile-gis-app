@@ -83,13 +83,13 @@ function setMapClickEvent() {
     if (width < 768) {
         console.log('Condition app mode')
         removePositionPoints()
-        
+
         // cancel the map onclick event using off ..
         mymap.off('click', onMapClick);
         // set up a point with click functionality
         // so that anyone clicking will add asset condition information
         setUpPointClick();
-        
+
         // track location
         trackLocation();
 
@@ -126,11 +126,61 @@ async function setUpPointClick() {
     mapPoint = L.geoJSON(asset, {
         async onEachFeature(feature, layer) {
             let assetInfo = feature.properties;
-            let featureCondition = feature.properties['condition_description'];
             let popUpHTML = await getPopupConditionHTML(assetInfo, conditions);
 
             layer.bindPopup(popUpHTML)
-        }
+            //console.log(popUpHTML);
+        },
+        pointToLayer: function (feature, latlng) {
+            let featureCondition = feature.properties['condition_description'];
+            
+            let conditionMarker0 = L.AwesomeMarkers.icon({
+                icon: 'play',
+                markerColor: 'pink',
+            });
+            let conditionMarker1 = L.AwesomeMarkers.icon({
+                icon: 'play',
+                markerColor: 'yellow',
+            });
+            let conditionMarker2 = L.AwesomeMarkers.icon({
+                icon: 'play',
+                markerColor: 'blue',
+            });
+            let conditionMarker3 = L.AwesomeMarkers.icon({
+                icon: 'play',
+                markerColor: 'purple',
+            });
+            let conditionMarker4 = L.AwesomeMarkers.icon({
+                icon: 'play',
+                markerColor: 'grey',
+            });
+            let conditionMarker5 = L.AwesomeMarkers.icon({
+                icon: 'play',
+                markerColor: 'black',
+            });
+           
+            if (featureCondition == conditions[0]['condition_description']) {
+                console.log('marker0')
+                return L.marker(latlng, 
+                    { icon: conditionMarker0 })                
+            }
+            else if (featureCondition == conditions[1]['condition_description']) {
+                return L.marker(latlng, { icon: conditionMarker1 })
+            }
+            else if (featureCondition == conditions[2]['condition_description']) {
+                return L.marker(latlng, { icon: conditionMarker2 })
+            }
+            else if (featureCondition == conditions[3]['condition_description']) {
+                return L.marker(latlng, { icon: conditionMarker3 })
+            }
+            else if (featureCondition == conditions[4]['condition_description']) {
+                return L.marker(latlng, { icon: conditionMarker4 })
+            }
+            else if (featureCondition == conditions[5]['condition_description']) {
+                return L.marker(latlng, { icon: conditionMarker5 })
+            };
+        },
+
     }).addTo(mymap);
     console.log('condition assessment mode on, assets to be assessed have points loaded with condition forms.')
     mymap.fitBounds(mapPoint.getBounds());
@@ -154,7 +204,7 @@ async function setUpAssetClick() {
 
             //read-only popup form show the latest condition information if available
             // if no available condition, 'No condition captured.'
-            
+
             let featureCondition = feature.properties['condition_description'];
             layer.bindPopup(featureCondition)
             if (featureCondition == 'Unknown') {
