@@ -102,6 +102,10 @@ function setMapClickEvent() {
         console.log('Asset creation mode')
         // the asset creation page
         // remove the map point if it exists
+
+        //stop tracking location of user
+        isTrackLocation = false;
+
         if (assetPoint) {
             mymap.removeLayer(assetPoint);
         }
@@ -139,6 +143,36 @@ async function setUpPointClick() {
     //the user can select the condition they require
 
 }
+
+
+// Core functionality2 
+// Asset point creation mode
+// Show the existing asset points that the user has created
+let assetPoint;
+async function setUpAssetClick() {
+    let user_id = await getUserId();
+    let asset = await getData(`/api/geojson/userAssets/${user_id}`);
+    assetPoint = L.geoJSON(asset, {
+        async onEachFeature(feature, layer) {
+
+            //read-only popup form show the latest condition information if available
+            // if no available condition, 'No condition captured.'
+            
+            let featureCondition = feature.properties['condition_description'];
+            layer.bindPopup(featureCondition)
+            if (featureCondition == 'Unknown') {
+                layer.bindPopup('No condition captured');
+            };
+
+        }
+    }).addTo(mymap)
+    mymap.fitBounds(assetPoint.getBounds);
+    console.log('Asset creation mode on, get asset data from database and add asset points on the map.')
+    // mymap.setView([51.522449, -0.13263], 12)
+
+}
+
+
 // The following function is created so that a condition form will popup on the point
 // on the narrow screen 
 async function getPopupConditionHTML(assetInfo, conditions) {
@@ -211,28 +245,3 @@ async function basicFormHtml(latlng) {
 }
 
 
-// Core functionality2 
-// Asset point creation mode
-// Show the existing asset points that the user has created
-let assetPoint;
-async function setUpAssetClick() {
-    let user_id = await getUserId();
-    let asset = await getData(`/api/geojson/userAssets/${user_id}`);
-    assetPoint = L.geoJSON(asset, {
-        async onEachFeature(feature, layer) {
-
-            let featureCondition = feature.properties['condition_description'];
-            layer.bindPopup(featureCondition)
-            if (featureCondition == 'Unknown') {
-                layer.bindPopup('No condition captured');
-            };
-
-        }
-    }).addTo(mymap)
-    console.log('Asset creation mode on, get asset data from database and add asset points on the map.')
-    mymap.setView([51.522449, -0.13263], 12)
-
-}
-//read-only popup form show the latest condition information if available
-
-// if no available condition, 'No condition captured.'
