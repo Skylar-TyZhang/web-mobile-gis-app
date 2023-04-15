@@ -38,9 +38,12 @@ function errorPosition(error) {
 }
 
 function showPosition(position) {
+    
+    closestFormPoint(position.coords.latitude, position.coords.longitude);
     // add the new point into the array
-    // the 'push' command
     trackLocationLayer.push(L.marker([position.coords.latitude, position.coords.longitude]).addTo(mymap));
+    // map zoom in 
+    mymap.setView([position.coords.latitude, position.coords.longitude],12);
     
 }
 

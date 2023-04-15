@@ -105,6 +105,7 @@ function setMapClickEvent() {
 
         //stop tracking location of user
         isTrackLocation = false;
+        removePositionPoints();
 
         if (assetPoint) {
             mymap.removeLayer(assetPoint);
