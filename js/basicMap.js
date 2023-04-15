@@ -98,14 +98,12 @@ function setMapClickEvent() {
 
 
     }
-    if (width>992) {
+    if (width > 992) {
         console.log('Asset creation mode')
         // the asset creation page
         // remove the map point if it exists
-        if (mapPoint) {
-            console.log('There is a map point');
-            mymap.removeLayer(mapPoint);
-            console.log('The map point is removed');
+        if (assetPoint) {
+            mymap.removeLayer(assetPoint);
         }
         setUpAssetClick();
         // the onclik functionality of MAP pops up a blank asset creation form
@@ -133,8 +131,9 @@ async function setUpPointClick() {
             layer.bindPopup(popUpHTML)
         }
     }).addTo(mymap)
+    console.log('condition assessment mode on, assets to be assessed have points loaded with condition forms.')
     mymap.fitBounds(mapPoint.getBounds());
-    mymap.setView([51.522449, -0.13263], 12)
+    //mymap.setView([51.522449, -0.13263], 12)
 
     // the on click functionality of the POINT should pop up partially populated condition form so that 
     //the user can select the condition they require
@@ -225,11 +224,12 @@ async function setUpAssetClick() {
             let featureCondition = feature.properties['condition_description'];
             layer.bindPopup(featureCondition)
             if (featureCondition == 'Unknown') {
-                layer.bindPopup( 'No condition captured');
-            };           
-            
+                layer.bindPopup('No condition captured');
+            };
+
         }
     }).addTo(mymap)
+    console.log('Asset creation mode on, get asset data from database and add asset points on the map.')
     mymap.setView([51.522449, -0.13263], 12)
 
 }
