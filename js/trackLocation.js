@@ -29,7 +29,9 @@ function trackLocation() {
     }
 
     else {
-        document.getElementById('showLocation').innerHTML = "Geolocation is not supported by this browser.";
+        // document.getElementById('showLocation').innerHTML = "Geolocation is not supported by this browser.";
+        alert("Geolocation is not supported by this browser.");
+        return false;
     }
 }
 
@@ -39,9 +41,12 @@ function errorPosition(error) {
 
 function showPosition(position) {
 
-    closestFormPoint(position.coords.latitude, position.coords.longitude);
-    // add the new point into the array
+    
+    // add the user track point into the array
     trackLocationLayer.push(L.marker([position.coords.latitude, position.coords.longitude]).addTo(mymap));
+    console.log('user location tracked')
+
+    closestFormPoint(position.coords.latitude, position.coords.longitude);
     // map zoom in 
     mymap.setView([position.coords.latitude, position.coords.longitude], 12);
 
@@ -93,6 +98,7 @@ function closestFormPoint(userlat, userlng) {
     mapPoint.eachLayer(function (layer) {
         if (layer.feature.properties.id == closestFormPoint) {
             layer.openPopup();
+            console.log('Detected nearby asset, condition form popup.')
         }
     });
 }

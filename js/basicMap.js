@@ -83,20 +83,15 @@ function setMapClickEvent() {
     if (width < 768) {
         console.log('Condition app mode')
         removePositionPoints()
-        // track location
-        trackLocation();
-        // remove map points
-        if (mapPoint) {
-            //console.log('There are map points existing');
-            mymap.removeLayer(mapPoint);
-            //console.log('The map point is removed');
-        }
+        
         // cancel the map onclick event using off ..
         mymap.off('click', onMapClick);
         // set up a point with click functionality
         // so that anyone clicking will add asset condition information
         setUpPointClick();
-
+        
+        // track location
+        trackLocation();
 
     }
     if (width > 992) {
@@ -136,7 +131,7 @@ async function setUpPointClick() {
 
             layer.bindPopup(popUpHTML)
         }
-    }).addTo(mymap)
+    }).addTo(mymap);
     console.log('condition assessment mode on, assets to be assessed have points loaded with condition forms.')
     mymap.fitBounds(mapPoint.getBounds());
     //mymap.setView([51.522449, -0.13263], 12)
@@ -167,8 +162,8 @@ async function setUpAssetClick() {
             };
 
         }
-    }).addTo(mymap)
-    mymap.fitBounds(assetPoint.getBounds);
+    }).addTo(mymap);
+    mymap.fitBounds(assetPoint.getBounds());
     console.log('Asset creation mode on, get asset data from database and add asset points on the map.')
     // mymap.setView([51.522449, -0.13263], 12)
 
