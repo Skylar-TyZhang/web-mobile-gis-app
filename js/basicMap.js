@@ -82,6 +82,7 @@ function setMapClickEvent() {
 
     if (width < 768) {
         console.log('Condition app mode')
+        removePositionPoints()
         // track location
         trackLocation();
         // remove map points
@@ -104,7 +105,7 @@ function setMapClickEvent() {
         // remove the map point if it exists
 
         //stop tracking location of user
-        isTrackLocation = false;
+        //isTrackLocation = false;
         removePositionPoints();
 
         if (assetPoint) {
