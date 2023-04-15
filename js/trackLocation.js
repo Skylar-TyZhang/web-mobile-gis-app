@@ -64,3 +64,32 @@ function removeTracks() {
         trackLocationLayer.pop();
     }
 }
+
+// Proximity alert
+function closestFormPoint(userlat,userlng) {
+    // take the leaflet formdata layer
+    // go through each point one by one
+    // and measure the distance to user's location
+    // for the closest point show the pop up of that point
+    let minDistance = 25/1000;
+    let closestFormPoint = 0;
+    
+    
+    mapPoint.eachLayer(function(layer) {
+    let distance = calculateDistance(
+        userlat, userlng,
+        layer.getLatLng().lat, layer.getLatLng().lng, 'K');
+    if (distance < minDistance){
+    minDistance = distance;
+    closestFormPoint = layer.feature.properties.id;
+    }
+    });
+    // for this to be a proximity alert, the minDistance must be
+    // closer than a given distance
+    // show the popup for the closest point
+mapPoint.eachLayer(function(layer) {
+    if (layer.feature.properties.id == closestFormPoint){
+    layer.openPopup();
+    }
+    });
+}    
