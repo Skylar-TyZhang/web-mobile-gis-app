@@ -80,7 +80,16 @@ function setMapClickEvent() {
     // and the small and XS options for the condition option
     // see here: https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
 
-    if (width < 768) {
+    if (width < 992) {
+        // close all popups
+        mymap.eachLayer((layer) => {
+            layer.closePopup();
+        });
+        // remove asset points that should show on wide screen
+        if (assetPoint) {
+            mymap.removeLayer(assetPoint);
+        }
+
         console.log('Condition app mode')
         removePositionPoints()
 
@@ -89,6 +98,7 @@ function setMapClickEvent() {
         // set up a point with click functionality
         // so that anyone clicking will add asset condition information
         setUpPointClick();
+        
 
         // track location
         trackLocation();
@@ -100,12 +110,8 @@ function setMapClickEvent() {
         // remove the map point if it exists
 
         //stop tracking location of user
-        //isTrackLocation = false;
-        removePositionPoints();
 
-        if (assetPoint) {
-            mymap.removeLayer(assetPoint);
-        }
+        removePositionPoints();
         setUpAssetClick();
         // the onclik functionality of MAP pops up a blank asset creation form
         mymap.on('click', onMapClick);
@@ -120,6 +126,7 @@ async function setUpPointClick() {
     let conditions = await getconditionDetails(); //console.log(conditions)
     // load asset information
     let asset = await getData(`/api/geojson/userAssets/${user_id}`);
+    width = $(window).width();
 
     // check data: since the data will be used in a popup the function onEachFeature was used    
     // https://leafletjs.com/examples/geojson/
@@ -133,38 +140,39 @@ async function setUpPointClick() {
         },
         pointToLayer: function (feature, latlng) {
             let featureCondition = feature.properties['condition_description'];
-            
+            console.log(featureCondition);
             let conditionMarker0 = L.AwesomeMarkers.icon({
-                icon: 'play',
-                markerColor: 'pink',
-            });
-            let conditionMarker1 = L.AwesomeMarkers.icon({
-                icon: 'play',
-                markerColor: 'yellow',
-            });
-            let conditionMarker2 = L.AwesomeMarkers.icon({
                 icon: 'play',
                 markerColor: 'blue',
             });
+            let conditionMarker1 = L.AwesomeMarkers.icon({
+                icon: 'play',
+                markerColor: 'indigo',
+            });
+            let conditionMarker2 = L.AwesomeMarkers.icon({
+                icon: 'play',
+                markerColor: 'pink',
+            });
             let conditionMarker3 = L.AwesomeMarkers.icon({
                 icon: 'play',
-                markerColor: 'purple',
+                markerColor: 'teal',
             });
             let conditionMarker4 = L.AwesomeMarkers.icon({
                 icon: 'play',
-                markerColor: 'grey',
+                markerColor: 'orange',
             });
             let conditionMarker5 = L.AwesomeMarkers.icon({
                 icon: 'play',
-                markerColor: 'black',
+                markerColor: 'gray',
             });
-           
+
+
             if (featureCondition == conditions[0]['condition_description']) {
-                console.log('marker0')
-                return L.marker(latlng, 
-                    { icon: conditionMarker0 })                
+                
+                return L.marker(latlng, { icon: conditionMarker0 })
             }
             else if (featureCondition == conditions[1]['condition_description']) {
+           
                 return L.marker(latlng, { icon: conditionMarker1 })
             }
             else if (featureCondition == conditions[2]['condition_description']) {
@@ -178,18 +186,20 @@ async function setUpPointClick() {
             }
             else if (featureCondition == conditions[5]['condition_description']) {
                 return L.marker(latlng, { icon: conditionMarker5 })
-            };
+            }
         },
 
     }).addTo(mymap);
-    console.log('condition assessment mode on, assets to be assessed have points loaded with condition forms.')
+    
+    console.log('condition assessment mode on, assets loaded with condition forms.')
     mymap.fitBounds(mapPoint.getBounds());
     //mymap.setView([51.522449, -0.13263], 12)
 
     // the on click functionality of the POINT should pop up partially populated condition form so that 
     //the user can select the condition they require
 
-}
+
+};
 
 
 // Core functionality2 
@@ -217,7 +227,7 @@ async function setUpAssetClick() {
     console.log('Asset creation mode on, get asset data from database and add asset points on the map.')
     // mymap.setView([51.522449, -0.13263], 12)
 
-}
+};
 
 
 // The following function is created so that a condition form will popup on the point
@@ -265,7 +275,7 @@ async function getPopupConditionHTML(assetInfo, conditions) {
     htmlString = htmlString + "</div>"; // end of the condition form div
 
     return htmlString;
-}
+};
 
 
 // add basicForm
@@ -289,6 +299,6 @@ async function basicFormHtml(latlng) {
         '<button type="submit" id="saveAsset" onclick="saveNewAsset()">Save asset</button>';
 
     return formContent;
-}
+};
 
 
