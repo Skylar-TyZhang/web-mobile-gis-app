@@ -121,6 +121,7 @@ function setMapClickEvent() {
 
 //Create a point and set up the onlick behaviour for the point
 async function setUpPointClick() {
+    
     let user_id = await getUserId();
     // Load condition status got from the database
     let conditions = await getconditionDetails(); //console.log(conditions)
@@ -140,14 +141,14 @@ async function setUpPointClick() {
         },
         pointToLayer: function (feature, latlng) {
             let featureCondition = feature.properties['condition_description'];
-            console.log(featureCondition);
+            
             let conditionMarker0 = L.AwesomeMarkers.icon({
                 icon: 'play',
                 markerColor: 'blue',
             });
             let conditionMarker1 = L.AwesomeMarkers.icon({
                 icon: 'play',
-                markerColor: 'indigo',
+                markerColor: 'green',
             });
             let conditionMarker2 = L.AwesomeMarkers.icon({
                 icon: 'play',
@@ -155,7 +156,7 @@ async function setUpPointClick() {
             });
             let conditionMarker3 = L.AwesomeMarkers.icon({
                 icon: 'play',
-                markerColor: 'teal',
+                markerColor: 'purple',
             });
             let conditionMarker4 = L.AwesomeMarkers.icon({
                 icon: 'play',
@@ -191,7 +192,7 @@ async function setUpPointClick() {
 
     }).addTo(mymap);
     
-    console.log('condition assessment mode on, assets loaded with condition forms.')
+    //console.log('condition assessment mode on, assets loaded with condition forms.')
     mymap.fitBounds(mapPoint.getBounds());
     //mymap.setView([51.522449, -0.13263], 12)
 

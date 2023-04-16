@@ -23,11 +23,10 @@ async function saveNewAsset() {
     // post action
     let res = await postData("/api/insertAssetPoint",postString);
     console.log(res.message);
+    //close popup 
     mymap.eachLayer((layer) => {
-      layer.closePopup();
+      layer.closePopup();      
     });
-    
-    
     
 }
 
@@ -69,7 +68,11 @@ async function checkCondition(id) {
     mymap.eachLayer((layer) => {
       layer.closePopup();
     });
-
+    // setup click event so the color of asset point will change
+    mymap.removeLayer(mapPoint);    
+    console.log('mapPoint removed to load new condition ');
+    setUpPointClick();      
+    
 }
 function processData(postString) {
     console.log('Process postString');
