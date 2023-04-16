@@ -64,6 +64,14 @@ async function checkCondition(id) {
     //console.log(postString)
     // post action
     let res= await postData('/api/insertConditionInformation', postString)
+    // get the number of reports that user has submitted
+    let res_numReport= await getData(`/api/geojson/userConditionReports/${user_id}`);
+    console.log('Get number of reports')
+    //console.log(res_numReport[0].array_to_json[0]['num_reports']);
+    let numReport=res_numReport[0].array_to_json[0]['num_reports'];
+    console.log(numReport);
+    alert(`Thank you for helping us assess assets! You have provided ${numReport} reports.`)
+    
             
     mymap.eachLayer((layer) => {
       layer.closePopup();
