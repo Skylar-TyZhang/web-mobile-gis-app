@@ -108,6 +108,9 @@ function setMapClickEvent() {
         console.log('Asset creation mode')
         // the asset creation page
         // remove the map point if it exists
+        if (mapPoint) {
+            mymap.removeLayer(mapPoint);
+        }
 
         //stop tracking location of user
 
