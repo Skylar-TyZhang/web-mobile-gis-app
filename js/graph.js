@@ -11,26 +11,26 @@ function closeAssetData() {
         toggle: false, show: true
     });
     bsAdwCollapse.hide();
-    
+
 }
 // show the DIV when the 'Show graph' menu is clicked
 function loadGraph() {
     let mapCollapse = document.getElementById('mapWrapper');
     let bsMapCollapse = new bootstrap.Collapse(mapCollapse, {
-        toggle: false, 
+        toggle: false,
         show: false
     });
     bsMapCollapse.hide();
     let adwCollapse = document.getElementById('assetDataWrapperWrapper');
     let bsAdwCollapse = new bootstrap.Collapse(adwCollapse, {
-        toggle: false, 
+        toggle: false,
         show: true
     });
     bsAdwCollapse.show();
     // show graph
     // the following code is added to dynamically size the graph DIV
     //create the SVG component to actually store the graph
-    let widtha = document.getElementById("assetDataWrapper").clientWidth ;
+    let widtha = document.getElementById("assetDataWrapper").clientWidth;
     let heighta = document.getElementById("assetDataWrapper").offsetHeight;
     console.log(widtha + " " + heighta);
     // Add the close button and an SVG element for the graph
@@ -41,7 +41,7 @@ function loadGraph() {
  </svg>
  </div>`
     // code to create the graph goes here – see below
-createGraph();
+    createGraph();
 }
 // create the graph
 function createGraph() {
@@ -58,17 +58,17 @@ function createGraph() {
     d3.json(dataURL).then(data => {
         data = data[0].array_to_json;
         console.log(data);
-        
+
 
         // loop through the data and get the length of the x axis titles
         let xLen = 0;
         data.forEach(feature => {
-                        
+
             if (xLen < feature.day.length) {
-                xLen = feature.day.length;                
+                xLen = feature.day.length;
             }
             console.log(xLen);
-            
+
         });
 
         // adjust the space available for the x-axis titles, depending on the length of the text
@@ -94,10 +94,10 @@ function createGraph() {
                 .attr("transform", `translate(${margin.left},${margin.top})`);
 
 
-            
+
         x.domain(data.map(d => d.day));
         y.domain([0, d3.max(data, d => d.reports_submitted)]);
-        
+
         // adapted from: https://bl.ocks.org/mbostock/7555321 10th March 2021/
         g.append("g")
             .attr("class", "axis axis-x")
@@ -117,20 +117,41 @@ function createGraph() {
             .attr("class", "bar1")
             .attr("x", d => x(d.day))
             .attr("y", d => y(d.reports_submitted))
-            .attr("width", x.bandwidth()/2)
+            .attr("width", x.bandwidth() / 2)
             .attr("height", d => y(0) - y(d.reports_submitted))
             .attr("fill", "steelblue");
 
-            //add another bar to show the reports 
+        //add another bar to show the reports 
         g.selectAll(".bar2")
             .data(data)
             .enter().append("rect")
             .attr("class", "bar2")
-            .attr("x", d => x(d.day)+ x.bandwidth() / 2)
+            .attr("x", d => x(d.day) + x.bandwidth() / 2)
             .attr("y", d => y(d.reports_not_working))
-            .attr("width", x.bandwidth()/2)
+            .attr("width", x.bandwidth() / 2)
             .attr("height", d => height - y(d.reports_not_working))
             .attr("fill", "orange");
+        // add legend for the graph
+        let legend = g.append("g")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", 15)
+            .attr("text-anchor", "end")
+            .selectAll("g")
+            .data(["Reports Submitted in total", "Reports submitted with worst condition values"])
+            .enter().append("g")
+            .attr("transform", (d, i) => `translate(0,${i * 20})`);
+
+        legend.append("rect")
+            .attr("x", width - 19)
+            .attr("width", 19)
+            .attr("height", 19)
+            .attr("fill", (d, i) => i === 0 ? "steelblue" : "orange");
+
+        legend.append("text")
+            .attr("x", width - 24)
+            .attr("y", 9.5)
+            .attr("dy", "0.32em")
+            .text(d => d);
 
     })
         .catch(err => {
