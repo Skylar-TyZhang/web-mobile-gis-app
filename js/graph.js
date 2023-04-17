@@ -52,20 +52,23 @@ function createGraph() {
     let marginLeft = 50;
     let marginRight = 20;
 
-    let dataURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
-    //let dataURL = baseComputerAddress + '/api/geojson/dailyParticipationRates';
+    //let dataURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
+    let dataURL = baseComputerAddress + '/api/geojson/dailyParticipationRates';
     // download the data and create the graph
     d3.json(dataURL).then(data => {
-        data = data.features;
+        data = data[0].array_to_json;
         console.log(data);
+        
 
         // loop through the data and get the length of the x axis titles
         let xLen = 0;
         data.forEach(feature => {
-            if (xLen < feature.properties.title.length) {
-                xLen = feature.properties.title.length;
+                        
+            if (xLen < feature.day.length) {
+                xLen = feature.day.length;                
             }
             console.log(xLen);
+            
         });
 
         // adjust the space available for the x-axis titles, depending on the length of the text
@@ -85,20 +88,16 @@ function createGraph() {
             },
             width = svg.attr("width") - marginLeft - marginRight,
             height = svg.attr("height") - marginTop - marginBottom,
-            x = d3.scaleBand().rangeRound([0, width]).padding(0.2),
-            y = d3.scaleLinear().rangeRound([height, 0]),
-            g = svg.append("g")
+            x = d3.scaleBand().rangeRound([0, width]).padding(0.2), //scaleband: set up a scale for ordinal data
+            y = d3.scaleLinear().rangeRound([height, 0]),   //scaleLinear: scale for continuous numerical data
+            g = svg.append("g") //used in svg as a group/container for other graphic elements, in this case the container is tranformed to the top left of the page
                 .attr("transform", `translate(${margin.left},${margin.top})`);
 
 
             
-        x.domain(data.map(d => d.properties.title));
-        console.log()
-        y.domain([0, d3.max(data, d => d.properties.mag)]);
+        x.domain(data.map(d => d.day));
+        y.domain([0, d3.max(data, d => d.reports_submitted)]);
         
-
-
-
         // adapted from: https://bl.ocks.org/mbostock/7555321 10th March 2021/
         g.append("g")
             .attr("class", "axis axis-x")
@@ -116,13 +115,14 @@ function createGraph() {
             .data(data)
             .enter().append("rect")
             .attr("class", "bar")
-            .attr("x", d => x(d.properties.title))
-            .attr("y", d => y(d.properties.mag))
+            .attr("x", d => x(d.day))
+            .attr("y", d => y(d.reports_submitted))
             .attr("width", x.bandwidth())
-            .attr("height", d => height - y(d.properties.mag));
+            .attr("height", d => height - y(d.reports_submitted));
 
     })
         .catch(err => {
+            let svg = d3.select('#svg1');
             svg.append("text")
                 .attr("y", 20)
                 .attr("text-anchor", "left")
