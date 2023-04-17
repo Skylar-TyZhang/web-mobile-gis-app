@@ -1,14 +1,17 @@
 // This is to process the menu functionality
 "use strict";
 
-function assetInBestCondition() {
-    {
-        let re = /([^(]+)@|at ([^(]+) \(/g;
-        let aRegexResult = re.exec(new Error().stack);
-        let sCallerName = aRegexResult[1] || aRegexResult[2];
-        alert("This menu is called by: " + sCallerName);
+async function assetInBestCondition() {
+    let res = await getData('/api/geojson/assetsInGreatCondition');
+
+    let assets = res[0].array_to_json;
+    let assetList = [];
+    for (let i = 0; i < assets.length; i++) {
+        assetList.push(assets[i].asset_name);
     }
-    console.log(sCallerName)
+
+    alert(`Thank you for reqeusting the list of assets in best condition!\nTheir names are listed below:\n${assetList.join('\n')}`)
+
 };
 //load reporting rate graph
 function dailyReportingRatesGraph() {
@@ -36,7 +39,7 @@ async function getUserRanking() {
     let user_id = await getUserId();
     let rank = await getData(`/api/geojson/userRanking/${user_id}`)
     console.log(rank[0].array_to_json[0]['rank']);
-    let userRank=rank[0].array_to_json[0]['rank'];
+    let userRank = rank[0].array_to_json[0]['rank'];
     alert(`Your rank based on number of reports created is the ${userRank}th over all the users. Thank you for your contribution!`)
 
 };
