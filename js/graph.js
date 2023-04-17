@@ -11,23 +11,26 @@ function closeAssetData() {
         toggle: false, show: true
     });
     bsAdwCollapse.hide();
+    
 }
 // show the DIV when the 'Show graph' menu is clicked
 function loadGraph() {
     let mapCollapse = document.getElementById('mapWrapper');
     let bsMapCollapse = new bootstrap.Collapse(mapCollapse, {
-        toggle: false, show: false
+        toggle: false, 
+        show: false
     });
     bsMapCollapse.hide();
     let adwCollapse = document.getElementById('assetDataWrapperWrapper');
     let bsAdwCollapse = new bootstrap.Collapse(adwCollapse, {
-        toggle: false, show: true
+        toggle: false, 
+        show: true
     });
     bsAdwCollapse.show();
     // show graph
     // the following code is added to dynamically size the graph DIV
     //create the SVG component to actually store the graph
-    let widtha = document.getElementById("assetDataWrapper").clientWidth * 2;
+    let widtha = document.getElementById("assetDataWrapper").clientWidth ;
     let heighta = document.getElementById("assetDataWrapper").offsetHeight;
     console.log(widtha + " " + heighta);
     // Add the close button and an SVG element for the graph
@@ -38,7 +41,7 @@ function loadGraph() {
  </svg>
  </div>`
     // code to create the graph goes here – see below
-
+createGraph();
 }
 // create the graph
 function createGraph() {
@@ -50,7 +53,7 @@ function createGraph() {
     let marginRight = 20;
 
     let dataURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
-
+    //let dataURL = baseComputerAddress + '/api/geojson/dailyParticipationRates';
     // download the data and create the graph
     d3.json(dataURL).then(data => {
         data = data.features;
@@ -74,7 +77,12 @@ function createGraph() {
         } //rough approximation for now
         console.log(marginBottom);
         let svg = d3.select("#svg1"),
-            margin = { top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft },
+            margin = {
+                top: marginTop,
+                right: marginRight,
+                bottom: marginBottom,
+                left: marginLeft
+            },
             width = svg.attr("width") - marginLeft - marginRight,
             height = svg.attr("height") - marginTop - marginBottom,
             x = d3.scaleBand().rangeRound([0, width]).padding(0.2),
@@ -83,8 +91,11 @@ function createGraph() {
                 .attr("transform", `translate(${margin.left},${margin.top})`);
 
 
+            
         x.domain(data.map(d => d.properties.title));
+        console.log()
         y.domain([0, d3.max(data, d => d.properties.mag)]);
+        
 
 
 
