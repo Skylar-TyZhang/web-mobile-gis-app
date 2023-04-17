@@ -111,14 +111,26 @@ function createGraph() {
             .attr("class", "axis axis-y")
             .call(d3.axisLeft(y).ticks(10).tickSize(8));
 
-        g.selectAll(".bar")
+        g.selectAll(".bar1")
             .data(data)
             .enter().append("rect")
-            .attr("class", "bar")
+            .attr("class", "bar1")
             .attr("x", d => x(d.day))
             .attr("y", d => y(d.reports_submitted))
-            .attr("width", x.bandwidth())
-            .attr("height", d => height - y(d.reports_submitted));
+            .attr("width", x.bandwidth()/2)
+            .attr("height", d => y(0) - y(d.reports_submitted))
+            .attr("fill", "steelblue");
+
+            //add another bar to show the reports 
+        g.selectAll(".bar2")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar2")
+            .attr("x", d => x(d.day)+ x.bandwidth() / 2)
+            .attr("y", d => y(d.reports_not_working))
+            .attr("width", x.bandwidth()/2)
+            .attr("height", d => height - y(d.reports_not_working))
+            .attr("fill", "orange");
 
     })
         .catch(err => {
