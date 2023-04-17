@@ -29,7 +29,9 @@ function trackLocation() {
     }
 
     else {
-        document.getElementById('showLocation').innerHTML = "Geolocation is not supported by this browser.";
+        // document.getElementById('showLocation').innerHTML = "Geolocation is not supported by this browser.";
+        alert("Geolocation is not supported by this browser.");
+        return false;
     }
 }
 
@@ -38,10 +40,16 @@ function errorPosition(error) {
 }
 
 function showPosition(position) {
-    // add the new point into the array
-    // the 'push' command
-    trackLocationLayer.push(L.marker([position.coords.latitude, position.coords.longitude]).addTo(mymap));
+
     
+    // add the user track point into the array
+    trackLocationLayer.push(L.marker([position.coords.latitude, position.coords.longitude]).addTo(mymap));
+    console.log('user location tracked')
+
+    closestFormPoint(position.coords.latitude, position.coords.longitude);
+    // map zoom in 
+    mymap.setView([position.coords.latitude, position.coords.longitude], 12);
+
 }
 
 
@@ -63,4 +71,54 @@ function removeTracks() {
         // if the point needs removing from the array as well
         trackLocationLayer.pop();
     }
+}
+
+// Proximity alert
+function closestFormPoint(userlat, userlng) {
+    // take the leaflet formdata layer
+    // go through each point one by one
+    // and measure the distance to user's location
+    // for the closest point show the pop up of that point
+    let minDistance = 25 / 1000;
+    let closestFormPoint = 0;
+
+
+    mapPoint.eachLayer(function (layer) {
+        let distance = calculateDistance(
+            userlat, userlng,
+            layer.getLatLng().lat, layer.getLatLng().lng, 'K');
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestFormPoint = layer.feature.properties.id;
+        }
+    });
+    // for this to be a proximity alert, the minDistance must be
+    // closer than a given distance
+    // show the popup for the closest point
+    mapPoint.eachLayer(function (layer) {
+        if (layer.feature.properties.id == closestFormPoint) {
+            layer.openPopup();
+            console.log('Detected nearby asset, condition form popup.')
+        }
+    });
+}
+
+
+
+// code adapted from https://www.htmlgoodies.com/beyond/javascript/calculate-the-distance-between-two-points-inyour-web-apps.html
+function calculateDistance(lat1, lon1, lat2, lon2, unit) {
+    let radlat1 = Math.PI * lat1 / 180;
+    let radlat2 = Math.PI * lat2 / 180;
+    let radlon1 = Math.PI * lon1 / 180;
+    let radlon2 = Math.PI * lon2 / 180;
+    let theta = lon1 - lon2;
+    let radtheta = Math.PI * theta / 180;
+    let subAngle = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    subAngle = Math.acos(subAngle);
+    subAngle = subAngle * 180 / Math.PI; // convert the degree value returned by acos back to degrees from radians
+    let dist = (subAngle / 360) * 2 * Math.PI * 3956; // ((subtended angle in degrees)/360) * 2 * pi * radius )
+    // where radius of the earth is 3956 miles
+    if (unit == "K") { dist = dist * 1.609344; } // convert miles to km
+    if (unit == "N") { dist = dist * 0.8684; } // convert miles to nautical miles
+    return dist;
 }
