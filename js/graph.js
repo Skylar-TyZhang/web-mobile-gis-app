@@ -57,8 +57,19 @@ function createGraph() {
     // download the data and create the graph
     d3.json(dataURL).then(data => {
         data = data[0].array_to_json;
-        console.log(data);
+        // construct the json in order of weekdays
 
+        const mapping = { Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6 }
+
+        const weekdays = [];
+
+        for (let i = 0; i < data.length; i++) {
+            weekdays[mapping[data[i].day]] = data[i]
+        }
+
+        console.log(weekdays);
+        console.log(data);
+        data = weekdays;
 
         // loop through the data and get the length of the x axis titles
         let xLen = 0;
