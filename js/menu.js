@@ -59,13 +59,13 @@ async function get5ClosestAssets() {
 };
 // remove 5 closest assets
 function remove5ClosestAssets() {
-    {
-        let re = /([^(]+)@|at ([^(]+) \(/g;
-        let aRegexResult = re.exec(new Error().stack);
-        let sCallerName = aRegexResult[1] || aRegexResult[2];
-        alert("This menu is called by: " + sCallerName);
+    try {
+        alert('The 5 closest assets will be removed.');
+        mymap.removeLayer(closest5AssetLayer);
+        
+    } catch (err) {
+        alert("Sorry, you haven't loaded the 5 closest assets so there is nothing to remove." + err);
     }
-    console.log(sCallerName)
 };
 // Add Layer -last 5 reports,color coded 
 let last5ReportsLayer=[];
@@ -145,14 +145,10 @@ function removeLast5Reports() {
     console.log(sCallerName)
 };
 // Add Layer - not rated in the last 3 days
-function addNotRated() {
-    {
-        let re = /([^(]+)@|at ([^(]+) \(/g;
-        let aRegexResult = re.exec(new Error().stack);
-        let sCallerName = aRegexResult[1] || aRegexResult[2];
-        alert("This menu is called by: " + sCallerName);
-    }
-    console.log(sCallerName)
+async function addNotRated() {
+    let user_id=await getUserId();
+    let res = await getData(`/api/geojson/conditionReportMissing/${user_id}`);
+    console.log(res);
 };
 // Remove Layer - not rated in the last 3 days
 function removeNotRated() {
