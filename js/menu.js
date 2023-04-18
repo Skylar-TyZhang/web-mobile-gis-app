@@ -38,24 +38,24 @@ async function getUserRanking() {
 
 };
 // get 5 closest assets
-let closest5AssetLayer=[]; //create a layer for 5 cloest assets
+let closest5AssetLayer = []; //create a layer for 5 cloest assets
 async function get5ClosestAssets() {
     // get the current location by return the last element in array
-    let loc=trackLocationLayer.slice(-1);
-    let latitude=loc[0]._latlng.lat;
+    let loc = trackLocationLayer.slice(-1);
+    let latitude = loc[0]._latlng.lat;
     //console.log(latitude);
-    let longitude=loc[0]._latlng.lng;
+    let longitude = loc[0]._latlng.lng;
     //console.log(longitude);
-    
-    let res= await getData(`/api/geojson/userFiveClosestAssets/${latitude}/${longitude}`)
+
+    let res = await getData(`/api/geojson/userFiveClosestAssets/${latitude}/${longitude}`)
     console.log(res);
-     
+
     //console.log(res[0].features);
-    closest5AssetLayer=L.geoJSON(res        
+    closest5AssetLayer = L.geoJSON(res
     ).addTo(mymap);
     // zoom to the asset points
     mymap.fitBounds(closest5AssetLayer.getBounds());
-    
+
 };
 // remove 5 closest assets
 function remove5ClosestAssets() {
@@ -69,20 +69,20 @@ function remove5ClosestAssets() {
     }
 };
 // Add Layer -last 5 reports,color coded 
-let last5ReportsLayer=[];
+let last5ReportsLayer = [];
 async function addLast5Reports() {
-    let user_id=await getUserId();
+    let user_id = await getUserId();
     // Load condition status got from the database
     let conditions = await getconditionDetails();
     let res = await getData(`/api/geojson/lastFiveConditionReports/${user_id}`);
     console.log(res);
-    last5ReportsLayer=L.geoJSON(res,{
-        onEachFeature(feature){
+    last5ReportsLayer = L.geoJSON(res, {
+        onEachFeature(feature) {
             console.log(feature.properties)
         },
         pointToLayer: function (feature, latlng) {
             let featureCondition = feature.properties['condition_description'];
-            
+
             let conditionMarker0 = L.AwesomeMarkers.icon({
                 icon: 'play',
                 markerColor: 'blue',
@@ -110,11 +110,11 @@ async function addLast5Reports() {
 
 
             if (featureCondition == conditions[0]['condition_description']) {
-                
+
                 return L.marker(latlng, { icon: conditionMarker0 })
             }
             else if (featureCondition == conditions[1]['condition_description']) {
-           
+
                 return L.marker(latlng, { icon: conditionMarker1 })
             }
             else if (featureCondition == conditions[2]['condition_description']) {
@@ -132,7 +132,7 @@ async function addLast5Reports() {
         },
 
     }).addTo(mymap);
-        
+
 
 };
 // Remove Layer -last 5 reports,color coded 
@@ -147,23 +147,28 @@ function removeLast5Reports() {
     }
 };
 // Add Layer - not rated in the last 3 days
-let notRatedLayer=[];   // layer to store asset that has not been assessed in the past 3 days
+let notRatedLayer = [];   // layer to store asset that has not been assessed in the past 3 days
 async function addNotRated() {
-    let user_id=await getUserId();
+    let user_id = await getUserId();
     let res = await getData(`/api/geojson/conditionReportMissing/${user_id}`);
     console.log(res);
-    notRatedLayer =L.geoJSON(res).addTo(mymap);
+    notRatedLayer = L.geoJSON(res, {
+        onEachFeature(feature) {
+            console.log(feature.properties)
+        }
+    }).addTo(mymap);
     // zoom to the asset points
-    mymap.fitBounds(notRatedLayer.getBounds());
+    //mymap.fitBounds(notRatedLayer.getBounds());
 
 };
 // Remove Layer - not rated in the last 3 days
 function removeNotRated() {
-    {
-        let re = /([^(]+)@|at ([^(]+) \(/g;
-        let aRegexResult = re.exec(new Error().stack);
-        let sCallerName = aRegexResult[1] || aRegexResult[2];
-        alert("This menu is called by: " + sCallerName);
+    try {
+        alert('The assets with last report information will be removed.');
+        mymap.removeLayer(notRatedLayer);
+        setUpPointClick();
+    } catch (err) {
+        alert("Sorry, you haven't loaded the assets with last report informatio so there is nothing to remove.");
+        console.log(err)
     }
-    console.log(sCallerName)
 };
