@@ -49,13 +49,17 @@ async function get5ClosestAssets() {
 
     let res = await getData(`/api/geojson/userFiveClosestAssets/${latitude}/${longitude}`)
     console.log(res);
-
-    //console.log(res[0].features);
-    closest5AssetLayer = L.geoJSON(res
-    ).addTo(mymap);
-    // zoom to the asset points
-    mymap.fitBounds(closest5AssetLayer.getBounds());
-
+    if (res[0].features != null) {
+        console.log('5 closest assets exist.');
+        closest5AssetLayer = L.geoJSON(res
+        ).addTo(mymap);
+        // zoom to the asset points
+        mymap.fitBounds(closest5AssetLayer.getBounds());
+    }
+    else {
+        console.log('No data retrived');
+        alert('Sorry that we cannot find the nearest 5 assets for you.\nMaybe try this function in another place.')
+    };
 };
 // remove 5 closest assets
 function remove5ClosestAssets() {
@@ -136,50 +140,51 @@ async function addLast5Reports() {
 
         }).addTo(mymap);
     }
-    else{console.log('No data retrived');
-    alert('Sorry, we cannot retrive the last 5 reports for you.')
-}
+    else {
+        console.log('No data retrived');
+        alert('Sorry, we cannot retrive the last 5 reports for you.')
+    }
 
-    };
-    // Remove Layer -last 5 reports,color coded 
-    function removeLast5Reports() {
-        try {
-            alert('The assets with last report information will be removed.');
-            mymap.removeLayer(last5ReportsLayer);
-            setUpPointClick();
-        } catch (err) {
-            alert("Sorry, you haven't loaded the assets with last report informatio so there is nothing to remove.");
-            console.log(err)
-        }
-    };
-    // Add Layer - not rated in the last 3 days
-    let notRatedLayer = [];   // layer to store asset that has not been assessed in the past 3 days
-    async function addNotRated() {
-        let user_id = await getUserId();
-        let res = await getData(`/api/geojson/conditionReportMissing/${user_id}`);
-        //console.log(res);
-        console.log(res[0].features);
-        if (res[0].features != null) {
-            console.log('The assets that were not rated in the past 3 days exist.')
+};
+// Remove Layer -last 5 reports,color coded 
+function removeLast5Reports() {
+    try {
+        alert('The assets with last report information will be removed.');
+        mymap.removeLayer(last5ReportsLayer);
+        setUpPointClick();
+    } catch (err) {
+        alert("Sorry, you haven't loaded the assets with last report informatio so there is nothing to remove.");
+        console.log(err)
+    }
+};
+// Add Layer - not rated in the last 3 days
+let notRatedLayer = [];   // layer to store asset that has not been assessed in the past 3 days
+async function addNotRated() {
+    let user_id = await getUserId();
+    let res = await getData(`/api/geojson/conditionReportMissing/${user_id}`);
+    //console.log(res);
+    console.log(res[0].features);
+    if (res[0].features != null) {
+        console.log('The assets that were not rated in the past 3 days exist.')
 
-            notRatedLayer = L.geoJSON(res).addTo(mymap);
-            // zoom to the asset points
-            mymap.fitBounds(notRatedLayer.getBounds());
-        }
-        else {
-            console.log('No data retrived');
-            alert('There is nothing to show.\n All of your assets have been rated in the last 3 days. Good job!')
-        };
+        notRatedLayer = L.geoJSON(res).addTo(mymap);
+        // zoom to the asset points
+        mymap.fitBounds(notRatedLayer.getBounds());
+    }
+    else {
+        console.log('No data retrived');
+        alert('There is nothing to show.\n All of your assets have been rated in the last 3 days. Good job!')
+    };
 
-    };
-    // Remove Layer - not rated in the last 3 days
-    function removeNotRated() {
-        try {
-            //alert('The assets with last report information will be removed.');
-            mymap.removeLayer(notRatedLayer);
-            setUpPointClick();
-        } catch (err) {
-            alert("Sorry, you haven't loaded the assets with last report informatio so there is nothing to remove.");
-            console.log(err)
-        }
-    };
+};
+// Remove Layer - not rated in the last 3 days
+function removeNotRated() {
+    try {
+        //alert('The assets with last report information will be removed.');
+        mymap.removeLayer(notRatedLayer);
+        setUpPointClick();
+    } catch (err) {
+        alert("Sorry, you haven't loaded the assets with last report informatio so there is nothing to remove.");
+        console.log(err)
+    }
+};
