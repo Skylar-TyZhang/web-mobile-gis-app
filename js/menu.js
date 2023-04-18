@@ -62,7 +62,7 @@ function remove5ClosestAssets() {
     try {
         alert('The 5 closest assets will be removed.');
         mymap.removeLayer(closest5AssetLayer);
-        
+        setUpPointClick();
     } catch (err) {
         alert("Sorry, you haven't loaded the 5 closest assets so there is nothing to remove." + err);
     }
