@@ -147,10 +147,15 @@ function removeLast5Reports() {
     }
 };
 // Add Layer - not rated in the last 3 days
+let notRatedLayer=[];   // layer to store asset that has not been assessed in the past 3 days
 async function addNotRated() {
     let user_id=await getUserId();
     let res = await getData(`/api/geojson/conditionReportMissing/${user_id}`);
     console.log(res);
+    notRatedLayer =L.geoJSON(res).addTo(mymap);
+    // zoom to the asset points
+    mymap.fitBounds(notRatedLayer.getBounds());
+
 };
 // Remove Layer - not rated in the last 3 days
 function removeNotRated() {
