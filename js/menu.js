@@ -151,20 +151,25 @@ let notRatedLayer = [];   // layer to store asset that has not been assessed in 
 async function addNotRated() {
     let user_id = await getUserId();
     let res = await getData(`/api/geojson/conditionReportMissing/${user_id}`);
-    console.log(res);
-    notRatedLayer = L.geoJSON(res, {
-        onEachFeature(feature) {
-            console.log(feature.properties)
-        }
-    }).addTo(mymap);
-    // zoom to the asset points
-    //mymap.fitBounds(notRatedLayer.getBounds());
+    //console.log(res);
+    console.log(res[0].features);
+    if (res[0].features != null) {
+        console.log('The assets that were not rated in the past 3 days exist.')
+
+        notRatedLayer = L.geoJSON(res).addTo(mymap);
+        // zoom to the asset points
+        mymap.fitBounds(notRatedLayer.getBounds());
+    }
+    else {
+        console.log('No data retrived');
+        alert('There is nothing to show.\n All of your assets have been rated in the last 3 days. Good job!')
+    };
 
 };
 // Remove Layer - not rated in the last 3 days
 function removeNotRated() {
     try {
-        alert('The assets with last report information will be removed.');
+        //alert('The assets with last report information will be removed.');
         mymap.removeLayer(notRatedLayer);
         setUpPointClick();
     } catch (err) {
