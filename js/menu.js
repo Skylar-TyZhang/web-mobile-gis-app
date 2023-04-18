@@ -38,14 +38,24 @@ async function getUserRanking() {
 
 };
 // get 5 closest assets
-function get5ClosestAssets() {
-    {
-        let re = /([^(]+)@|at ([^(]+) \(/g;
-        let aRegexResult = re.exec(new Error().stack);
-        let sCallerName = aRegexResult[1] || aRegexResult[2];
-        alert("This menu is called by: " + sCallerName);
-    }
-    console.log(sCallerName)
+let closest5AssetLayer=[]; //create a layer for 5 cloest assets
+async function get5ClosestAssets() {
+    // get the current location by return the last element in array
+    let loc=trackLocationLayer.slice(-1);
+    let latitude=loc[0]._latlng.lat;
+    //console.log(latitude);
+    let longitude=loc[0]._latlng.lng;
+    //console.log(longitude);
+    
+    let res= await getData(`/api/geojson/userFiveClosestAssets/${latitude}/${longitude}`)
+    console.log(res);
+     
+    //console.log(res[0].features);
+    closest5AssetLayer=L.geoJSON(res        
+    ).addTo(mymap);
+    // zoom to the asset points
+    mymap.fitBounds(closest5AssetLayer.getBounds());
+    
 };
 // remove 5 closest assets
 function remove5ClosestAssets() {
