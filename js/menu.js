@@ -64,7 +64,8 @@ function remove5ClosestAssets() {
         mymap.removeLayer(closest5AssetLayer);
         setUpPointClick();
     } catch (err) {
-        alert("Sorry, you haven't loaded the 5 closest assets so there is nothing to remove." + err);
+        alert("Sorry, you haven't loaded the 5 closest assets so there is nothing to remove.");
+        console.log(err)
     }
 };
 // Add Layer -last 5 reports,color coded 
@@ -131,18 +132,19 @@ async function addLast5Reports() {
         },
 
     }).addTo(mymap);
-    
+        
 
 };
 // Remove Layer -last 5 reports,color coded 
 function removeLast5Reports() {
-    {
-        let re = /([^(]+)@|at ([^(]+) \(/g;
-        let aRegexResult = re.exec(new Error().stack);
-        let sCallerName = aRegexResult[1] || aRegexResult[2];
-        alert("This menu is called by: " + sCallerName);
+    try {
+        alert('The assets with last report information will be removed.');
+        mymap.removeLayer(last5ReportsLayer);
+        setUpPointClick();
+    } catch (err) {
+        alert("Sorry, you haven't loaded the assets with last report informatio so there is nothing to remove.");
+        console.log(err)
     }
-    console.log(sCallerName)
 };
 // Add Layer - not rated in the last 3 days
 async function addNotRated() {
