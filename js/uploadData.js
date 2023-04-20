@@ -21,8 +21,13 @@ async function saveNewAsset() {
     // poststring is the string that holds values/data to be sent to the server
     postString = postString + "&latitude=" + latitude + "&longitude=" + longitude;
     // post action
-    let res = await postData("/api/insertAssetPoint",postString);
-    console.log(res.message);
+    let res = await postData("/api/insertAssetPoint",postString);    
+    //console.log(res);    
+    if(res.code=='23505'){
+        console.log(res.constraint)
+        alert('Sorry, the asset name you provided has been taken.\n Please provide another name.');
+        return false;
+    }
     //close popup 
     mymap.eachLayer((layer) => {
       layer.closePopup();      
