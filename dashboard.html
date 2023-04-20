@@ -23,13 +23,12 @@
                 left: 5px;
             }
         </style>
-
-
-
+        
     </head>
 
     <body>
         <div id="cesiumContainer"></div>
+
     </body>
 
     <script>
@@ -45,4 +44,31 @@
             imageryProviderViewModels: imageryProviders,
             selectedImageryProviderViewModel: imageryProviders[selectedImageryProviderIndex]
         });
+    </script>
+
+    <script>
+        "use strict";
+
+        function loadVectorLayer() {
+
+            // get the data - NB this assumes that the API is running
+            let layerURL = document.location.origin + "/api/geojson/ucfscde/buildings/building_id/location";
+            console.log(layerURL);
+
+            let geoJSONOptions = {
+                stroke: Cesium.Color.RED,
+                fill: Cesium.Color.RED,
+                strokeWidth: 3,
+                markerSymbol: '*',
+            }
+            let dataSource = new Cesium.GeoJsonDataSource("Buildings");
+            dataSource.clampToGround = false;
+            dataSource._name = "Buildings";
+            viewer.dataSources.add(dataSource);
+            dataSource.load(layerURL, geoJSONOptions).then(function (dataSource) {
+                viewer.flyTo(dataSource);
+
+            });
+        }
+
     </script>
