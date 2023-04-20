@@ -246,11 +246,11 @@ async function getPopupConditionHTML(assetInfo, conditions) {
     let assetInstallationDate = assetInfo.installation_date;
     // use asset id to name the div
     let htmlString = "<div id='conditionForm'>" +
-        "<h1 id=asset_name>" + assetname +
-        "</h1><br>" +
+        "<h3 id=asset_name>" + assetname +
+        "</h3>" +
         "<div id='installation_date'>" + assetInstallationDate +
-        "</div><br>"
-    htmlString += "<h3>Condition values: </h3>";
+        "</div>"
+    htmlString += "<h4>Condition values: </h4>";
 
 
     // get condition details in form 

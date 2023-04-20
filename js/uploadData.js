@@ -1,5 +1,11 @@
 'user strict'
 async function saveNewAsset() {
+    console.log('SaveNewAsset function')
+    //close popup 
+    mymap.eachLayer((layer) => {
+        layer.closePopup();
+        console.log('Popups closed.')
+    });
     // validate input data
     if (document.getElementById('asset_name').value == '') {
         alert('Please enter an asset name.');
@@ -21,13 +27,15 @@ async function saveNewAsset() {
     // poststring is the string that holds values/data to be sent to the server
     postString = postString + "&latitude=" + latitude + "&longitude=" + longitude;
     // post action
-    let res = await postData("/api/insertAssetPoint",postString);
-    console.log(res.message);
-    //close popup 
-    mymap.eachLayer((layer) => {
-      layer.closePopup();      
-    });
-    
+    let res = await postData("/api/insertAssetPoint", postString);
+    //console.log(res);    
+    if (res.code == '23505') {
+        console.log(res.constraint)
+        alert('Sorry, the asset name you provided has been taken.\nPlease provide another name.');
+        return false;
+    }
+
+
 }
 
 
@@ -35,52 +43,52 @@ async function checkCondition(id) {
     let conditions = await getconditionDetails();
     let asset_name = document.getElementById('asset_name').innerHTML;
     let assetInstallationDate = document.getElementById('installation_date').innerHTML;
-    
+
     let user_id = document.getElementById('user_id').innerHTML;
     let previousCondition = document.getElementById(`previousCondition_${id}`).innerHTML;
-    
+
     let postString = //'assetID='+assetID+
         "&asset_name=" + asset_name +
         "&assetInstallationDate=" + assetInstallationDate +
         '&user_id=' + user_id;
-       // console.log(postString)
+    // console.log(postString)
     // get information from a radio  
-    for  (let i=0;i<conditions.length; i++){        
-        if(document.getElementById(`condition_${i+1}`).checked){
-            
-            let condition_description=conditions[i]["condition_description"]
-            
-            postString+="&condition_description="+condition_description;
+    for (let i = 0; i < conditions.length; i++) {
+        if (document.getElementById(`condition_${i + 1}`).checked) {
+
+            let condition_description = conditions[i]["condition_description"]
+
+            postString += "&condition_description=" + condition_description;
 
             // tell user if their choice matches existing condition 
-            if (condition_description!=previousCondition){
+            if (condition_description != previousCondition) {
                 alert('Thank you for letting us know that the condition has changed, your response will be saved.')
             }
 
         }
     }
-    
+
     postString = postString + '&previousCondition=' + previousCondition;
     //console.log(postString)
     // post action
-    let res= await postData('/api/insertConditionInformation', postString)
+    let res = await postData('/api/insertConditionInformation', postString)
     // get the number of reports that user has submitted
-    let res_numReport= await getData(`/api/geojson/userConditionReports/${user_id}`);
+    let res_numReport = await getData(`/api/geojson/userConditionReports/${user_id}`);
     console.log('Get number of reports')
     //console.log(res_numReport[0].array_to_json[0]['num_reports']);
-    let numReport=res_numReport[0].array_to_json[0]['num_reports'];
+    let numReport = res_numReport[0].array_to_json[0]['num_reports'];
     console.log(numReport);
     alert(`Thank you for helping us assess assets! You have provided ${numReport} reports.`)
-    
-            
+
+
     mymap.eachLayer((layer) => {
-      layer.closePopup();
+        layer.closePopup();
     });
     // setup click event so the color of asset point will change
-    mymap.removeLayer(mapPoint);    
+    mymap.removeLayer(mapPoint);
     console.log('mapPoint removed to load new condition ');
-    setUpPointClick();      
-    
+    setUpPointClick();
+
 }
 function processData(postString) {
     console.log('Process postString');
