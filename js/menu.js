@@ -51,6 +51,9 @@ async function get5ClosestAssets() {
     console.log(res);
     if (res[0].features != null) {
         console.log('5 closest assets exist.');
+        mymap.removeLayer(mapPoint);    //remove asset points
+        mymap.removeLayer(last5ReportsLayer);
+        mymap.removeLayer(notRatedLayer);
         closest5AssetLayer = L.geoJSON(res
         ).addTo(mymap);
         // zoom to the asset points
@@ -83,6 +86,7 @@ async function addLast5Reports() {
     console.log(res[0].features);
     if (res[0].features != null) {
         console.log('Last 5 reports exist.')
+        
         last5ReportsLayer = L.geoJSON(res, {
             onEachFeature(feature) {
                 console.log(feature.properties)
