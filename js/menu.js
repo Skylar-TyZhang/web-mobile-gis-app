@@ -86,6 +86,9 @@ async function addLast5Reports() {
     console.log(res[0].features);
     if (res[0].features != null) {
         console.log('Last 5 reports exist.')
+        mymap.removeLayer(mapPoint);    //remove asset points
+        mymap.removeLayer(closest5AssetLayer);
+        mymap.removeLayer(notRatedLayer);
         
         last5ReportsLayer = L.geoJSON(res, {
             onEachFeature(feature) {
