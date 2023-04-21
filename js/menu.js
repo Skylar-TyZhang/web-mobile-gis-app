@@ -150,6 +150,7 @@ async function addLast5Reports() {
     else {
         console.log('No data retrived');
         alert('Sorry, we cannot retrive the last 5 reports for you.')
+        setUpPointClick();
     }
 
 };
@@ -162,6 +163,7 @@ function removeLast5Reports() {
     } catch (err) {
         alert("Sorry, you haven't loaded the assets with last report informatio so there is nothing to remove.");
         console.log(err)
+        setUpPointClick();
     }
 };
 // Add Layer - not rated in the last 3 days
@@ -173,7 +175,9 @@ async function addNotRated() {
     console.log(res[0].features);
     if (res[0].features != null) {
         console.log('The assets that were not rated in the past 3 days exist.')
-
+        mymap.removeLayer(mapPoint);    //remove asset points
+        mymap.removeLayer(closest5AssetLayer);
+        mymap.removeLayer(last5ReportsLayer);
         notRatedLayer = L.geoJSON(res).addTo(mymap);
         // zoom to the asset points
         mymap.fitBounds(notRatedLayer.getBounds());
@@ -181,6 +185,7 @@ async function addNotRated() {
     else {
         console.log('No data retrived');
         alert('There is nothing to show.\n All of your assets have been rated in the last 3 days. Good job!')
+        setUpPointClick();
     };
 
 };
