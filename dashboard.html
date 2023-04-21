@@ -398,14 +398,14 @@
       console.log(layerURL);
 
       let geoJSONOptions = {
-        stroke: Cesium.Color.RED,
+        markerColor: Cesium.Color.RED,
         fill: Cesium.Color.RED,
         strokeWidth: 3,
         markerSymbol: '*',
       }
-      let dataSource = new Cesium.GeoJsonDataSource("Buildings");
+      let dataSource = new Cesium.GeoJsonDataSource("Assets");
       dataSource.clampToGround = false;
-      dataSource._name = "Buildings";
+      dataSource._name = "Assets";
       viewer.dataSources.add(dataSource);
       dataSource.load(layerURL, geoJSONOptions).then(function (dataSource) {
         viewer.flyTo(dataSource);

@@ -64,31 +64,54 @@
     "use strict";
 
     async function loadVectorLayer() {
-
       // get the data - NB this assumes that the API is running
-      let user_id = await getUserId();
-      let res= await getData(`/api/geojson/userAssets/${user_id}`);
-      let assets=res[0].features
-      console.log(assets);
-      // the following code is adapted from
+      //the following code is adapted from
       // https://cesium.com/learn/cesiumjs/ref-doc/GeoJsonDataSource.html
-  
+      let user_id = await getUserId();
+      let res = await getData(`/api/geojson/userAssets/${user_id}`);
+      let assets = res[0];
       
-      let geoJSONOptions = {
-        stroke: Cesium.Color.RED,
-        fill: Cesium.Color.RED,
-        strokeWidth: 3,
-        markerSymbol: '*',
-      }
-      let dataSource = new Cesium.GeoJsonDataSource("Assets");
-      dataSource.clampToGround = false;
-      dataSource._name = "Assets";
-      viewer.dataSources.add(dataSource);
-      dataSource.load(assets[1], geoJSONOptions).then(function (dataSource) {
-        viewer.flyTo(dataSource);
+      // set up color of different condition description
+      let conditions = await getData('/api/geojson/conditionDetails');
+      let pointColor;
+      // the following code is adapted from
+      //https://www.w3schools.com/jsref/jsref_forEach.asp
+      //THE color choice is adapted from
+      //https://cesium.com/learn/cesiumjs/ref-doc/Color.html?classFilter=color
+      assets.features.forEach((feature) => {
+
+        if (feature.properties.condition_description == conditions[0].condition_description) {
+          pointColor = Cesium.Color.LIGHTSKYBLUE
+        }
+        else if (feature.properties.condition_description == conditions[1].condition_description) {
+          pointColor = Cesium.Color.BLUE
+        }
+        else if (feature.properties.condition_description == conditions[2].condition_description) {
+          pointColor = Cesium.Color.BLUEVIOLET
+        }
+        else if (feature.properties.condition_description == conditions[3].condition_description) {
+          pointColor = Cesium.Color.CHOCOLATE
+        }
+        else if (feature.properties.condition_description == conditions[4].condition_description) {
+          pointColor = Cesium.Color.GOLD
+        }
+        else if (feature.properties.condition_description == conditions[5].condition_description) {
+          pointColor = Cesium.Color.DARKGRAY
+        }
+        let geoJSONOptions = {
+          markerColor: pointColor,
+          markerSymbol: '*',
+        }
+        // add data
+        let dataSource = new Cesium.GeoJsonDataSource("Assets");
+        dataSource.clampToGround = false;
+        dataSource._name = "Assets";
+        viewer.dataSources.add(dataSource)
+        dataSource.load(feature, geoJSONOptions).then(function (dataSource) {
+          viewer.flyTo(dataSource);
+        });
       });
     }
-
 
   </script>
 
