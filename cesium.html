@@ -2,6 +2,8 @@
 <head>
   <title>Hello Cesium!</title>
   <script src="Build/Cesium/Cesium.js"></script>
+  <script src="js/requestData.js"></script> 
+    
   <style>
       @import url(Build/Cesium/Widgets/widgets.css);
       html, body, #cesiumContainer {
@@ -53,10 +55,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 "use strict";
 
-function loadVectorLayer(){
-
+async function loadVectorLayer(){          
+            let user_id = await getUserId();
             // get the data - NB this assumes that the API is running
-            let layerURL = document.location.origin+"/api/geojson/ucfscde/buildings/building_id/location";
+            let layerURL = document.location.origin+`/api/geojson/userAssets/${user_id}`;
             console.log(layerURL);
 
             let geoJSONOptions = {
