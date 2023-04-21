@@ -22,13 +22,15 @@ let mapPoint; // store the geoJSON feature so that we can remove it if the scree
 function setMapClickEvent() {
     // get the window width
     width = $(window).width();
+    console.log(width)
     popup.remove();
 
-    // we use the bootstrap Medium and Large options for the asset location capture
+    // only the bootstrap Large options for the asset location capture
     // and the small and XS options for the condition option
-    // see here: https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
+    // the breakpoint was set as https://getbootstrap.com/docs/5.0/layout/breakpoints/
 
-    if (width < 992) {
+    if (width < 768) {  
+        // >= 768px is medium screen
         // close all popups
         mymap.eachLayer((layer) => {
             layer.closePopup();
@@ -37,7 +39,6 @@ function setMapClickEvent() {
         if (assetPoint) {
             mymap.removeLayer(assetPoint);
         }
-
         console.log('Condition app mode')
         removePositionPoints()
 
@@ -52,7 +53,7 @@ function setMapClickEvent() {
         trackLocation();
 
     }
-    if (width > 992) {
+    if ( width >= 992) {
         console.log('Asset creation mode')
         // the asset creation page
         // remove the map point if it exists
