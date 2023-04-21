@@ -49,6 +49,7 @@
     <script src="js/graph.js"></script>
     <script src="js/utilities.js"></script>
     <script src="js/uploadData.js"></script>
+    <script src="js/requestData.js"></script>
     
 
 </head>
@@ -87,20 +88,7 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <!-- Nav Item - Pages Collapse Menu -->
-
-                    <!--
-                    <div class="nav-item dropdown d-none d-lg-block">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-                                class="fa fa-laptop me-2"></i>Menu 11</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="popAlert_12()" ;>Menu
-                                12</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="popAlert_13()" ;>Menu
-                                13</a>
-                        </div>
-                    </div>
-                    -->
+                   
 
                     <!-- parallel menu-->
                     <!--Menu items for Asset Location-->
@@ -117,10 +105,7 @@
 
                     <!--Menu for condition Assessment-->
                     <!-- small and extra small-->
-                    <li class="nav-item active d-sm-block d-md-none">
-                        <a class="nav-link" href="#" onclick="help()">Help <span
-                                class="sr-only">(current)</span></a>
-                    </li>
+                    
                     <li class="nav-item active d-sm-block d-md-none">
                         <a class="nav-link" href="#" onclick="getUserRanking()">User Ranking <span
                                 class="sr-only">(current)</span></a>
@@ -148,82 +133,9 @@
                     <li class="nav-item active d-sm-block d-md-none">
                         <a class="nav-link" href="#" onclick="removeNotRated()">Remove Layer - not rated in the last 3 days
                             <span class="sr-only">(current)</span></a>
-                    </li>
+                    </li>                
 
-
-                    <!-- Nav Item - Pages Collapse Menu -->
-                    <!--
-                    <div class="nav-item dropdown d-sm-block d-md-none">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-                                class="fa fa-laptop me-2"></i>Menu 14</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="popAlert_15()" ;>Menu
-                                15</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="popAlert_16()">Menu 16</a>
-                        </div>
-                    </div>
-                -->
-
-                    <!-- The following menus are used for previous assignments, in this part they are deleted to show the menu layout 
-                    required for the assignment 5-->
-                    <!-- Nav Item - Pages Collapse Menu -->
-                    <!--
-                        <div class="nav-item dropdown d-sm-block d-md-none">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-                                class="fa fa-laptop me-2"></i>Tracking</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="trackLocation()" ;>Switch
-                                tracking on</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removePositionPoints()"
-                                ;>Switch tracking off</a>
-                        </div>
-                    </div>
-                -->
-
-                    <!-- Nav Item - Pages Collapse Menu -->
-                    <!--
-                    <div class="nav-item dropdown d-block">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-                                class="fa fa-laptop me-2"></i>Centennial</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadBuildings()" ;>Load
-                                Buildings</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeBuildings()" ;>Remove
-                                Buildings</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadUniversities()" ;>Load
-                                Universities</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeUniversities()"
-                                ;>Remove
-                                Universities</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadEthernetCables()"
-                                ;>Load ethernet cables</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeEthernetCables()"
-                                ;>Remove ethernet cables</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadRooms()" ;>Load
-                                rooms</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeRooms()" ;>Remove
-                                rooms</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadSensors()" ;>Load
-                                sensors</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="removeSensors()" ;>Remove
-                                sensors</a>
-
-                        </div>
-                    </div>
-                -->
-                    <!-- Nav Item - Pages Collapse Menu -->
-                    <!--
-                    <div class="nav-item dropdown d-none d-lg-block">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-                                class="fa fa-laptop me-2"></i>Graphs</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="loadGraph()" ;>Show
-                                Graph</a>
-                            <a class="dropdown-item" class="dropdown-item" href="#" onclick="closeAssetData()" ;>Remove
-                                Graph</a>
-                        </div>
-                    </div>
-                -->
+                    
 
 
             </nav>
@@ -258,9 +170,9 @@
                                 <small>Data Collection</small>
                             </a>
                             <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Help 2</h6>
-                                <small>Admin Functionality</small>
+                            <a href="dashboard.html" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Dashboard</h6>
+                                <small>Assets Visulisations </small>
                             </a>
                         </div>
                     </div>

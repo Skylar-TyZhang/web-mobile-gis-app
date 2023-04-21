@@ -1,56 +1,4 @@
 "use strict";
-// use AJAX to construct url
-let baseComputerAddress = document.location.origin;
-// add promise object
-// the following code is adapted from:https://www.w3schools.com/Js/js_promise.asp
-function getData(dataAPI) {
-    return new Promise(function (resolve, reject) {
-        $.ajax({
-            url: baseComputerAddress + dataAPI,
-            crossDomain: true,
-            type: 'GET',
-            success: function (result) {
-                resolve(result);
-            },
-            error: function (err) {
-                reject(err);
-            }
-        })
-    })
-}
-function postData(dataAPI, data) {
-    return new Promise(function (resolve, reject) {
-        $.ajax({
-            url: baseComputerAddress + dataAPI,
-            crossDomain: true,
-            type: 'POST',
-            data: data,
-            success: function (result) {
-                resolve(result); console.log(result)
-            },
-            error: function (err) {
-                reject(err);
-            }
-        })
-    })
-}
-// get userId
-async function getUserId() {
-    let dataAddress = '/api/userId';
-    let result = await getData(dataAddress);
-    const user_id = result[0].user_id // userid will be a const thus the value will not be reassigned
-    //console.log('Got user_id')
-    return user_id
-}
-
-// get conditionDetails
-async function getconditionDetails() {
-    let dataAddress = '/api/geojson/conditionDetails';
-    let result = await getData(dataAddress);
-    return result
-}
-
-
 // create a custom popup as a global variable
 let popup = L.popup();
 //set up on map click option
@@ -74,13 +22,15 @@ let mapPoint; // store the geoJSON feature so that we can remove it if the scree
 function setMapClickEvent() {
     // get the window width
     width = $(window).width();
+    console.log(width)
     popup.remove();
 
-    // we use the bootstrap Medium and Large options for the asset location capture
+    // only the bootstrap Large options for the asset location capture
     // and the small and XS options for the condition option
-    // see here: https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
+    // the breakpoint was set as https://getbootstrap.com/docs/5.0/layout/breakpoints/
 
-    if (width < 992) {
+    if (width < 768) {  
+        // >= 768px is medium screen
         // close all popups
         mymap.eachLayer((layer) => {
             layer.closePopup();
@@ -89,7 +39,6 @@ function setMapClickEvent() {
         if (assetPoint) {
             mymap.removeLayer(assetPoint);
         }
-
         console.log('Condition app mode')
         removePositionPoints()
 
@@ -104,7 +53,7 @@ function setMapClickEvent() {
         trackLocation();
 
     }
-    if (width > 992) {
+    if ( width >= 992) {
         console.log('Asset creation mode')
         // the asset creation page
         // remove the map point if it exists
