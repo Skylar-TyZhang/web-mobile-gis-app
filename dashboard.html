@@ -5,9 +5,16 @@
 
   <head>
     <title>CEGE0043 Asset Dashboard</title>
+    <!--Cesium-->
     <script src="Build/Cesium/Cesium.js"></script>
+    <!--link to functionality-->
     <script src="js/requestData.js"></script>
-    <script src="js/graph.js"></script>
+    <script src="js/dashboard.js"></script>
+    <!--link to jquery-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <!--link to d3 library-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <style>
       @import url(Build/Cesium/Widgets/widgets.css);
 
@@ -39,7 +46,6 @@
     <script src="./assets/js/init-alpine.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
-    <script src="./assets/js/charts-lines.js" defer></script>
     <script src="./assets/js/charts-pie.js" defer></script>
     <script src="./assets/js/charts-bars.js" defer></script>
   </head>
@@ -317,24 +323,6 @@
                   </div>
                 </div>
               </div>
-              <!-- Lines chart -->
-              <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
-                  Lines
-                </h4>
-                <canvas id="line"></canvas>
-                <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                  <!-- Chart legend -->
-                  <div class="flex items-center">
-                    <span class="inline-block w-3 h-3 mr-1 bg-teal-500 rounded-full"></span>
-                    <span>Organic</span>
-                  </div>
-                  <div class="flex items-center">
-                    <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
-                    <span>Paid</span>
-                  </div>
-                </div>
-              </div>
               <!-- Bars chart -->
               <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                 <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
@@ -381,8 +369,9 @@
       selectedImageryProviderViewModel: imageryProviders[selectedImageryProviderIndex]
     });
     // only load the layer when the cesium basemap has been created
-    document.addEventListener('DOMContentLoaded', function () {
-      loadVectorLayer();
+    document.addEventListener('DOMContentLoaded', async function () {
+      await loadVectorLayer();
+      await loadBarChart();    
 
     }, 
     false);
@@ -390,26 +379,54 @@
 
   <script>
     "use strict";
-
-    function loadVectorLayer() {
+    async function loadVectorLayer() {
 
       // get the data - NB this assumes that the API is running
-      let layerURL = document.location.origin + "/api/geojson/ucfscde/buildings/building_id/location";
-      console.log(layerURL);
+      //the following code is adapted from
+      // https://cesium.com/learn/cesiumjs/ref-doc/GeoJsonDataSource.html
+      let user_id = await getUserId();
+      let res = await getData(`/api/geojson/userAssets/${user_id}`);
+      let assets = res[0];
+      
+      // set up color of different condition description
+      let conditions = await getData('/api/geojson/conditionDetails');
+      let pointColor;
+      // the following code is adapted from
+      //https://www.w3schools.com/jsref/jsref_forEach.asp
+      //THE color choice is adapted from
+      //https://cesium.com/learn/cesiumjs/ref-doc/Color.html?classFilter=color
+      assets.features.forEach((feature) => {
 
-      let geoJSONOptions = {
-        markerColor: Cesium.Color.RED,
-        fill: Cesium.Color.RED,
-        strokeWidth: 3,
-        markerSymbol: '*',
-      }
-      let dataSource = new Cesium.GeoJsonDataSource("Assets");
-      dataSource.clampToGround = false;
-      dataSource._name = "Assets";
-      viewer.dataSources.add(dataSource);
-      dataSource.load(layerURL, geoJSONOptions).then(function (dataSource) {
-        viewer.flyTo(dataSource);
-
+        if (feature.properties.condition_description == conditions[0].condition_description) {
+          pointColor = Cesium.Color.LIGHTSKYBLUE
+        }
+        else if (feature.properties.condition_description == conditions[1].condition_description) {
+          pointColor = Cesium.Color.BLUE
+        }
+        else if (feature.properties.condition_description == conditions[2].condition_description) {
+          pointColor = Cesium.Color.BLUEVIOLET
+        }
+        else if (feature.properties.condition_description == conditions[3].condition_description) {
+          pointColor = Cesium.Color.CHOCOLATE
+        }
+        else if (feature.properties.condition_description == conditions[4].condition_description) {
+          pointColor = Cesium.Color.GOLD
+        }
+        else if (feature.properties.condition_description == conditions[5].condition_description) {
+          pointColor = Cesium.Color.DARKGRAY
+        }
+        let geoJSONOptions = {
+          markerColor: pointColor,
+          markerSymbol: '*',
+        }
+        // add data
+        let dataSource = new Cesium.GeoJsonDataSource("Assets");
+        dataSource.clampToGround = false;
+        dataSource._name = "Assets";
+        viewer.dataSources.add(dataSource)
+        dataSource.load(feature, geoJSONOptions).then(function (dataSource) {
+          viewer.flyTo(dataSource);
+        });
       });
     }
 

@@ -38,7 +38,7 @@ async function getUserRanking() {
 
 };
 // get 5 closest assets
-let closest5AssetLayer = []; //create a layer for 5 cloest assets
+let closest5AssetLayer; //create a layer for 5 cloest assets
 async function get5ClosestAssets() {
     // get the current location by return the last element in array
     let loc = trackLocationLayer.slice(-1);
@@ -76,7 +76,7 @@ function remove5ClosestAssets() {
     }
 };
 // Add Layer -last 5 reports,color coded 
-let last5ReportsLayer = [];
+let last5ReportsLayer;
 async function addLast5Reports() {
     let user_id = await getUserId();
     // Load condition status got from the database
@@ -167,7 +167,7 @@ function removeLast5Reports() {
     }
 };
 // Add Layer - not rated in the last 3 days
-let notRatedLayer = [];   // layer to store asset that has not been assessed in the past 3 days
+let notRatedLayer;   // layer to store asset that has not been assessed in the past 3 days
 async function addNotRated() {
     let user_id = await getUserId();
     let res = await getData(`/api/geojson/conditionReportMissing/${user_id}`);
