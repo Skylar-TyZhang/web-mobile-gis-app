@@ -51,9 +51,9 @@ async function get5ClosestAssets() {
     console.log(res);
     if (res[0].features != null) {
         console.log('5 closest assets exist.');
-        mymap.removeLayer(mapPoint);    //remove asset points
-        mymap.removeLayer(last5ReportsLayer);
-        mymap.removeLayer(notRatedLayer);
+        if(mapPoint){mymap.removeLayer(mapPoint)}    //remove asset points
+        else if(last5ReportsLayer){mymap.removeLayer(last5ReportsLayer)}
+        else if(notRatedLayer){mymap.removeLayer(notRatedLayer)}
         closest5AssetLayer = L.geoJSON(res
         ).addTo(mymap);
         // zoom to the asset points
@@ -82,18 +82,15 @@ async function addLast5Reports() {
     // Load condition status got from the database
     let conditions = await getconditionDetails();
     let res = await getData(`/api/geojson/lastFiveConditionReports/${user_id}`);
-    console.log(res);
-    console.log(res[0].features);
+    
     if (res[0].features != null) {
         console.log('Last 5 reports exist.')
-        mymap.removeLayer(mapPoint);    //remove asset points
-        mymap.removeLayer(closest5AssetLayer);
-        mymap.removeLayer(notRatedLayer);
+        if(mapPoint){mymap.removeLayer(mapPoint)}    //remove asset points
+        else if(closest5AssetLayer){mymap.removeLayer(closest5AssetLayer)}
+        else if(notRatedLayer){mymap.removeLayer(notRatedLayer)}
         
         last5ReportsLayer = L.geoJSON(res, {
-            onEachFeature(feature) {
-                console.log(feature.properties)
-            },
+            
             pointToLayer: function (feature, latlng) {
                 let featureCondition = feature.properties['condition_description'];
 
@@ -175,9 +172,9 @@ async function addNotRated() {
     console.log(res[0].features);
     if (res[0].features != null) {
         console.log('The assets that were not rated in the past 3 days exist.')
-        mymap.removeLayer(mapPoint);    //remove asset points
-        mymap.removeLayer(closest5AssetLayer);
-        mymap.removeLayer(last5ReportsLayer);
+        if(mapPoint){mymap.removeLayer(mapPoint)}    //remove asset points
+        else if(last5ReportsLayer){mymap.removeLayer(last5ReportsLayer)}
+        else if(closest5AssetLayer){mymap.removeLayer(closest5AssetLayer)};
         notRatedLayer = L.geoJSON(res).addTo(mymap);
         // zoom to the asset points
         mymap.fitBounds(notRatedLayer.getBounds());
