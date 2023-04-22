@@ -13,7 +13,13 @@ const barConfig = {
         borderWidth: 1,
         data: conditionData,
       },
-      
+      {
+        label: 'Bags',
+        backgroundColor: '#7e3af2',
+        // borderColor: window.chartColors.blue,
+        borderWidth: 1,
+        data: [66, 33, 43, 12, 54, 62, 84],
+      },
     ],
   },
   options: {
@@ -26,3 +32,4 @@ const barConfig = {
 
 const barsCtx = document.getElementById('bars')
 window.myBar = new Chart(barsCtx, barConfig)
+let dataURL= baseComputerAddress + '/api/geojson/dailyParticipationRates';
