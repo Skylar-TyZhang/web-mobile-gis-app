@@ -33,7 +33,7 @@ async function loadBarChart() {
           labels: xlabel,
           datasets: [
             {
-              label: 'Condition',
+              label: 'Condition Description index',
               backgroundColor: 'rgba(153, 102, 255, 0.2)',
               // borderColor: window.chartColors.red,
               borderWidth: 1,
@@ -51,7 +51,7 @@ async function loadBarChart() {
 
           responsive: true,
           legend: {
-            display: false,
+            display: true,
           },
         },
       }
@@ -82,10 +82,7 @@ async function loadPieChart() {
         pielabel.push(conditions[i].condition_description);
         conditionCount[conditions[i].condition_description] = 0
       };
-      console.log(pielabel);
-      console.log('set up count');
-      console.log(conditionCount);
-
+      
       assets.features.forEach((feature) => {
         for (let i = 0; i < pielabel.length; i++) {
           const label = pielabel[i];
@@ -96,7 +93,7 @@ async function loadPieChart() {
 
       })
       //console.log(conditionCount);
-      console.log(Object.values(conditionCount));
+      //console.log(Object.values(conditionCount));
       let pieData = Object.values(conditionCount);
 
 
@@ -130,7 +127,7 @@ async function loadPieChart() {
         },
         options: {
           responsive: true,
-          cutoutPercentage: 80,
+          cutoutPercentage: 70,
           
           legend: {
             display: false,
