@@ -82,21 +82,20 @@ function closestFormPoint(userlat, userlng) {
     let minDistance = 25 / 1000;
     let closestFormPoint = 0;
 
-
-    mapPoint.eachLayer(function (layer) {
+    mapPoint?.eachLayer(function (layer) {
         let distance = calculateDistance(
             userlat, userlng,
             layer.getLatLng().lat, layer.getLatLng().lng, 'K');
         if (distance < minDistance) {
-            minDistance = distance;
-            closestFormPoint = layer.feature.properties.id;
+            minDistance = distance;            
+            closestFormPoint = layer.feature.properties.asset_id;
         }
     });
     // for this to be a proximity alert, the minDistance must be
     // closer than a given distance
     // show the popup for the closest point
-    mapPoint.eachLayer(function (layer) {
-        if (layer.feature.properties.id == closestFormPoint) {
+    mapPoint?.eachLayer(function (layer) {
+        if (layer.feature.properties.asset_id == closestFormPoint) {
             layer.openPopup();
             console.log('Detected nearby asset, condition form popup.')
         }

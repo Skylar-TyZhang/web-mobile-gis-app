@@ -31,10 +31,12 @@ function setMapClickEvent() {
 
     if (width < 768) {  
         // >= 768px is medium screen
+        /*
         // close all popups
         mymap.eachLayer((layer) => {
             layer.closePopup();
         });
+        */
         // remove asset points that should show on wide screen
         if (assetPoint) {
             mymap.removeLayer(assetPoint);
@@ -254,4 +256,4 @@ async function basicFormHtml(latlng) {
     return formContent;
 };
 
-
+

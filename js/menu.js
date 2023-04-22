@@ -196,7 +196,7 @@ function removeNotRated() {
         mymap.removeLayer(notRatedLayer);
         setUpPointClick();
     } catch (err) {
-        alert("Sorry, you haven't loaded the assets with last report informatio so there is nothing to remove.");
+        alert("Sorry, you haven't loaded the assets with not ratings in the last 3 days so there is nothing to remove.");
         console.log(err)
     }
 };
