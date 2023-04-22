@@ -88,21 +88,60 @@ async function loadPieChart() {
 
       assets.features.forEach((feature) => {
         for (let i = 0; i < pielabel.length; i++) {
-          const label = pielabel[i];                    
+          const label = pielabel[i];
           if (feature.properties.condition_description == label) {
             conditionCount[label]++;
           };
         }
 
       })
-      console.log(conditionCount);
+      //console.log(conditionCount);
       console.log(Object.values(conditionCount));
-      data = Object.values(conditionCount)
+      let pieData = Object.values(conditionCount);
 
 
-      /*
-      * For usage, visit Chart.js docs https://www.chartjs.org/docs/latest/
-      */
+      /**
+ * For usage, visit Chart.js docs https://www.chartjs.org/docs/latest/
+ */
+      const pieConfig = {
+        type: 'doughnut',
+        data: {
+          datasets: [
+            {
+              data:pieData,
+              /**
+               * These colors come from Tailwind CSS palette
+               * https://tailwindcss.com/docs/customizing-colors/#default-color-palette
+               */
+              // the color of pie chart was adapted from https://www.chartjs.org/docs/latest/charts/bar.html
+              backgroundColor:  [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(201, 203, 207, 0.2)'
+              ],
+              
+            },
+          ],
+          labels: pielabel,
+        },
+        options: {
+          responsive: true,
+          cutoutPercentage: 80,
+          
+          legend: {
+            display: false,
+          },
+        },
+      }
+
+      // change this to the id of your chart element in HMTL
+      const pieCtx = document.getElementById('pie')
+      window.myPie = new Chart(pieCtx, pieConfig)
+
 
 
     });
