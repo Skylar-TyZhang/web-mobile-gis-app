@@ -38,7 +38,7 @@ async function getUserRanking() {
 
 };
 // get 5 closest assets
-let closest5AssetLayer = []; //create a layer for 5 cloest assets
+let closest5AssetLayer; //create a layer for 5 cloest assets
 async function get5ClosestAssets() {
     // get the current location by return the last element in array
     let loc = trackLocationLayer.slice(-1);
@@ -51,9 +51,9 @@ async function get5ClosestAssets() {
     console.log(res);
     if (res[0].features != null) {
         console.log('5 closest assets exist.');
-        mymap.removeLayer(mapPoint);    //remove asset points
-        mymap.removeLayer(last5ReportsLayer);
-        mymap.removeLayer(notRatedLayer);
+        if(mapPoint){mymap.removeLayer(mapPoint)}    //remove asset points
+        if(last5ReportsLayer){mymap.removeLayer(last5ReportsLayer)}
+        if(notRatedLayer){mymap.removeLayer(notRatedLayer)}
         closest5AssetLayer = L.geoJSON(res
         ).addTo(mymap);
         // zoom to the asset points
@@ -76,24 +76,21 @@ function remove5ClosestAssets() {
     }
 };
 // Add Layer -last 5 reports,color coded 
-let last5ReportsLayer = [];
+let last5ReportsLayer;
 async function addLast5Reports() {
     let user_id = await getUserId();
     // Load condition status got from the database
     let conditions = await getconditionDetails();
     let res = await getData(`/api/geojson/lastFiveConditionReports/${user_id}`);
-    console.log(res);
-    console.log(res[0].features);
+    
     if (res[0].features != null) {
         console.log('Last 5 reports exist.')
-        mymap.removeLayer(mapPoint);    //remove asset points
-        mymap.removeLayer(closest5AssetLayer);
-        mymap.removeLayer(notRatedLayer);
+        if(mapPoint){mymap.removeLayer(mapPoint)}    //remove asset points
+        if(closest5AssetLayer){mymap.removeLayer(closest5AssetLayer)}
+        if(notRatedLayer){mymap.removeLayer(notRatedLayer)}
         
         last5ReportsLayer = L.geoJSON(res, {
-            onEachFeature(feature) {
-                console.log(feature.properties)
-            },
+            
             pointToLayer: function (feature, latlng) {
                 let featureCondition = feature.properties['condition_description'];
 
@@ -167,7 +164,7 @@ function removeLast5Reports() {
     }
 };
 // Add Layer - not rated in the last 3 days
-let notRatedLayer = [];   // layer to store asset that has not been assessed in the past 3 days
+let notRatedLayer;   // layer to store asset that has not been assessed in the past 3 days
 async function addNotRated() {
     let user_id = await getUserId();
     let res = await getData(`/api/geojson/conditionReportMissing/${user_id}`);
@@ -175,9 +172,9 @@ async function addNotRated() {
     console.log(res[0].features);
     if (res[0].features != null) {
         console.log('The assets that were not rated in the past 3 days exist.')
-        mymap.removeLayer(mapPoint);    //remove asset points
-        mymap.removeLayer(closest5AssetLayer);
-        mymap.removeLayer(last5ReportsLayer);
+        if(mapPoint){mymap.removeLayer(mapPoint)}    //remove asset points
+        if(last5ReportsLayer){mymap.removeLayer(last5ReportsLayer)}
+        if(closest5AssetLayer){mymap.removeLayer(closest5AssetLayer)};
         notRatedLayer = L.geoJSON(res).addTo(mymap);
         // zoom to the asset points
         mymap.fitBounds(notRatedLayer.getBounds());
@@ -196,7 +193,7 @@ function removeNotRated() {
         mymap.removeLayer(notRatedLayer);
         setUpPointClick();
     } catch (err) {
-        alert("Sorry, you haven't loaded the assets with last report informatio so there is nothing to remove.");
+        alert("Sorry, you haven't loaded the assets with not ratings in the last 3 days so there is nothing to remove.");
         console.log(err)
     }
 };

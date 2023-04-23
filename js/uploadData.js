@@ -1,6 +1,6 @@
 'user strict'
 async function saveNewAsset() {
-    console.log('SaveNewAsset function')
+    
     //close popup 
     mymap.eachLayer((layer) => {
         layer.closePopup();
@@ -34,12 +34,12 @@ async function saveNewAsset() {
         alert('Sorry, the asset name you provided has been taken.\nPlease provide another name.');
         return false;
     }
-
-
 }
 
 
 async function checkCondition(id) {
+    //close pop ups
+    
     let conditions = await getconditionDetails();
     let asset_name = document.getElementById('asset_name').innerHTML;
     let assetInstallationDate = document.getElementById('installation_date').innerHTML;
@@ -69,18 +69,18 @@ async function checkCondition(id) {
     }
 
     postString = postString + '&previousCondition=' + previousCondition;
-    //console.log(postString)
+    
     // post action
     let res = await postData('/api/insertConditionInformation', postString)
     // get the number of reports that user has submitted
     let res_numReport = await getData(`/api/geojson/userConditionReports/${user_id}`);
-    console.log('Get number of reports')
+    //console.log('Get number of reports')
     //console.log(res_numReport[0].array_to_json[0]['num_reports']);
     let numReport = res_numReport[0].array_to_json[0]['num_reports'];
     console.log(numReport);
     alert(`Thank you for helping us assess assets! You have provided ${numReport} reports.`)
 
-
+    // close popups
     mymap.eachLayer((layer) => {
         layer.closePopup();
     });
