@@ -43,9 +43,12 @@ async function loadBarChart() {
           ],
         },
         options: {
-          scales: {
-            y: {
-              beginAtZero: true
+          onClick: function (event, activeElements) {
+            if (activeElements.length > 0) {
+              var clickedElementIndex = activeElements[0]._index;
+              var clickedElementValue = this.data.datasets[0].data[clickedElementIndex];
+              console.log('You clicked on bar number ' + clickedElementIndex + ' with a value of ' + clickedElementValue);
+
             }
           },
 
@@ -82,7 +85,7 @@ async function loadPieChart() {
         pielabel.push(conditions[i].condition_description);
         conditionCount[conditions[i].condition_description] = 0
       };
-      
+
       assets.features.forEach((feature) => {
         for (let i = 0; i < pielabel.length; i++) {
           const label = pielabel[i];
@@ -105,13 +108,13 @@ async function loadPieChart() {
         data: {
           datasets: [
             {
-              data:pieData,
+              data: pieData,
               /**
                * These colors come from Tailwind CSS palette
                * https://tailwindcss.com/docs/customizing-colors/#default-color-palette
                */
               // the color of pie chart was adapted from https://www.chartjs.org/docs/latest/charts/bar.html
-              backgroundColor:  [
+              backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(255, 159, 64, 0.2)',
                 'rgba(255, 205, 86, 0.2)',
@@ -120,7 +123,7 @@ async function loadPieChart() {
                 'rgba(153, 102, 255, 0.2)',
                 'rgba(201, 203, 207, 0.2)'
               ],
-              
+
             },
           ],
           labels: pielabel,
@@ -128,7 +131,7 @@ async function loadPieChart() {
         options: {
           responsive: true,
           cutoutPercentage: 70,
-          
+
           legend: {
             display: false,
           },
@@ -145,3 +148,7 @@ async function loadPieChart() {
 
 
 }
+
+// set up onclick event handelers
+//https://www.chartjs.org/docs/latest/configuration/legend.html
+
