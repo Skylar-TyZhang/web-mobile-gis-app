@@ -1,46 +1,109 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>User Guide </title>
-    <style>
-        img {
-          max-width: 100%;
-        }
-      </style>
-  </head>
-  <body>
-    <button onclick="window.location.href='bootStrap.html'">Return to App</button>
-    <h1>User Guide For Asset Creation APP</h1>
 
-    <h2>Description</h2>
-    <p>Welcome! Our app allows you to easily create asset points on a map and get insights out of assets you created easily.</p>
-    
-    <h2>Getting Started</h2>
-    <ol>
-      <li>Step 1:After you load our app, you will see the </li>
-      <div id="screenshot_1">
-        <img src="img/screen1.jpg" >
+<head>
+  <title>User Guide </title>
+  <style>
+    /* style for the container of the user guide */
+    .container {
+      margin: auto;
+      width: 80%;
+      padding: 20px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+    }
+
+    /* style for the step numbers */
+    .step-number {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      border-radius: 50%;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 20px;
+      line-height: 30px;
+      margin-right: 10px;
+    }
+
+    /* style for the image */
+    .screenshot {
+      max-width: 80%;
+      height: auto;
+      display: block;
+      margin: auto;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      box-shadow: 1px 1px 3px #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+  <button onclick="window.location.href='bootStrap.html'">Return to App</button>
+  <h1>User Guide For Asset Creation APP</h1>
+
+  <p>Welcome! Our app allows you to easily create asset points on a map and get insights out of them easily.<br>The use
+    is intuitive, simply follow the steps below and you will be all prepared. </p>
+
+  <p>
+    Here are the steps to get started:
+  </p>
+  <ol>
+    <div>
+      <div class="step-number">1</div>
+      After starting the app, you will see a map with blue points representing existing asset points. If you are new
+      to this app, the map will be empty. 
+      <img src="img/screenshot1.png" alt="Screenshot of map" class="screenshot">
     </div>
-      <li>Step 2: [Instructions for Step 2]</li>
-      <li>Step 3: [Instructions for Step 3]</li>
-      <li>Step 4: [Instructions for Step 4]</li>
-      <li>Step 5: [Instructions for Step 5]</li>
-      <li>Step 6: [Instructions for Step 6]</li>
-      <li>Step 7: [Instructions for Step 7]</li>
-      <li>Step 8: [Instructions for Step 8]</li>
-      <li>Step 9: [Instructions for Step 9]</li>
-      <li>Step 10: [Instructions for Step 10]</li>
-    </ol>
-
     
-    <div id="screenshot_2"></div>
-    <div id="screenshot_3"></div>
-    <div id="screenshot_4"></div>
-    <div id="screenshot_5"></div>
-    <div id="screenshot_6"></div>
-    <div id="screenshot_7"></div>
-    <div id="screenshot_8"></div>
-    <div id="screenshot_9"></div>
-    <div id="screenshot_10"></div>
-  </body>
+    <div>
+      <div class="step-number">2</div>
+      To view the latest condition information of an existing asset point, simply click on the blue point and a pop-up
+      will appear.
+      <img src="img/screenshot2.png" alt="Screenshot of map" class="screenshot">
+    </div>
+    <div>
+      <div class="step-number">3</div>
+      To create your own asset point, explore the map and click on the location you want. A pop-up form will appear
+      for you to fill in. Please note that both<b> Asset Name</b> and <b>Installation Date</b>  are compulsory fields. If you leave
+      them blank, a reminder message will pop up. Simply close them and refill the form.
+      <img src="img/popup1.png" alt="Screenshot of popup" class="screenshot">
+      <img src="img/popup2.png" alt="Screenshot of popup" class="screenshot">
+
+      <br><b>Important: The name you choose for your asset must be unique. If the name has already been taken, a
+        reminder will pop up, and you'll need to choose a different name and refill the form.</b>
+    </li>
+    <div>
+      <div class="step-number">4</div>
+      Once you have successfully created an asset, you can get more insights by exploring the functions on the sidebar:
+      <img src="img/sidebar_menu.png" alt="Screenshot of popup" class="screenshot"> 
+      <ul>
+        <li>Click on <b>List of Assets in Best Condition</b> and you will see a pop-up list containing the name of assets in good condition.</li>
+        <li>Click on <b>Daily Reporting Rates Graph -All Users</b>, and a bar graph showing the number of reports have been submitted in total and with the worst condition values will appear in replace the map.
+          <li>To get back to map view, simply click on the check on the right of bar chart.</li>
+          <img src="img/graph.png" alt="Screenshot of popup" class="screenshot">                 
+        </li>
+      </ul>      
+    </div>
+    <div>
+      <div class="step-number">5</div>
+      If you ever forget how to use the app, don't worry! Simply click on the dropdown menu <b>Help (User Guide)</b> in the Help Menu list on the top right of the screen, and you'll be guided back to this user guide.
+      <img src="img/helpmenu.png" alt="Screenshot of popup" class="screenshot"> 
+    </div>
+    <div>
+      <div class="step-number">6</div>
+      If you want to explore more about the asset information, click on the <b>Dashboard (Assets Visulisation)</b> menu in the Help Menu list and you'll be directed to the dashboard page.
+      <img src="img/dashboard_menu.png" alt="Screenshot of popup" class="screenshot"> 
+    </div>
+    
+  </ol>
+
+
+  
+  </div>
+</body>
+
 </html>
