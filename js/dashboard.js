@@ -43,6 +43,13 @@ async function loadBarChart() {
           ],
         },
         options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          },
           onClick: function (event, activeElements) {
             if (activeElements.length > 0) {
               var clickedElementIndex = activeElements[0]._index;// this is the index of element, also the id
@@ -62,7 +69,8 @@ async function loadBarChart() {
               legend: {
               display: true,
           },
-          },
+        },
+        
         }
 
       const barsCtx = document.getElementById('bars')
@@ -136,7 +144,7 @@ async function loadPieChart() {
         },
         options: {
           responsive: true,
-          cutoutPercentage: 70,
+          cutoutPercentage: 60,
 
           legend: {
             display: false,
