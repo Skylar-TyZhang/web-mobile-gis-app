@@ -11,7 +11,7 @@ async function loadBarChart() {
     .then(response => response.json())
     .then(data => {
       let assets = data[0];
-      //console.log('fetch data for bar chart');
+      console.log(assets);
 
       assets.features.forEach((feature) => {
         xlabel.push(feature.properties.asset_name);
@@ -45,26 +45,32 @@ async function loadBarChart() {
         options: {
           onClick: function (event, activeElements) {
             if (activeElements.length > 0) {
-              var clickedElementIndex = activeElements[0]._index;
+              var clickedElementIndex = activeElements[0]._index;// this is the index of element, also the id
               var clickedElementValue = this.data.datasets[0].data[clickedElementIndex];
               console.log('You clicked on bar number ' + clickedElementIndex + ' with a value of ' + clickedElementValue);
-
-            }
+              let dataSource = new Cesium.GeoJsonDataSource("Asset");
+              dataSource.clampToGround = false;
+              dataSource._name = "Asset";
+              viewer.dataSources.add(dataSource)
+              console.log(assets.features[clickedElementIndex])
+              dataSource.load(assets.features[clickedElementIndex]).then(function (dataSource) {
+                viewer.flyTo(dataSource);})
+              }                            
           },
 
-          responsive: true,
-          legend: {
-            display: true,
+            responsive: true,
+              legend: {
+              display: true,
           },
-        },
-      }
+          },
+        }
 
       const barsCtx = document.getElementById('bars')
       window.myBar = new Chart(barsCtx, barConfig)
 
 
 
-    });
+      });
 
 }
 // 
