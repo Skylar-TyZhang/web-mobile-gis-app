@@ -1,6 +1,7 @@
 "use strict";
 // create a custom popup as a global variable
 let popup = L.popup();
+
 //set up on map click option
 async function onMapClick(e) {
     // get the asset form 
@@ -19,43 +20,38 @@ async function onMapClick(e) {
 // modify the leaflet map behaviours
 let width; // NB – keep this as a global variable
 let mapPoint; // store the geoJSON feature so that we can remove it if the screen is resized
+let onTrack= false; //  add a variable to tell if the trackLocation service is on
 function setMapClickEvent() {
     // get the window width
     width = $(window).width();
-    console.log(width)
     popup.remove();
 
-    // only the bootstrap Large options for the asset location capture
-    // and the small and XS options for the condition option
-    // the breakpoint was set as https://getbootstrap.com/docs/5.0/layout/breakpoints/
-
-    if (width < 768) {  
+    if (width < 768) {
+        console.log('Condition app mode')
         // >= 768px is medium screen
-        /*
-        // close all popups
-        mymap.eachLayer((layer) => {
-            layer.closePopup();
-        });
-        */
+        // only the bootstrap Large options for the asset location capture
+        // and the small and XS options for the condition option
+        // the breakpoint was set as https://getbootstrap.com/docs/5.0/layout/breakpoints/
+        if(onTrack==false){
+        // track location
+        trackLocation();
+        onTrack=true
+        }
+        
         // remove asset points that should show on wide screen
         if (assetPoint) {
             mymap.removeLayer(assetPoint);
         }
-        console.log('Condition app mode')
-        removePositionPoints()
-
-        // cancel the map onclick event using off ..
-        mymap.off('click', onMapClick);
         // set up a point with click functionality
         // so that anyone clicking will add asset condition information
         setUpPointClick();
-        
 
-        // track location
-        trackLocation();
+        // cancel the map onclick event using off ..
+        mymap.off('click', onMapClick);  
+       
 
     }
-    if ( width >= 992) {
+    if (width >= 992) {
         console.log('Asset creation mode')
         // the asset creation page
         // remove the map point if it exists
@@ -64,8 +60,9 @@ function setMapClickEvent() {
         }
 
         //stop tracking location of user
-
         removePositionPoints();
+        
+        onTrack=false;
         setUpAssetClick();
         // the onclik functionality of MAP pops up a blank asset creation form
         mymap.on('click', onMapClick);
@@ -75,14 +72,12 @@ function setMapClickEvent() {
 
 //Create a point and set up the onlick behaviour for the point
 async function setUpPointClick() {
-    
+
     let user_id = await getUserId();
     // Load condition status got from the database
     let conditions = await getconditionDetails(); //console.log(conditions)
     // load asset information
     let asset = await getData(`/api/geojson/userAssets/${user_id}`);
-    width = $(window).width();
-
     // check data: since the data will be used in a popup the function onEachFeature was used    
     // https://leafletjs.com/examples/geojson/
     mapPoint = L.geoJSON(asset, {
@@ -95,7 +90,7 @@ async function setUpPointClick() {
         },
         pointToLayer: function (feature, latlng) {
             let featureCondition = feature.properties['condition_description'];
-            
+
             let conditionMarker0 = L.AwesomeMarkers.icon({
                 icon: 'play',
                 markerColor: 'blue',
@@ -123,11 +118,11 @@ async function setUpPointClick() {
 
 
             if (featureCondition == conditions[0]['condition_description']) {
-                
+
                 return L.marker(latlng, { icon: conditionMarker0 })
             }
             else if (featureCondition == conditions[1]['condition_description']) {
-           
+
                 return L.marker(latlng, { icon: conditionMarker1 })
             }
             else if (featureCondition == conditions[2]['condition_description']) {
@@ -145,15 +140,12 @@ async function setUpPointClick() {
         },
 
     }).addTo(mymap);
-    
+
     //console.log('condition assessment mode on, assets loaded with condition forms.')
     mymap.fitBounds(mapPoint.getBounds());
-    //mymap.setView([51.522449, -0.13263], 12)
-
+    
     // the on click functionality of the POINT should pop up partially populated condition form so that 
     //the user can select the condition they require
-
-
 };
 
 
@@ -175,7 +167,6 @@ async function setUpAssetClick() {
             if (featureCondition == 'Unknown') {
                 layer.bindPopup('No condition captured');
             };
-
         }
     }).addTo(mymap);
     mymap.fitBounds(assetPoint.getBounds());
@@ -256,4 +247,4 @@ async function basicFormHtml(latlng) {
     return formContent;
 };
 
-
+

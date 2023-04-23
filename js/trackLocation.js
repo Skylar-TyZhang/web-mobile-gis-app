@@ -21,7 +21,7 @@ function trackLocation() {
         // if error: errorPosition
         // set parameters: how often to renew, timeout to set
         const options = {
-            enableHighAccuracy: true,
+            enableHighAccuracy: false,
             maximumAge: 30000,
             timeout: 27000
         };
@@ -30,7 +30,7 @@ function trackLocation() {
 
     else {
         // document.getElementById('showLocation').innerHTML = "Geolocation is not supported by this browser.";
-        alert("Geolocation is not supported by this browser.");
+        alert("Sorry,it seems like you haven't enabled geolocation service in this browser.");
         return false;
     }
 }
@@ -40,13 +40,15 @@ function errorPosition(error) {
 }
 
 function showPosition(position) {
-
-    
+    // get the proximity alert
+    closestFormPoint(position.coords.latitude, position.coords.longitude);    
     // add the user track point into the array
-    trackLocationLayer.push(L.marker([position.coords.latitude, position.coords.longitude]).addTo(mymap));
+    trackLocationLayer.push(
+        L.marker(
+        [position.coords.latitude, position.coords.longitude])
+        .addTo(mymap));
     console.log('user location tracked')
-
-    closestFormPoint(position.coords.latitude, position.coords.longitude);
+    console.log(trackLocationLayer)    
     // map zoom in 
     mymap.setView([position.coords.latitude, position.coords.longitude], 12);
 
@@ -65,7 +67,7 @@ function removeTracks() {
     //start with the last point
     //since if the point 1 was removed then the point 2 becomes point1 and the loop won't work
     for (let i = trackLocationLayer.length - 1; i > -1; i--) {
-        console.log('removing point' + i + ',which has coordinates' + trackLocationLayer[i].getLatLng());
+        //console.log('removing point' + i + ',which has coordinates' + trackLocationLayer[i].getLatLng());
         mymap.removeLayer(trackLocationLayer[i]);
 
         // if the point needs removing from the array as well
@@ -79,9 +81,9 @@ function closestFormPoint(userlat, userlng) {
     // go through each point one by one
     // and measure the distance to user's location
     // for the closest point show the pop up of that point
-    let minDistance = 25 / 1000;
+    let minDistance = 25 / 1000;// the unit used in distance calcuation is km
     let closestFormPoint = 0;
-
+    //Optional chaining (?.) was used to prevent throwing error becasue of undefined layer
     mapPoint?.eachLayer(function (layer) {
         let distance = calculateDistance(
             userlat, userlng,
