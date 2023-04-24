@@ -228,24 +228,21 @@
             </a>
             <!--Description of charts below, adapted accordingly-->
             <p class="mb-8 text-gray-600 dark:text-gray-400">
-              Charts are provided by
+              The pie chart and bar chart are provided by
               <a class="text-purple-600 dark:text-purple-400 hover:underline" href="https://www.chartjs.org/">
                 Chart.js
               </a>
+               ,the 3D map below is provided by
+              <a class="text-purple-600 dark:text-purple-400 hover:underline" href="https://www.cesium.com/">
+                Cesium
+              </a>
+              <br>
+              If you want to check the asset in 3D map, simply click on the bar graph.
               
             </p>
             <!--Charts-->
             <div class="grid gap-6 mb-8 md:grid-cols-2">
-              <!-- Doughnut/Pie chart -->
-              <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
-                  Pie Chart: Occurance of assets with differnt conditions
-                </h4>
-                <canvas id="pie"></canvas>
-                <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                  
-                </div>
-              </div>
+              
               <!-- Bars chart -->
               <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                 <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
@@ -258,6 +255,15 @@
               </div>
               <!--cesium-->
               <div id="cesiumContainer" href="cesium.html"></div>
+              <!-- Doughnut/Pie chart -->
+              <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
+                  Pie Chart: Occurance of assets with differnt conditions
+                </h4>
+                <canvas id="pie"></canvas>
+                <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">                  
+                </div>
+              </div>
 
             </div>
           </div>
