@@ -34,6 +34,11 @@ async function saveNewAsset() {
         alert('Sorry, the asset name you provided has been taken.\nPlease provide another name.');
         return false;
     }
+    mymap.closePopup()
+    mymap.removeLayer(assetPoint);
+    // reload layer
+    setUpAssetClick();
+
 }
 
 
